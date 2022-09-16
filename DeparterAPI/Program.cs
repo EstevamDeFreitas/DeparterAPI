@@ -1,4 +1,6 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Database;
 using Persistence.Repositories.Implementation;
 using Persistence.Repositories.Interfaces;
 using Services.Services.Implementation;
@@ -7,12 +9,20 @@ using Services.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
+IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IServiceWrapper, ServiceWrapper>();
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+
+builder.Services.AddDbContext<DeparterContext>(options =>
+{
+    options.UseNpgsql(configuration["ConnectionStrings:DbConnection"]);
+});
 
 
 builder.Services.AddCors(options =>

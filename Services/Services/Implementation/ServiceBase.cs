@@ -1,4 +1,5 @@
-﻿using Persistence.Repositories.Interfaces;
+﻿using AutoMapper;
+using Persistence.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,11 @@ namespace Services.Services.Implementation
     public class ServiceBase
     {
         private protected IRepositoryWrapper _repository;
-
-        public ServiceBase(IRepositoryWrapper repository)
+        private protected IMapper _mapper;
+        public ServiceBase(IRepositoryWrapper repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
     }
 }
