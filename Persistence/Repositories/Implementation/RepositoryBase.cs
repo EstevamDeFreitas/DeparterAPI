@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Database;
 using Persistence.Repositories.Interfaces;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Implementation
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
         protected DeparterContext DbContext { get; set; }
         public RepositoryBase(DeparterContext dbContext)
@@ -40,6 +41,7 @@ namespace Persistence.Repositories.Implementation
 
         public void Update(T entity)
         {
+            entity.DataModificacao = DateTime.Now;
             this.DbContext.Set<T>().Update(entity);
         }
     }
