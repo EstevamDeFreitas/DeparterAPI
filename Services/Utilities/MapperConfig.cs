@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Domain.Entities;
+using Services.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace Services.Utilities
     {
         public MapperConfig()
         {
-
+            CreateMap<FuncionarioDTO, Funcionario>().ReverseMap();
         }
     }
 }

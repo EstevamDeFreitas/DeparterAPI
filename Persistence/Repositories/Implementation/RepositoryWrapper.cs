@@ -11,11 +11,15 @@ namespace Persistence.Repositories.Implementation
     public class RepositoryWrapper : IRepositoryWrapper
     {
         private DeparterContext _context;
+        private readonly Lazy<IFuncionarioRepository> _funcionarioRepository;
 
         public RepositoryWrapper(DeparterContext context)
         {
             _context = context;
+            _funcionarioRepository = new Lazy<IFuncionarioRepository>(() => new FuncionarioRepository(context));
         }
+
+        public IFuncionarioRepository FuncionarioRepository => _funcionarioRepository.Value;
 
         public void Save()
         {

@@ -8,9 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="Middleware\" />
     <Folder Include="Notations\" />
-    <Folder Include="Services\Interfaces\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

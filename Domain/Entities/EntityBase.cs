@@ -20,7 +20,7 @@ namespace Domain.Entities
         [Column("dt_criacao")]
         public DateTime DataCriacao { get; set; }
 
-        public void AoCriar()
+        public void Gerar()
         {
             DataModificacao = DateTime.Now;
             DataCriacao = DateTime.Now;

@@ -8,6 +8,7 @@ namespace Persistence.Repositories.Interfaces
 {
     public interface IRepositoryWrapper
     {
+        IFuncionarioRepository FuncionarioRepository { get; }
         void Save();
     }
 }

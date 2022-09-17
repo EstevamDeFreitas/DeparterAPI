@@ -44,5 +44,22 @@ namespace Persistence.Repositories.Implementation
             entity.DataModificacao = DateTime.Now;
             this.DbContext.Set<T>().Update(entity);
         }
+
+        public IQueryable<T> FindById(Guid id)
+        {
+            return this.DbContext.Set<T>().Where(x => x.Id == id).AsNoTracking();
+        }
+
+        public void DeleteById(Guid id)
+        {
+            var entity = this.DbContext.Set<T>().Where(x => x.Id == id).AsNoTracking().FirstOrDefault();
+
+            if(entity is null)
+            {
+                return;
+            }
+
+            this.DbContext.Set<T>().Remove(entity);
+        }
     }
 }
