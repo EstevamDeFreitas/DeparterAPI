@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Persistence.Database;
 using Persistence.Repositories.Implementation;
 using Persistence.Repositories.Interfaces;
@@ -17,6 +18,40 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IServiceWrapper, ServiceWrapper>();
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Departer API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Description = "Example: 'Bearer abc...'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }, Scheme = "oauth2",
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
+});
 
 
 builder.Services.AddDbContext<DeparterContext>(options =>
@@ -48,6 +83,12 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
 app.UseCors("AllowAll");
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // Configure the HTTP request pipeline.
 

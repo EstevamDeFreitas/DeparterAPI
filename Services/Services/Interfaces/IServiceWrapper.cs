@@ -8,5 +8,6 @@ namespace Services.Services.Interfaces
 {
     public interface IServiceWrapper
     {
+        IFuncionarioService FuncionarioService { get; }
     }
 }

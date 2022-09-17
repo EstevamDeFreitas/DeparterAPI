@@ -11,9 +11,12 @@ namespace Services.Services.Implementation
 {
     public class ServiceWrapper : IServiceWrapper
     {
+        private readonly Lazy<IFuncionarioService> _funcionarioService;
         public ServiceWrapper(IRepositoryWrapper repository, IMapper mapper)
         {
-
+            _funcionarioService = new Lazy<IFuncionarioService>(() => new FuncionarioService(repository, mapper));
         }
+
+        public IFuncionarioService FuncionarioService => _funcionarioService.Value;
     }
 }
