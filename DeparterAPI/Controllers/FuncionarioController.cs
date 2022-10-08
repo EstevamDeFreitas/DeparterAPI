@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DeparterAPI.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services.DTO;
+using Services.Notations;
 using Services.Services.Interfaces;
 using Services.Utilities;
 
@@ -10,16 +12,16 @@ namespace DeparterAPI.Controllers
     [ApiController]
     public class FuncionarioController : ControllerBase
     {
-        private readonly IServiceWrapper _serviceWrapper;
+        protected readonly IServiceWrapper _serviceWrapper;
 
         public FuncionarioController(IServiceWrapper serviceWrapper)
         {
             _serviceWrapper = serviceWrapper;
         }
 
-        [Route("{id}")]
         [HttpGet]
-        public IActionResult GetFuncionario(Guid id)
+        [Authorize]
+        public IActionResult GetFuncionario([FromQuery]Guid id)
         {
             try
             {
@@ -28,6 +30,39 @@ namespace DeparterAPI.Controllers
                 return Ok(new Result<FuncionarioDTO>("Funcionário Encontrado", funcionario));
             }
             catch(Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [Route("account/my")]
+        [HttpGet]
+        [Authorize]
+        public IActionResult GetFuncionarioLogged()
+        {
+            try
+            {
+                var funcionario = _serviceWrapper.FuncionarioService.GetFuncionario(Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<FuncionarioDTO>("Funcionário Encontrado", funcionario));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [Route("login")]
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginDTO login)
+        {
+            try
+            {
+                var token = _serviceWrapper.LoginService.Login(login);
+
+                return Ok(new Result<string>("Login Realizado", token));
+            }
+            catch (Exception ex)
             {
                 return BadRequest(new Result<object>(ex.Message));
             }
@@ -48,7 +83,8 @@ namespace DeparterAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("all")]
+        [Authorize]
         public IActionResult GetFuncionarios()
         {
             try
@@ -64,6 +100,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult UpdateFuncionario([FromBody]FuncionarioDTO funcionario)
         {
             try
@@ -80,6 +117,7 @@ namespace DeparterAPI.Controllers
 
         [Route("{id}")]
         [HttpDelete]
+        [Authorize]
         public IActionResult DeleteFuncionario(Guid id)
         {
             try

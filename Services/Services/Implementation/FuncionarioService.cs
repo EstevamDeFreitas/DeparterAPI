@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Persistence.Repositories.Interfaces;
 using Services.DTO;
+using Services.Exceptions;
 using Services.Middleware;
 using Services.Services.Interfaces;
 using System;
@@ -14,7 +15,7 @@ namespace Services.Services.Implementation
 {
     public class FuncionarioService : ServiceBase, IFuncionarioService
     {
-        public FuncionarioService(IRepositoryWrapper repository, IMapper mapper) : base(repository, mapper)
+        public FuncionarioService(IRepositoryWrapper repository, IMapper mapper, IServiceWrapper serviceWrapper) : base(repository, mapper, serviceWrapper)
         {
         }
 

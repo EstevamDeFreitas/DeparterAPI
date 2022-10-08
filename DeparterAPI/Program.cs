@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using Persistence.Database;
 using Persistence.Repositories.Implementation;
 using Persistence.Repositories.Interfaces;
+using Services.Middleware;
 using Services.Services.Implementation;
 using Services.Services.Interfaces;
 using Services.Utilities;
@@ -91,6 +92,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the HTTP request pipeline.
+
+app.UseMiddleware<TokenMiddleware>();
 
 app.UseHttpsRedirection();
 

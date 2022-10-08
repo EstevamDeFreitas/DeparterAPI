@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Notations\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

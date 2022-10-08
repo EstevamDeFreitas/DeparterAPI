@@ -9,5 +9,7 @@ namespace Services.Services.Interfaces
     public interface IServiceWrapper
     {
         IFuncionarioService FuncionarioService { get; }
+        ITokenService TokenService { get; }
+        ILoginService LoginService { get; }
     }
 }
