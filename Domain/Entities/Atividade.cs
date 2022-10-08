@@ -25,7 +25,11 @@ namespace Domain.Entities
         [Column("tempo_previsto")]
         public int TempoPrevisto { get; set; }
 
+        [Column("id_atividade_pai")]
+        public Guid? AtividadePaiId { get; set; }
+
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
+        public Atividade AtividadePai { get; set; }
     }
 }

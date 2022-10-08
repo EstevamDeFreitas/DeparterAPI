@@ -17,8 +17,20 @@ namespace Domain.Entities
         [Required]
         [Column("id_funcionario")]
         public Guid FuncionarioId { get; set; }
+        [Required]
+        [Column("nivel_acesso")]
+        public NivelAcesso NivelAcesso { get; set; }
 
         public Atividade Atividade { get; set; }
         public Funcionario Funcionario { get; set; }
+    }
+
+    public enum NivelAcesso
+    {
+        Ler,
+        Criar,
+        Alterar,
+        Deletar,
+        Todos
     }
 }

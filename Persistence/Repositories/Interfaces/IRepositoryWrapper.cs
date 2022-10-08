@@ -9,6 +9,10 @@ namespace Persistence.Repositories.Interfaces
     public interface IRepositoryWrapper
     {
         IFuncionarioRepository FuncionarioRepository { get; }
+        IAtividadeCategoriaRepository AtividadeCategoriaRepository { get; }
+        IAtividadeFuncionarioRepository AtividadeFuncionarioRepository { get; }
+        IAtividadeRepository AtividadeRepository { get; }
+        ICategoriaRepository CategoriaRepository { get; }
         void Save();
     }
 }

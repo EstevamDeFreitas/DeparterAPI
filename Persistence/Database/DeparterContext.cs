@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,12 @@ namespace Persistence.Database
         public DbSet<Categoria> Categorias { get; set; }
         public DeparterContext(DbContextOptions<DeparterContext> options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AtividadeFuncionarioMapping());
+            modelBuilder.ApplyConfiguration(new AtividadeCategoriaMapping());
         }
     }
 }
