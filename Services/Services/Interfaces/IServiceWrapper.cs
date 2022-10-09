@@ -11,5 +11,6 @@ namespace Services.Services.Interfaces
         IFuncionarioService FuncionarioService { get; }
         ITokenService TokenService { get; }
         ILoginService LoginService { get; }
+        ICategoriaService CategoriaService { get; }
     }
 }

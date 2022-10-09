@@ -14,6 +14,8 @@ namespace Domain.Entities
         [Required]
         [Column("nome")]
         public string Nome { get; set; }
+        [Column("cor")]
+        public string Cor { get; set; }
 
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }                                                                                               
     }

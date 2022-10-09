@@ -14,6 +14,7 @@ namespace Services.Utilities
         public MapperConfig()
         {
             CreateMap<FuncionarioDTO, Funcionario>().ReverseMap();
+            CreateMap<CategoriaDTO, Categoria>().ReverseMap();
         }
     }
 }

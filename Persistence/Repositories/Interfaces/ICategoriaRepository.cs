@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Interfaces
 {
-    public interface ICategoriaRepository : IRepositoryBase<Categoria>
+    public interface ICategoriaRepository : IEntityRepositoryBase<Categoria>
     {
     }
 }
