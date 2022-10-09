@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Interfaces
 {
-    public interface IAtividadeRepository : IRepositoryBase<Atividade>
+    public interface IAtividadeRepository : IEntityRepositoryBase<Atividade>
     {
+        IQueryable<Atividade> FindFullById(Guid id);
     }
 }

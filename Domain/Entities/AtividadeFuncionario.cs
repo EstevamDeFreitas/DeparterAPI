@@ -28,9 +28,8 @@ namespace Domain.Entities
     public enum NivelAcesso
     {
         Ler,
-        Criar,
-        Alterar,
-        Deletar,
+        Editar,
+        Compartilhar,
         Todos
     }
 }
