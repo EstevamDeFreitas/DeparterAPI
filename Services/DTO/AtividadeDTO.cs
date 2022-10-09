@@ -47,6 +47,7 @@ namespace Services.DTO
 
         public List<AtividadeCategoriaDTO> AtividadeCategorias { get; set; }
         public List<AtividadeFuncionarioDTO> AtividadeFuncionarios { get; set; }
+        public List<AtividadeDTO> Atividades { get; set; }
     }
 
     public class AtividadeCategoriaDTO

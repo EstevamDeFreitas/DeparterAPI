@@ -63,7 +63,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AtividadePaiId");
 
-                    b.ToTable("atividades");
+                    b.ToTable("atividades", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AtividadeCategoria", b =>
@@ -80,7 +80,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("atividade_categorias");
+                    b.ToTable("atividade_categorias", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AtividadeFuncionario", b =>
@@ -101,7 +101,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("FuncionarioId");
 
-                    b.ToTable("atividade_funcionarios");
+                    b.ToTable("atividade_funcionarios", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Categoria", b =>
@@ -131,7 +131,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categorias");
+                    b.ToTable("categorias", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Funcionario", b =>
@@ -176,7 +176,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("funcionarios");
+                    b.ToTable("funcionarios", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Atividade", b =>

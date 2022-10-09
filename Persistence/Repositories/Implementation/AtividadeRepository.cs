@@ -22,6 +22,7 @@ namespace Persistence.Repositories.Implementation
                                             .ThenInclude(x => x.Categoria)
                                         .Include(x => x.AtividadeFuncionarios)
                                             .ThenInclude(x => x.Funcionario)
+                                        .Include(x => x.Atividades)
                                         .Where(x => x.Id == id).AsNoTracking();
         }
     }

@@ -30,6 +30,7 @@ namespace Domain.Entities
 
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
-        public Atividade AtividadePai { get; set; }
+        public Atividade? AtividadePai { get; set; }
+        public ICollection<Atividade> Atividades { get; set; }
     }
 }

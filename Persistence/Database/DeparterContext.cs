@@ -24,6 +24,7 @@ namespace Persistence.Database
         {
             modelBuilder.ApplyConfiguration(new AtividadeFuncionarioMapping());
             modelBuilder.ApplyConfiguration(new AtividadeCategoriaMapping());
+            modelBuilder.ApplyConfiguration(new AtividadeMapping());
         }
     }
 }
