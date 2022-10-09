@@ -9,5 +9,6 @@ namespace Persistence.Repositories.Interfaces
 {
     public interface IFuncionarioRepository : IEntityRepositoryBase<Funcionario>
     {
+        IQueryable<Funcionario> GetFuncionariosFromEmails(List<string> emails);
     }
 }

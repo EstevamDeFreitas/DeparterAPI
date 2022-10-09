@@ -32,7 +32,7 @@ namespace Services.Services.Implementation
 
             atividadeCriar.AtividadeCategorias = atividade.Categorias.Select(x => new AtividadeCategoria { AtividadeId = atividadeCriar.Id, CategoriaId = x }).ToList();
 
-            var funcionarios = _repository.FuncionarioRepository.FindByCondition(x => atividade.AtividadeFuncionarios.Any(y => y.FuncionarioEmail == x.Email)).ToList();
+            var funcionarios = _repository.FuncionarioRepository.GetFuncionariosFromEmails(atividade.AtividadeFuncionarios.Select(x => x.FuncionarioEmail).ToList()).ToList();
 
             if(!funcionarios.Any(x => x.Id == funcionarioId))
             {

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Persistence.Database;
 using Persistence.Repositories.Interfaces;
 using System;
@@ -13,6 +14,11 @@ namespace Persistence.Repositories.Implementation
     {
         public FuncionarioRepository(DeparterContext dbContext) : base(dbContext)
         {
+        }
+
+        public IQueryable<Funcionario> GetFuncionariosFromEmails(List<string> emails)
+        {
+            return DbContext.Funcionarios.Where(x => emails.Contains(x.Email)).AsNoTracking();
         }
     }
 }

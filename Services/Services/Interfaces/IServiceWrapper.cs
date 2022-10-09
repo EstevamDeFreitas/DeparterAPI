@@ -12,5 +12,6 @@ namespace Services.Services.Interfaces
         ITokenService TokenService { get; }
         ILoginService LoginService { get; }
         ICategoriaService CategoriaService { get; }
+        IAtividadeService AtividadeService { get; }
     }
 }
