@@ -1,4 +1,5 @@
-﻿using Services.DTO;
+﻿using Domain.Entities;
+using Services.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace Services.Services.Interfaces
         void DeleteAtividade(Guid id);
         void UpdateAccessAtividade(AtividadeFuncionarioCreateDTO atividadeFuncionario);
         void DeleteAccessAtividade(string funcionarioEmail);
+        bool HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso);
     }
 }

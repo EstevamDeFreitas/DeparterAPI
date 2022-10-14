@@ -90,6 +90,18 @@ namespace Services.Services.Implementation
             throw new NotImplementedException();
         }
 
+        public bool HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
+        {
+            var atividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.AtividadeId == atividadeId).FirstOrDefault();
+
+            if(atividadeFuncionario is null)
+            {
+                return false;
+            }
+
+            return atividadeFuncionario.NivelAcesso >= nivelAcesso;
+        }
+
         public void UpdateAccessAtividade(AtividadeFuncionarioCreateDTO atividadeFuncionario)
         {
             throw new NotImplementedException();
@@ -97,7 +109,7 @@ namespace Services.Services.Implementation
 
         public void UpdateAtividade(AtividadeDTO atividade)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
