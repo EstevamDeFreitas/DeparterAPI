@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,10 +12,14 @@ namespace Persistence.Repositories.Interfaces
     {
         IQueryable<T> GetAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
-        IQueryable<T> FindById(Guid id);
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
-        void DeleteById(Guid id);
     }
+
+    public interface IEntityRepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
+    {
+        IQueryable<T> FindById(Guid id);
+        void DeleteById(Guid id);
+    }   
 }

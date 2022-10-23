@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Interfaces
 {
-    public interface IFuncionarioRepository : IEntityRepositoryBase<Funcionario>
+    public interface IAtividadeRepository : IEntityRepositoryBase<Atividade>
     {
-        IQueryable<Funcionario> GetFuncionariosFromEmails(List<string> emails);
+        IQueryable<Atividade> FindFullById(Guid id);
     }
 }

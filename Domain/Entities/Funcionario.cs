@@ -25,5 +25,7 @@ namespace Domain.Entities
         public string Apelido { get; set; }
         [Column("imagem")]
         public string Imagem { get; set; }
+
+        public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
     }
 }

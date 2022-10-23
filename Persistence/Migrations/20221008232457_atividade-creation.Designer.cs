@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Database;
@@ -11,9 +12,10 @@ using Persistence.Database;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DeparterContext))]
-    partial class DeparterContextModelSnapshot : ModelSnapshot
+    [Migration("20221008232457_atividade-creation")]
+    partial class atividadecreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,7 +65,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AtividadePaiId");
 
-                    b.ToTable("atividades", (string)null);
+                    b.ToTable("atividades");
                 });
 
             modelBuilder.Entity("Domain.Entities.AtividadeCategoria", b =>
@@ -80,7 +82,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("atividade_categorias", (string)null);
+                    b.ToTable("atividade_categorias");
                 });
 
             modelBuilder.Entity("Domain.Entities.AtividadeFuncionario", b =>
@@ -101,7 +103,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("FuncionarioId");
 
-                    b.ToTable("atividade_funcionarios", (string)null);
+                    b.ToTable("atividade_funcionarios");
                 });
 
             modelBuilder.Entity("Domain.Entities.Categoria", b =>
@@ -110,11 +112,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<string>("Cor")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("cor");
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("timestamp without time zone")
@@ -131,7 +128,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("categorias", (string)null);
+                    b.ToTable("categorias");
                 });
 
             modelBuilder.Entity("Domain.Entities.Funcionario", b =>
@@ -176,7 +173,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("funcionarios", (string)null);
+                    b.ToTable("funcionarios");
                 });
 
             modelBuilder.Entity("Domain.Entities.Atividade", b =>

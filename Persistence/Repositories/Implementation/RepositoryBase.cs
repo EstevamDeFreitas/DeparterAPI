@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Implementation
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected DeparterContext DbContext { get; set; }
         public RepositoryBase(DeparterContext dbContext)
@@ -39,7 +39,21 @@ namespace Persistence.Repositories.Implementation
             return this.DbContext.Set<T>().AsNoTracking();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
+        {
+            this.DbContext.Set<T>().Update(entity);
+        }
+
+        
+    }
+
+    public class EntityRepositoryBase<T> : RepositoryBase<T> where T : EntityBase
+    {
+        public EntityRepositoryBase(DeparterContext dbContext) : base(dbContext)
+        {
+        }
+
+        public override void Update(T entity)
         {
             entity.DataModificacao = DateTime.Now;
             this.DbContext.Set<T>().Update(entity);
@@ -54,7 +68,7 @@ namespace Persistence.Repositories.Implementation
         {
             var entity = this.DbContext.Set<T>().Where(x => x.Id == id).AsNoTracking().FirstOrDefault();
 
-            if(entity is null)
+            if (entity is null)
             {
                 return;
             }
