@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Persistence.Repositories.Interfaces;
 using Services.DTO;
+using Services.Exceptions;
 using Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -59,7 +60,7 @@ namespace Services.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public void DeleteAtividade(Guid id)
+        public void DeleteAtividade(Guid id, Guid funcionarioId)
         {
             throw new NotImplementedException();
         }
@@ -90,16 +91,14 @@ namespace Services.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public bool HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
+        public void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
         {
             var atividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.AtividadeId == atividadeId).FirstOrDefault();
 
-            if(atividadeFuncionario is null)
+            if(atividadeFuncionario is null || atividadeFuncionario.NivelAcesso < nivelAcesso)
             {
-                return false;
+                throw new SemAutorizacao();
             }
-
-            return atividadeFuncionario.NivelAcesso >= nivelAcesso;
         }
 
         public void UpdateAccessAtividade(AtividadeFuncionarioCreateDTO atividadeFuncionario)
@@ -107,9 +106,24 @@ namespace Services.Services.Implementation
             throw new NotImplementedException();
         }
 
-        public void UpdateAtividade(AtividadeDTO atividade)
+        public void UpdateAtividade(AtividadeDTO atividade, Guid funcionarioId)
         {
+            HasAccess(funcionarioId, atividade.Id.GetValueOrDefault(), NivelAcesso.Editar);
+
+            var atividadeUpdated = _repository.AtividadeRepository.FindById(atividade.Id.GetValueOrDefault()).ToList().FirstOrDefault();
+
+            if(atividadeUpdated is null)
+            {
+                throw new EntidadeNaoEncontrada("Atividade");
+            }
+
+            atividadeUpdated.Titulo = atividade.Titulo;
+            atividadeUpdated.DataEntrega = atividade.DataEntrega;
+            atividadeUpdated.Descricao = atividade.Descricao;
+            atividadeUpdated.TempoPrevisto = atividade.TempoPrevisto;
             
+            _repository.AtividadeRepository.Update(atividadeUpdated);
+            _repository.Save();
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Services.Services.Interfaces
         List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId);
         List<AtividadeDTO> GetAtividades();
         void CreateAtividade(AtividadeCreateDTO atividade, Guid funcionarioId);
-        void UpdateAtividade(AtividadeDTO atividade);
-        void DeleteAtividade(Guid id);
+        void UpdateAtividade(AtividadeDTO atividade, Guid funcionarioId);
+        void DeleteAtividade(Guid id, Guid funcionarioId);
         void UpdateAccessAtividade(AtividadeFuncionarioCreateDTO atividadeFuncionario);
         void DeleteAccessAtividade(string funcionarioEmail);
-        bool HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso);
+        void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso);
     }
 }

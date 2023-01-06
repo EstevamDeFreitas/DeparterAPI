@@ -20,7 +20,7 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetCategorias()
+        public IActionResult GetAtividades()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetCategorias(Guid id)
+        public IActionResult GetAtividade(Guid id)
         {
             try
             {
@@ -59,6 +59,22 @@ namespace DeparterAPI.Controllers
                 _serviceWrapper.AtividadeService.CreateAtividade(atividade, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<List<AtividadeDTO>>("Atividade Criada"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult UpdateAtividade([FromBody] AtividadeDTO atividade)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.UpdateAtividade(atividade, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Atividade Atualizada"));
             }
             catch (Exception ex)
             {
