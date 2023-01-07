@@ -29,6 +29,7 @@ namespace Domain.Entities
     {
         Ler,
         Editar,
+        Deletar,
         Compartilhar,
         //Inclui deletar
         Todos

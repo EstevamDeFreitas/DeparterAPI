@@ -39,7 +39,7 @@ namespace Services.Services.Implementation
             {
                 var funcionarioCriador = _repository.FuncionarioRepository.FindById(funcionarioId).FirstOrDefault();
 
-                //funcionarios.Add(funcionarioCriador);
+                funcionarios.Add(funcionarioCriador);
                 atividade.AtividadeFuncionarios.Add(new AtividadeFuncionarioCreateDTO { FuncionarioEmail = funcionarioCriador.Email, NivelAcesso = NivelAcesso.Todos });
             }
 
@@ -55,14 +55,24 @@ namespace Services.Services.Implementation
 
         }
 
-        public void DeleteAccessAtividade(string funcionarioEmail)
+        public void DeleteAccessAtividade(AtividadeAcessoFuncionario atividadeAcessoFuncionario, Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            HasAccess(funcionarioId, atividadeAcessoFuncionario.AtividadeId, NivelAcesso.Compartilhar);
+
+            var atividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoFuncionario.AtividadeId && x.FuncionarioId == atividadeAcessoFuncionario.FuncionarioId).FirstOrDefault();
+
+            if(atividadeFuncionario is null)
+            {
+                throw new EntidadeNaoEncontrada("Atividade Funcionario");
+            }
+
+            _repository.AtividadeFuncionarioRepository.Delete(atividadeFuncionario);
+            _repository.Save();
         }
 
         public void DeleteAtividade(Guid id, Guid funcionarioId)
         {
-            HasAccess(funcionarioId, id, NivelAcesso.Todos);
+            HasAccess(funcionarioId, id, NivelAcesso.Deletar);
 
             _repository.AtividadeRepository.DeleteById(id);
             _repository.Save();
@@ -104,9 +114,31 @@ namespace Services.Services.Implementation
             }
         }
 
-        public void UpdateAccessAtividade(AtividadeFuncionarioCreateDTO atividadeFuncionario)
+        public void UpdateAccessAtividade(AtividadeAcessoFuncionario atividadeAcessoFuncionario, Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            HasAccess(funcionarioId, atividadeAcessoFuncionario.AtividadeId, NivelAcesso.Compartilhar);
+
+            var existsAtividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoFuncionario.AtividadeId && x.FuncionarioId == atividadeAcessoFuncionario.FuncionarioId).FirstOrDefault();
+
+            if(existsAtividadeFuncionario is null)
+            {
+                var atividadeFuncionario = new AtividadeFuncionario
+                {
+                    AtividadeId = atividadeAcessoFuncionario.AtividadeId,
+                    FuncionarioId = atividadeAcessoFuncionario.FuncionarioId,
+                    NivelAcesso = atividadeAcessoFuncionario.NivelAcesso
+                };
+
+                _repository.AtividadeFuncionarioRepository.Create(atividadeFuncionario);
+                _repository.Save();
+
+                return;
+            }
+
+            existsAtividadeFuncionario.NivelAcesso = atividadeAcessoFuncionario.NivelAcesso;
+
+            _repository.AtividadeFuncionarioRepository.Update(existsAtividadeFuncionario);
+            _repository.Save();
         }
 
         public void UpdateAtividade(AtividadeDTO atividade, Guid funcionarioId)
