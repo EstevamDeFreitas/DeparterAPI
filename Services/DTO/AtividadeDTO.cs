@@ -32,6 +32,16 @@ namespace Services.DTO
         public NivelAcesso NivelAcesso { get; set; }
     }
 
+    public class AtividadeAcessoFuncionario
+    {
+        [Required]
+        public Guid FuncionarioId { get; set; }
+        [Required]
+        public Guid AtividadeId { get; set; }
+        [Required]
+        public NivelAcesso NivelAcesso { get; set; }
+    }
+
     public class AtividadeDTO
     {
         public Guid? Id { get; set; }

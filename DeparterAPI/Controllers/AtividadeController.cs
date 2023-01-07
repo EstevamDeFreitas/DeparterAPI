@@ -81,5 +81,53 @@ namespace DeparterAPI.Controllers
                 return BadRequest(new Result<object>(ex.Message));
             }
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult DeleteAtividade(Guid id)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.DeleteAtividade(id, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Atividade Deletada"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpPost("share")]
+        [Authorize]
+        public IActionResult ShareAtividade([FromBody] AtividadeAcessoFuncionario atividadeAcessoFuncionario)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.UpdateAccessAtividade(atividadeAcessoFuncionario, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Acesso Atualizado Para a Atividade"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpDelete("share")]
+        [Authorize]
+        public IActionResult DeleteShareAtividade([FromBody] AtividadeAcessoFuncionario atividadeAcessoFuncionario)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.DeleteAccessAtividade(atividadeAcessoFuncionario, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Acesso Removido Para a Atividade"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
     }
 }
