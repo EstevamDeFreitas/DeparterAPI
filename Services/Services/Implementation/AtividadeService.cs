@@ -39,7 +39,7 @@ namespace Services.Services.Implementation
             {
                 var funcionarioCriador = _repository.FuncionarioRepository.FindById(funcionarioId).FirstOrDefault();
 
-                funcionarios.Add(funcionarioCriador);
+                //funcionarios.Add(funcionarioCriador);
                 atividade.AtividadeFuncionarios.Add(new AtividadeFuncionarioCreateDTO { FuncionarioEmail = funcionarioCriador.Email, NivelAcesso = NivelAcesso.Todos });
             }
 
@@ -47,7 +47,7 @@ namespace Services.Services.Implementation
             {
                 AtividadeId = atividadeCriar.Id,
                 FuncionarioId = funcionarios.Find(y => y.Email == x.FuncionarioEmail).Id,
-                NivelAcesso = x.NivelAcesso
+                NivelAcesso = funcionarios.Find(y => y.Email == x.FuncionarioEmail).Id == funcionarioId? NivelAcesso.Todos : x.NivelAcesso
             }).ToList();
 
             _repository.AtividadeRepository.Create(atividadeCriar);
@@ -62,7 +62,10 @@ namespace Services.Services.Implementation
 
         public void DeleteAtividade(Guid id, Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            HasAccess(funcionarioId, id, NivelAcesso.Todos);
+
+            _repository.AtividadeRepository.DeleteById(id);
+            _repository.Save();
         }
 
         public AtividadeDTO GetAtividade(Guid id)

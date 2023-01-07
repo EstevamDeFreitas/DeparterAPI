@@ -81,5 +81,21 @@ namespace DeparterAPI.Controllers
                 return BadRequest(new Result<object>(ex.Message));
             }
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult DeleteAtividade(Guid id)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.DeleteAtividade(id, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Atividade Deletada"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace Domain.Entities
         Ler,
         Editar,
         Compartilhar,
+        //Inclui deletar
         Todos
     }
 }
