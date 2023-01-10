@@ -27,5 +27,6 @@ namespace Domain.Entities
         public string Imagem { get; set; }
 
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
+        public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
     }
 }
