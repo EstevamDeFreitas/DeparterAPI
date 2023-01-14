@@ -22,5 +22,6 @@ namespace Domain.Entities
         public int MaximoHorasMensais { get; set; }
 
         public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
+        public ICollection<DepartamentoAtividade> DepartamentoAtividades { get; set; }
     }
 }
