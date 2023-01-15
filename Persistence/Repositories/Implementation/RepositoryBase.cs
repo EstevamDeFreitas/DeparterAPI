@@ -47,7 +47,7 @@ namespace Persistence.Repositories.Implementation
         
     }
 
-    public class EntityRepositoryBase<T> : RepositoryBase<T> where T : EntityBase
+    public class EntityRepositoryBase<T> : RepositoryBase<T>, IEntityRepositoryBase<T> where T : EntityBase
     {
         public EntityRepositoryBase(DeparterContext dbContext) : base(dbContext)
         {

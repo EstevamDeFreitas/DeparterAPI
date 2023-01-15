@@ -12,10 +12,18 @@ namespace Persistence.Database
     public class DeparterContext : DbContext
     {
         public DbSet<Funcionario> Funcionarios { get; set; }
+
+        #region Atividades
         public DbSet<Atividade> Atividades { get; set; }
         public DbSet<AtividadeCategoria> AtividadeCategorias { get; set; }
         public DbSet<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        #endregion
+        #region Departamentos
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<DepartamentoAtividade> DepartamentoAtividades { get; set; }
+        public DbSet<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
+        #endregion
         public DeparterContext(DbContextOptions<DeparterContext> options) : base(options)
         {
         }
@@ -25,6 +33,8 @@ namespace Persistence.Database
             modelBuilder.ApplyConfiguration(new AtividadeFuncionarioMapping());
             modelBuilder.ApplyConfiguration(new AtividadeCategoriaMapping());
             modelBuilder.ApplyConfiguration(new AtividadeMapping());
+            modelBuilder.ApplyConfiguration(new DepartamentoAtividadeMapping());
+            modelBuilder.ApplyConfiguration(new DepartamentoFuncionarioMapping());
         }
     }
 }

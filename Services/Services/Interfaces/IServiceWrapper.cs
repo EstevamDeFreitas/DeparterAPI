@@ -13,5 +13,6 @@ namespace Services.Services.Interfaces
         ILoginService LoginService { get; }
         ICategoriaService CategoriaService { get; }
         IAtividadeService AtividadeService { get; }
+        IDepartamentoService DepartamentoService { get; }
     }
 }

@@ -21,6 +21,13 @@ namespace Services.Services.Implementation
 
         public void CreateFuncionario(FuncionarioDTO funcionario)
         {
+            var funcionarioFound = _repository.FuncionarioRepository.GetFuncionariosFromEmails(new List<string> { funcionario.Email });
+
+            if(funcionarioFound is not null)
+            {
+                throw new EmailJaEstaEmUso(funcionario.Email);
+            }
+
             var funcionarioCreate = _mapper.Map<Funcionario>(funcionario);
 
             funcionarioCreate.Gerar();
