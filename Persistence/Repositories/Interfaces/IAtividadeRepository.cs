@@ -10,5 +10,7 @@ namespace Persistence.Repositories.Interfaces
     public interface IAtividadeRepository : IEntityRepositoryBase<Atividade>
     {
         IQueryable<Atividade> FindFullById(Guid id);
+
+        IQueryable<Atividade> FindAllFull();
     }
 }

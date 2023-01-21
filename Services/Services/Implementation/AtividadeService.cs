@@ -94,7 +94,7 @@ namespace Services.Services.Implementation
 
         public List<AtividadeDTO> GetAtividades()
         {
-            var atividades = _repository.AtividadeRepository.GetAll().ToList();
+            var atividades = _repository.AtividadeRepository.FindAllFull().ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
