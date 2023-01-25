@@ -65,5 +65,37 @@ namespace DeparterAPI.Controllers
                 return BadRequest(new Result<object>(ex.Message));
             }
         }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult UpdateDepartamento([FromBody] DepartamentoDTO departamento)
+        {
+            try
+            {
+                _serviceWrapper.DepartamentoService.UpdateDepartamento(departamento);
+
+                return Ok(new Result<object>("Departamento alterado"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult DeleteDepartamento(Guid id)
+        {
+            try
+            {
+                _serviceWrapper.DepartamentoService.DeleteDepartamento(id);
+
+                return Ok(new Result<object>("Departamento Deletado"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
     }
 }

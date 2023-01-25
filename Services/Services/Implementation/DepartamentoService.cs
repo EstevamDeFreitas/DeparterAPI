@@ -42,7 +42,11 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        
+        public void DeleteDepartamento(Guid departamentoId)
+        {
+            _repository.DepartamentoRepository.DeleteById(departamentoId);
+            _repository.Save();
+        }
 
         public DepartamentoDTO GetDepartamento(Guid departamentoId)
         {
@@ -73,6 +77,19 @@ namespace Services.Services.Implementation
             var departamentos = _repository.DepartamentoRepository.GetAll();
 
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
+        }
+
+        public void UpdateDepartamento(DepartamentoDTO departamento)
+        {
+            var departamentoUpdate = _repository.DepartamentoRepository.FindById(departamento.Id).FirstOrDefault();
+
+            departamentoUpdate.Nome = departamento.Nome;
+            departamentoUpdate.Descricao = departamento.Descricao;
+            departamentoUpdate.MaximoHorasDiarias = departamento.MaximoHorasDiarias;
+            departamentoUpdate.MaximoHorasMensais = departamento.MaximoHorasMensais;
+
+            _repository.DepartamentoRepository.Update(departamentoUpdate);
+            _repository.Save();
         }
     }
 }
