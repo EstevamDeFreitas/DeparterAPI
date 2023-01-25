@@ -36,7 +36,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult CreateDepartamento([FromBody] DepartamentoDTO departamento)
+        public IActionResult CreateDepartamento([FromBody] DepartamentoCreateDTO departamento)
         {
             try
             {

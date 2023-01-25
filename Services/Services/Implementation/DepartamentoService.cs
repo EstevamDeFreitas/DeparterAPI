@@ -17,7 +17,7 @@ namespace Services.Services.Implementation
         {
         }
 
-        public void CreateDepartamento(DepartamentoDTO departamento, Guid funcionarioId)
+        public void CreateDepartamento(DepartamentoCreateDTO departamento, Guid funcionarioId)
         {
             var departamentoCreate = _mapper.Map<Departamento>(departamento);
 
