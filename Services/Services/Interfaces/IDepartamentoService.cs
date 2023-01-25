@@ -11,5 +11,6 @@ namespace Services.Services.Interfaces
     {
         void CreateDepartamento(DepartamentoCreateDTO departamento, Guid funcionarioId);
         List<DepartamentoDTO> GetDepartamentoList();
+        DepartamentoDTO GetDepartamento(Guid departamentoId);
     }
 }

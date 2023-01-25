@@ -18,6 +18,22 @@ namespace DeparterAPI.Controllers
             _serviceWrapper = serviceWrapper;
         }
 
+        [HttpGet("{id}")]
+        [Authorize]
+        public IActionResult GetDepartamento(Guid id)
+        {
+            try
+            {
+                var departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
+
+                return Ok(new Result<DepartamentoDTO>("Departamento Encontrado", departamento));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult GetDepartamentos()

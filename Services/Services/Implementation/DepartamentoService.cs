@@ -42,6 +42,32 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
+        
+
+        public DepartamentoDTO GetDepartamento(Guid departamentoId)
+        {
+            var departamento = _repository.DepartamentoRepository.FindById(departamentoId).FirstOrDefault();
+
+            departamento.DepartamentoAtividades = _repository.DepartamentoAtividadeRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+            departamento.DepartamentoFuncionarios = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+
+            var response = _mapper.Map<DepartamentoDTO>(departamento);
+
+            response.DepartamentoFuncionarios.ForEach(fun =>
+            {
+                var funcTemp = _repository.FuncionarioRepository.FindByCondition(x => x.Id == fun.FuncionarioId).FirstOrDefault();
+
+                fun.Funcionario = new FuncionarioDTO
+                {
+                    Nome = funcTemp.Nome,
+                    Email = funcTemp.Email,
+                    Imagem = funcTemp.Imagem
+                };
+            });
+
+            return response;
+        }
+
         public List<DepartamentoDTO> GetDepartamentoList()
         {
             var departamentos = _repository.DepartamentoRepository.GetAll();
