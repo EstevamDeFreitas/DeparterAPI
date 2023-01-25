@@ -18,6 +18,22 @@ namespace DeparterAPI.Controllers
             _serviceWrapper = serviceWrapper;
         }
 
+        [HttpGet("{id}")]
+        [Authorize]
+        public IActionResult GetDepartamento(Guid id)
+        {
+            try
+            {
+                var departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
+
+                return Ok(new Result<DepartamentoDTO>("Departamento Encontrado", departamento));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult GetDepartamentos()
@@ -36,13 +52,45 @@ namespace DeparterAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult CreateDepartamento([FromBody] DepartamentoDTO departamento)
+        public IActionResult CreateDepartamento([FromBody] DepartamentoCreateDTO departamento)
         {
             try
             {
                 _serviceWrapper.DepartamentoService.CreateDepartamento(departamento, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<object>("Departamento Criado"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        public IActionResult UpdateDepartamento([FromBody] DepartamentoDTO departamento)
+        {
+            try
+            {
+                _serviceWrapper.DepartamentoService.UpdateDepartamento(departamento);
+
+                return Ok(new Result<object>("Departamento alterado"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult DeleteDepartamento(Guid id)
+        {
+            try
+            {
+                _serviceWrapper.DepartamentoService.DeleteDepartamento(id);
+
+                return Ok(new Result<object>("Departamento Deletado"));
             }
             catch (Exception ex)
             {

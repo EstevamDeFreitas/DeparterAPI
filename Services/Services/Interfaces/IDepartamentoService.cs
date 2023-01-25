@@ -9,7 +9,10 @@ namespace Services.Services.Interfaces
 {
     public interface IDepartamentoService
     {
-        void CreateDepartamento(DepartamentoDTO departamento, Guid funcionarioId);
+        void CreateDepartamento(DepartamentoCreateDTO departamento, Guid funcionarioId);
         List<DepartamentoDTO> GetDepartamentoList();
+        DepartamentoDTO GetDepartamento(Guid departamentoId);
+        void DeleteDepartamento(Guid departamentoId);
+        void UpdateDepartamento(DepartamentoDTO departamento);
     }
 }

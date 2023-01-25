@@ -44,7 +44,20 @@ namespace Persistence.Repositories.Implementation
             this.DbContext.Set<T>().Update(entity);
         }
 
-        
+        public void CreateMultiple(List<T> entities)
+        {
+            this.DbContext.Set<T>().AddRange(entities);
+        }
+
+        public void DeleteMultiple(List<T> entities)
+        {
+            this.DbContext.Set<T>().RemoveRange(entities);
+        }
+
+        public void UpdateMultiple(List<T> entity)
+        {
+            this.DbContext.Set<T>().UpdateRange(entity);
+        }
     }
 
     public class EntityRepositoryBase<T> : RepositoryBase<T>, IEntityRepositoryBase<T> where T : EntityBase

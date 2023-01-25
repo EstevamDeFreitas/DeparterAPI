@@ -17,7 +17,7 @@ namespace Services.Services.Implementation
         {
         }
 
-        public void CreateDepartamento(DepartamentoDTO departamento, Guid funcionarioId)
+        public void CreateDepartamento(DepartamentoCreateDTO departamento, Guid funcionarioId)
         {
             var departamentoCreate = _mapper.Map<Departamento>(departamento);
 
@@ -42,11 +42,54 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
+        public void DeleteDepartamento(Guid departamentoId)
+        {
+            _repository.DepartamentoRepository.DeleteById(departamentoId);
+            _repository.Save();
+        }
+
+        public DepartamentoDTO GetDepartamento(Guid departamentoId)
+        {
+            var departamento = _repository.DepartamentoRepository.FindById(departamentoId).FirstOrDefault();
+
+            departamento.DepartamentoAtividades = _repository.DepartamentoAtividadeRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+            departamento.DepartamentoFuncionarios = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+
+            var response = _mapper.Map<DepartamentoDTO>(departamento);
+
+            response.DepartamentoFuncionarios.ForEach(fun =>
+            {
+                var funcTemp = _repository.FuncionarioRepository.FindByCondition(x => x.Id == fun.FuncionarioId).FirstOrDefault();
+
+                fun.Funcionario = new FuncionarioDTO
+                {
+                    Nome = funcTemp.Nome,
+                    Email = funcTemp.Email,
+                    Imagem = funcTemp.Imagem
+                };
+            });
+
+            return response;
+        }
+
         public List<DepartamentoDTO> GetDepartamentoList()
         {
             var departamentos = _repository.DepartamentoRepository.GetAll();
 
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
+        }
+
+        public void UpdateDepartamento(DepartamentoDTO departamento)
+        {
+            var departamentoUpdate = _repository.DepartamentoRepository.FindById(departamento.Id).FirstOrDefault();
+
+            departamentoUpdate.Nome = departamento.Nome;
+            departamentoUpdate.Descricao = departamento.Descricao;
+            departamentoUpdate.MaximoHorasDiarias = departamento.MaximoHorasDiarias;
+            departamentoUpdate.MaximoHorasMensais = departamento.MaximoHorasMensais;
+
+            _repository.DepartamentoRepository.Update(departamentoUpdate);
+            _repository.Save();
         }
     }
 }
