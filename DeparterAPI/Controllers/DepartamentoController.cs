@@ -97,5 +97,37 @@ namespace DeparterAPI.Controllers
                 return BadRequest(new Result<object>(ex.Message));
             }
         }
+
+        [HttpPost("funcionario")]
+        [Authorize]
+        public IActionResult AddFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromQuery] Guid funcionarioId)
+        {
+            try
+            {
+                _serviceWrapper.DepartamentoService.AddFuncionarioDepartamento(departamentoId, funcionarioId);
+
+                return Ok(new Result<object>("Funcionario adicionado ao Departamento"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpDelete("funcionario")]
+        [Authorize]
+        public IActionResult RemoveFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromQuery] Guid funcionarioId)
+        {
+            try
+            {
+                _serviceWrapper.DepartamentoService.RemoveFuncionarioDepartamento(departamentoId, funcionarioId);
+
+                return Ok(new Result<object>("Funcionario Removido do Departamento"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
     }
 }

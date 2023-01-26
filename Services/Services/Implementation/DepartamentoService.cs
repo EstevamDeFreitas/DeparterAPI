@@ -17,6 +17,18 @@ namespace Services.Services.Implementation
         {
         }
 
+        public void AddFuncionarioDepartamento(Guid departamentoId, Guid funcionarioId)
+        {
+            var funcionarioDepartamento = new DepartamentoFuncionario
+            {
+                DepartamentoId = departamentoId,
+                FuncionarioId = funcionarioId
+            };
+
+            _repository.DepartamentoFuncionarioRepository.Create(funcionarioDepartamento);
+            _repository.Save();
+        }
+
         public void CreateDepartamento(DepartamentoCreateDTO departamento, Guid funcionarioId)
         {
             var departamentoCreate = _mapper.Map<Departamento>(departamento);
@@ -77,6 +89,14 @@ namespace Services.Services.Implementation
             var departamentos = _repository.DepartamentoRepository.GetAll();
 
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
+        }
+
+        public void RemoveFuncionarioDepartamento(Guid departamentoId, Guid funcionarioId)
+        {
+            var funcionarioDepartamento = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamentoId && x.FuncionarioId == funcionarioId).FirstOrDefault();
+
+            _repository.DepartamentoFuncionarioRepository.Delete(funcionarioDepartamento);
+            _repository.Save();
         }
 
         public void UpdateDepartamento(DepartamentoDTO departamento)
