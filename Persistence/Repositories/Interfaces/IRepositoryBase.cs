@@ -13,8 +13,11 @@ namespace Persistence.Repositories.Interfaces
         IQueryable<T> GetAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
         void Create(T entity);
+        void CreateMultiple(List<T> entities);
         void Update(T entity);
+        void UpdateMultiple(List<T> entity);
         void Delete(T entity);
+        void DeleteMultiple(List<T> entities);
     }
 
     public interface IEntityRepositoryBase<T> : IRepositoryBase<T> where T : EntityBase

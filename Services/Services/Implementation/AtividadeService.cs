@@ -145,7 +145,7 @@ namespace Services.Services.Implementation
         {
             HasAccess(funcionarioId, atividade.Id.GetValueOrDefault(), NivelAcesso.Editar);
 
-            var atividadeUpdated = _repository.AtividadeRepository.FindById(atividade.Id.GetValueOrDefault()).ToList().FirstOrDefault();
+            var atividadeUpdated = _repository.AtividadeRepository.FindFullById(atividade.Id.GetValueOrDefault()).FirstOrDefault();
 
             if(atividadeUpdated is null)
             {
@@ -156,7 +156,51 @@ namespace Services.Services.Implementation
             atividadeUpdated.DataEntrega = atividade.DataEntrega;
             atividadeUpdated.Descricao = atividade.Descricao;
             atividadeUpdated.TempoPrevisto = atividade.TempoPrevisto;
+            atividadeUpdated.AtividadePaiId = atividade.AtividadePaiId;
+
             
+            var newCategories = atividade.AtividadeCategorias.Where(x => !atividadeUpdated.AtividadeCategorias.Any(y => y.AtividadeId == x.AtividadeId && y.CategoriaId == x.CategoriaId));
+
+            if (newCategories.Any())
+            {
+                _repository.AtividadeCategoriaRepository.CreateMultiple(_mapper.Map<List<AtividadeCategoria>>(newCategories));
+                _repository.Save();
+            }
+
+            //Adicionar validações para categorias removidas
+
+            var removeCategories = atividadeUpdated.AtividadeCategorias.Where(ac => !atividade.AtividadeCategorias.Any(acn => acn.AtividadeId == ac.AtividadeId && acn.CategoriaId == ac.CategoriaId));
+
+            if (removeCategories.Any())
+            {
+                _repository.AtividadeCategoriaRepository.DeleteMultiple(removeCategories.ToList());
+            }
+
+            
+            var newFuncionarios = atividade.AtividadeFuncionarios.Where(x => !atividadeUpdated.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId));
+
+            if (newFuncionarios.Any())
+            {
+                _repository.AtividadeFuncionarioRepository.CreateMultiple(_mapper.Map<List<AtividadeFuncionario>>(newFuncionarios));
+            }
+            //Adicionar validações para funcionarios removidos
+            var removedFuncionarios = atividadeUpdated.AtividadeFuncionarios.Where(x => !atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId));
+
+            if (removedFuncionarios.Any())
+            {
+                _repository.AtividadeFuncionarioRepository.DeleteMultiple(removedFuncionarios.ToList());
+            }
+
+            //Realizar update noq sobrar
+            var funcionariosUpdated = atividadeUpdated.AtividadeFuncionarios.Where(x => atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId)).ToList();
+
+            funcionariosUpdated.ForEach(func =>
+            {
+                func.NivelAcesso = atividade.AtividadeFuncionarios.FirstOrDefault(x => x.AtividadeId == func.AtividadeId && x.FuncionarioId == func.FuncionarioId).NivelAcesso;
+            });
+
+            _repository.AtividadeFuncionarioRepository.UpdateMultiple(funcionariosUpdated);
+
             _repository.AtividadeRepository.Update(atividadeUpdated);
             _repository.Save();
         }
