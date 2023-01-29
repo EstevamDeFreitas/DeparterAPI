@@ -18,6 +18,7 @@ namespace Persistence.Database
         public DbSet<AtividadeCategoria> AtividadeCategorias { get; set; }
         public DbSet<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<AtividadeCheck> AtividadeChecks { get; set; }
         #endregion
         #region Departamentos
         public DbSet<Departamento> Departamentos { get; set; }
