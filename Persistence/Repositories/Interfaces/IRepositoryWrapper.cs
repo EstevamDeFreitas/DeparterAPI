@@ -17,6 +17,7 @@ namespace Persistence.Repositories.Interfaces
         IEntityRepositoryBase<Departamento> DepartamentoRepository { get; }
         IRepositoryBase<DepartamentoAtividade> DepartamentoAtividadeRepository { get; }
         IRepositoryBase<DepartamentoFuncionario> DepartamentoFuncionarioRepository { get; }
+        IEntityRepositoryBase<AtividadeCheck> AtividadeCheckRepository { get; }
         void Save();
     }
 }
