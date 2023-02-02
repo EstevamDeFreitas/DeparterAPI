@@ -21,7 +21,7 @@ namespace Services.Services.Implementation
 
         public void CreateFuncionario(FuncionarioDTO funcionario)
         {
-            var funcionarioFound = _repository.FuncionarioRepository.GetFuncionariosFromEmails(new List<string> { funcionario.Email });
+            var funcionarioFound = _repository.FuncionarioRepository.GetFuncionariosFromEmails(new List<string> { funcionario.Email }).FirstOrDefault();
 
             if(funcionarioFound is not null)
             {
