@@ -17,15 +17,15 @@ namespace Services.Services.Implementation
         {
         }
 
-        public void AddFuncionarioDepartamento(Guid departamentoId, Guid funcionarioId)
+        public void AddFuncionarioDepartamento(Guid departamentoId, List<Guid> funcionarioId)
         {
-            var funcionarioDepartamento = new DepartamentoFuncionario
+            var funcionarioDepartamento = funcionarioId.Select(x => new DepartamentoFuncionario
             {
                 DepartamentoId = departamentoId,
-                FuncionarioId = funcionarioId
-            };
+                FuncionarioId = x
+            }).ToList();
 
-            _repository.DepartamentoFuncionarioRepository.Create(funcionarioDepartamento);
+            _repository.DepartamentoFuncionarioRepository.CreateMultiple(funcionarioDepartamento);
             _repository.Save();
         }
 
@@ -91,11 +91,11 @@ namespace Services.Services.Implementation
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
         }
 
-        public void RemoveFuncionarioDepartamento(Guid departamentoId, Guid funcionarioId)
+        public void RemoveFuncionarioDepartamento(Guid departamentoId, List<Guid> funcionarioId)
         {
-            var funcionarioDepartamento = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamentoId && x.FuncionarioId == funcionarioId).FirstOrDefault();
+            var funcionarioDepartamento = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamentoId && funcionarioId.Any(y => y == x.FuncionarioId)).ToList();
 
-            _repository.DepartamentoFuncionarioRepository.Delete(funcionarioDepartamento);
+            _repository.DepartamentoFuncionarioRepository.DeleteMultiple(funcionarioDepartamento);
             _repository.Save();
         }
 

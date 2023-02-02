@@ -78,6 +78,11 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
+        public void DeleteAtividadeCheck(Guid atividadeId, Guid funcionarioId)
+        {
+            throw new NotImplementedException();
+        }
+
         public AtividadeDTO GetAtividade(Guid id)
         {
             var atividadeFull = _repository.AtividadeRepository.FindFullById(id).FirstOrDefault();
@@ -203,6 +208,11 @@ namespace Services.Services.Implementation
 
             _repository.AtividadeRepository.Update(atividadeUpdated);
             _repository.Save();
+        }
+
+        public void UpdateAtividadeCheck(AtividadeCheckDTO atividade, Guid funcionarioId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

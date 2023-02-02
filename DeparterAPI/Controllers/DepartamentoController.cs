@@ -100,7 +100,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPost("funcionario")]
         [Authorize]
-        public IActionResult AddFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromQuery] Guid funcionarioId)
+        public IActionResult AddFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromBody] List<Guid> funcionarioId)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace DeparterAPI.Controllers
 
         [HttpDelete("funcionario")]
         [Authorize]
-        public IActionResult RemoveFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromQuery] Guid funcionarioId)
+        public IActionResult RemoveFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromBody] List<Guid> funcionarioId)
         {
             try
             {
