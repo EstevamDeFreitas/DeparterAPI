@@ -64,7 +64,7 @@ namespace Services.Services.Implementation
         {
             var departamento = _repository.DepartamentoRepository.FindById(departamentoId).FirstOrDefault();
 
-            departamento.DepartamentoAtividades = _repository.DepartamentoAtividadeRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+            //departamento.DepartamentoAtividades = _repository.DepartamentoAtividadeRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
             departamento.DepartamentoFuncionarios = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
 
             var response = _mapper.Map<DepartamentoDTO>(departamento);
@@ -77,7 +77,9 @@ namespace Services.Services.Implementation
                 {
                     Nome = funcTemp.Nome,
                     Email = funcTemp.Email,
-                    Imagem = funcTemp.Imagem
+                    Imagem = funcTemp.Imagem,
+                    Id = funcTemp.Id,
+                    Apelido = funcTemp.Apelido
                 };
             });
 
