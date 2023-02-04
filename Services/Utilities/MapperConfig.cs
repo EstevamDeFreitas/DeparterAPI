@@ -16,6 +16,8 @@ namespace Services.Utilities
             CreateMap<FuncionarioDTO, Funcionario>().ReverseMap();
             CreateMap<CategoriaDTO, Categoria>().ReverseMap();
             CreateMap<AtividadeDTO, Atividade>().ReverseMap();
+            CreateMap<AtividadeCheckDTO, AtividadeCheck>().ReverseMap();
+            CreateMap<AtividadeCheckCreateDTO, AtividadeCheck>().ReverseMap();
             CreateMap<AtividadeCategoriaDTO, AtividadeCategoria>().ReverseMap();
             CreateMap<AtividadeFuncionarioDTO, AtividadeFuncionario>().ReverseMap();
             CreateMap<DepartamentoDTO, Departamento>().ReverseMap();

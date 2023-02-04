@@ -129,5 +129,53 @@ namespace DeparterAPI.Controllers
                 return BadRequest(new Result<object>(ex.Message));
             }
         }
+
+        [HttpPost("check")]
+        [Authorize]
+        public IActionResult CreateAtividadeCheck([FromBody] AtividadeCheckCreateDTO atividadeCheck)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.CreateAtividadeCheck(atividadeCheck, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Criado Check para Atividade"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpPut("check")]
+        [Authorize]
+        public IActionResult UpdateAtividadeCheck([FromBody] AtividadeCheckDTO atividadeCheck)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.UpdateAtividadeCheck(atividadeCheck, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Alterado Check para Atividade"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
+        [HttpDelete("check/{atividadeCheckId}")]
+        [Authorize]
+        public IActionResult DeleteAtividadeCheck(Guid atividadeCheckId)
+        {
+            try
+            {
+                _serviceWrapper.AtividadeService.DeleteAtividadeCheck(atividadeCheckId, Guid.Parse(HttpContext.Items["User"].ToString()));
+
+                return Ok(new Result<object>("Alterado Check para Atividade"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
     }
 }
