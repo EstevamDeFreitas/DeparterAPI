@@ -56,6 +56,8 @@ namespace Services.DTO
         public int TempoPrevisto { get; set; }
         public Guid? AtividadePaiId { get; set; }
 
+        
+        public List<AtividadeCheckDTO> AtividadeChecks { get; set; }
         public List<AtividadeCategoriaDTO> AtividadeCategorias { get; set; }
         public List<AtividadeFuncionarioDTO> AtividadeFuncionarios { get; set; }
         public List<AtividadeDTO> Atividades { get; set; }
@@ -81,6 +83,18 @@ namespace Services.DTO
     }
 
     public class AtividadeCheckDTO
+    {
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
+        public string Descricao { get; set; }
+        [Required]
+        public bool Checked { get; set; }
+        [Required]
+        public Guid AtividadeId { get; set; }
+    }
+
+    public class AtividadeCheckCreateDTO
     {
         [Required]
         public string Descricao { get; set; }

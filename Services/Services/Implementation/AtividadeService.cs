@@ -55,6 +55,18 @@ namespace Services.Services.Implementation
 
         }
 
+        public void CreateAtividadeCheck(AtividadeCheckCreateDTO atividadeCheck, Guid funcionarioId)
+        {
+            HasAccess(funcionarioId, atividadeCheck.AtividadeId, NivelAcesso.Editar);
+
+            var atividadeCheckCreate = _mapper.Map<AtividadeCheck>(atividadeCheck);
+
+            atividadeCheckCreate.Gerar();
+
+            _repository.AtividadeCheckRepository.Create(atividadeCheckCreate);
+            _repository.Save();
+        }
+
         public void DeleteAccessAtividade(AtividadeAcessoFuncionario atividadeAcessoFuncionario, Guid funcionarioId)
         {
             HasAccess(funcionarioId, atividadeAcessoFuncionario.AtividadeId, NivelAcesso.Compartilhar);
@@ -78,9 +90,14 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public void DeleteAtividadeCheck(Guid atividadeId, Guid funcionarioId)
+        public void DeleteAtividadeCheck(Guid atividadeCheckId, Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            var atividadeCheck = _repository.AtividadeCheckRepository.FindById(atividadeCheckId).FirstOrDefault();
+
+            HasAccess(funcionarioId, atividadeCheck.AtividadeId, NivelAcesso.Editar);
+
+            _repository.AtividadeCheckRepository.Delete(atividadeCheck);
+            _repository.Save();
         }
 
         public AtividadeDTO GetAtividade(Guid id)
@@ -212,7 +229,15 @@ namespace Services.Services.Implementation
 
         public void UpdateAtividadeCheck(AtividadeCheckDTO atividade, Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            var atividadeCheckUpdate = _repository.AtividadeCheckRepository.FindById(atividade.Id).FirstOrDefault();
+
+            HasAccess(funcionarioId, atividadeCheckUpdate.AtividadeId, NivelAcesso.Editar);
+
+            atividadeCheckUpdate.Checked = atividade.Checked;
+            atividadeCheckUpdate.Descricao = atividade.Descricao;
+
+            _repository.AtividadeCheckRepository.Update(atividadeCheckUpdate);
+            _repository.Save();
         }
     }
 }
