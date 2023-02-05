@@ -114,7 +114,7 @@ namespace DeparterAPI.Controllers
             }
         }
 
-        [HttpDelete("funcionario")]
+        [HttpPost("funcionario/delete")]
         [Authorize]
         public IActionResult RemoveFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromBody] List<Guid> funcionarioId)
         {
