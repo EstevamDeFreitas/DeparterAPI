@@ -19,5 +19,8 @@ namespace Services.Services.Interfaces
         void UpdateAccessAtividade(AtividadeAcessoFuncionario atividadeFuncionario, Guid funcionarioId);
         void DeleteAccessAtividade(AtividadeAcessoFuncionario atividadeFuncionario, Guid funcionarioId);
         void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso);
+        void CreateAtividadeCheck(AtividadeCheckCreateDTO atividadeCheck, Guid funcionarioId);
+        void UpdateAtividadeCheck(AtividadeCheckDTO atividade, Guid funcionarioId);
+        void DeleteAtividadeCheck(Guid atividadeCheckId, Guid funcionarioId);
     }
 }

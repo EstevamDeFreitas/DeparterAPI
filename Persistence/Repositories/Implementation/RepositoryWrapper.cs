@@ -20,6 +20,7 @@ namespace Persistence.Repositories.Implementation
         private readonly Lazy<IEntityRepositoryBase<Departamento>> _departamentoRepository;
         private readonly Lazy<IRepositoryBase<DepartamentoAtividade>> _departamentoAtividadeRepository;
         private readonly Lazy<IRepositoryBase<DepartamentoFuncionario>> _departamentoFuncionarioRepository;
+        private readonly Lazy<IEntityRepositoryBase<AtividadeCheck>> _atividadeCheckRepository;
 
         public RepositoryWrapper(DeparterContext context)
         {
@@ -32,6 +33,7 @@ namespace Persistence.Repositories.Implementation
             _departamentoRepository = new Lazy<IEntityRepositoryBase<Departamento>>(() => new EntityRepositoryBase<Departamento>(context));
             _departamentoAtividadeRepository = new Lazy<IRepositoryBase<DepartamentoAtividade>>(() => new RepositoryBase<DepartamentoAtividade>(context));
             _departamentoFuncionarioRepository = new Lazy<IRepositoryBase<DepartamentoFuncionario>>(() => new RepositoryBase<DepartamentoFuncionario>(context));
+            _atividadeCheckRepository = new Lazy<IEntityRepositoryBase<AtividadeCheck>>(() => new EntityRepositoryBase<AtividadeCheck>(context));
         }
 
         public IFuncionarioRepository FuncionarioRepository => _funcionarioRepository.Value;
@@ -47,6 +49,7 @@ namespace Persistence.Repositories.Implementation
         public IEntityRepositoryBase<Departamento> DepartamentoRepository => _departamentoRepository.Value;
         public IRepositoryBase<DepartamentoAtividade> DepartamentoAtividadeRepository => _departamentoAtividadeRepository.Value;
         public IRepositoryBase<DepartamentoFuncionario> DepartamentoFuncionarioRepository => _departamentoFuncionarioRepository.Value;
+        public IEntityRepositoryBase<AtividadeCheck> AtividadeCheckRepository => _atividadeCheckRepository.Value;
 
         public void Save()
         {

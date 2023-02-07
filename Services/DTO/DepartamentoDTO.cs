@@ -22,7 +22,7 @@ namespace Services.DTO
         public int MaximoHorasMensais { get; set; }
 
         public List<DepartamentoFuncionarioDTO> DepartamentoFuncionarios { get; set; }
-        public List<DepartamentoAtividadeDTO> DepartamentoAtividades { get; set; }
+        //public List<DepartamentoAtividadeDTO> DepartamentoAtividades { get; set; }
     }
 
     public class DepartamentoCreateDTO
