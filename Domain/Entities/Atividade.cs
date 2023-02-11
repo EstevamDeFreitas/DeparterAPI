@@ -28,10 +28,14 @@ namespace Domain.Entities
         [Column("id_atividade_pai")]
         public Guid? AtividadePaiId { get; set; }
 
+        [Column("id_departamento")]
+        public Guid DepartamentoId { get; set; }
+
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
         public Atividade? AtividadePai { get; set; }
         public ICollection<Atividade> Atividades { get; set; }
         public ICollection<AtividadeCheck> AtividadeChecks { get; set; }
+        public Departamento Departamento { get; set; }
     }
 }
