@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Persistence.Repositories.Interfaces;
 using Services.DTO;
+using Services.Exceptions;
 using Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,12 @@ namespace Services.Services.Implementation
         {
             var departamento = _repository.DepartamentoRepository.FindById(departamentoId).FirstOrDefault();
 
-            //departamento.DepartamentoAtividades = _repository.DepartamentoAtividadeRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+            if(departamento is null)
+            {
+                throw new EntidadeNaoEncontrada("Departamento");
+            }
+
+            departamento.Atividades = _repository.AtividadeRepository.FindByCondition(x => x.DepartamentoId == departamentoId).ToList();
             departamento.DepartamentoFuncionarios = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
 
             var response = _mapper.Map<DepartamentoDTO>(departamento);
@@ -82,6 +88,8 @@ namespace Services.Services.Implementation
                     Apelido = funcTemp.Apelido
                 };
             });
+
+            
 
             return response;
         }

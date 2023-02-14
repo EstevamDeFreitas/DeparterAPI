@@ -24,7 +24,6 @@ namespace Services.Utilities
             CreateMap<DepartamentoCreateDTO, Departamento>().ReverseMap();
             CreateMap<DepartamentoFuncionarioDTO, DepartamentoFuncionario>().ReverseMap();
             CreateMap<DepartamentoFuncionarioCreateDTO, DepartamentoFuncionario>().ReverseMap();
-            CreateMap<DepartamentoAtividadeDTO, DepartamentoAtividade>().ReverseMap();
         }
     }
 }

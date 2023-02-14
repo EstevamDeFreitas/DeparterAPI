@@ -22,7 +22,6 @@ namespace Persistence.Database
         #endregion
         #region Departamentos
         public DbSet<Departamento> Departamentos { get; set; }
-        public DbSet<DepartamentoAtividade> DepartamentoAtividades { get; set; }
         public DbSet<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
         #endregion
         public DeparterContext(DbContextOptions<DeparterContext> options) : base(options)
@@ -34,7 +33,6 @@ namespace Persistence.Database
             modelBuilder.ApplyConfiguration(new AtividadeFuncionarioMapping());
             modelBuilder.ApplyConfiguration(new AtividadeCategoriaMapping());
             modelBuilder.ApplyConfiguration(new AtividadeMapping());
-            modelBuilder.ApplyConfiguration(new DepartamentoAtividadeMapping());
             modelBuilder.ApplyConfiguration(new DepartamentoFuncionarioMapping());
         }
     }
