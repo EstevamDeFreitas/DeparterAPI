@@ -26,5 +26,14 @@ namespace Persistence.Repositories.Implementation
                                         .Include(x => x.AtividadeChecks)
                                         .Where(x => x.Id == id).AsNoTracking();
         }
+
+        public IQueryable<Atividade> FindAllFull()
+        {
+            return DbContext.Atividades.Include(x => x.AtividadeCategorias)
+                                            .ThenInclude(x => x.Categoria)
+                                        .Include(x => x.AtividadeFuncionarios)
+                                            .ThenInclude(x => x.Funcionario)
+                                        .AsNoTracking();
+        }
     }
 }
