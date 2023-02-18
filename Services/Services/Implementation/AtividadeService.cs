@@ -26,7 +26,9 @@ namespace Services.Services.Implementation
                 Descricao = atividade.Descricao,
                 TempoPrevisto = atividade.TempoPrevisto,
                 Titulo = atividade.Titulo,
-                DataEntrega = atividade.DataEntrega
+                DataEntrega = atividade.DataEntrega,
+                DepartamentoId = atividade.DepartamentoId
+                
             };
 
             atividadeCriar.Gerar();
