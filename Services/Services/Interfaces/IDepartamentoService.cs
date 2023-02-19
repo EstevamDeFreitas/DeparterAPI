@@ -16,5 +16,6 @@ namespace Services.Services.Interfaces
         void UpdateDepartamento(DepartamentoDTO departamento);
         void AddFuncionarioDepartamento(Guid departamentoId, List<Guid> funcionarioId);
         void RemoveFuncionarioDepartamento(Guid departamentoId, List<Guid> funcionarioId);
+        List<DepartamentoAtividadesResumoDTO> GetDepartamentoAtividadesResumo(Guid departamentoId);
     }
 }
