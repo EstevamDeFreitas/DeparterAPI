@@ -129,5 +129,14 @@ namespace DeparterAPI.Controllers
                 return BadRequest(new Result<object>(ex.Message));
             }
         }
+
+        [HttpGet("{id}/atividades/resumo")]
+        [Authorize]
+        public IActionResult GetDepartamentoAtividadesResumo(Guid id)
+        {
+            var atividades = _serviceWrapper.DepartamentoService.GetDepartamentoAtividadesResumo(id);
+
+            return Ok(new Result<List<DepartamentoAtividadesResumoDTO>>("Resumo das atividades encontrado", atividades));
+        }
     }
 }
