@@ -31,6 +31,7 @@ namespace Services.DTO
         public string Descricao { get; set; }
         public string Funcionario { get; set; }
         public string Status { get; set; }
+        public Guid AtividadeId { get; set; }
     }
 
     public class DepartamentoCreateDTO

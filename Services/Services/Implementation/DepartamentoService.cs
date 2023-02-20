@@ -102,6 +102,7 @@ namespace Services.Services.Implementation
             {
                 DataEntrega = x.DataEntrega,
                 Descricao = x.Titulo,
+                AtividadeId = x.Id.GetValueOrDefault(),
                 Funcionario = _serviceWrapper.FuncionarioService.GetFuncionario(_serviceWrapper.AtividadeService.GetAtividade(x.Id.GetValueOrDefault()).AtividadeFuncionarios.FirstOrDefault(x => x.NivelAcesso == NivelAcesso.Todos).FuncionarioId).Nome,
                 Status = (x.DataEntrega < DateTime.Now && x.AtividadeChecks.Any(y => !y.Checked) ? "Em andamento" : (x.AtividadeChecks.Any(y => !y.Checked) ? "Atrasado" : "Finalizado"))
             }).OrderBy(x => x.DataEntrega).ToList();
