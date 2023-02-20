@@ -25,6 +25,15 @@ namespace Services.DTO
         public List<AtividadeDTO> Atividades { get; set; }
     }
 
+    public class DepartamentoAtividadesResumoDTO
+    {
+        public DateTime DataEntrega { get; set; }
+        public string Descricao { get; set; }
+        public string Funcionario { get; set; }
+        public string Status { get; set; }
+        public Guid AtividadeId { get; set; }
+    }
+
     public class DepartamentoCreateDTO
     {
         [Required]

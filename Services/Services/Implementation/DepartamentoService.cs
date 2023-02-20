@@ -94,6 +94,22 @@ namespace Services.Services.Implementation
             return response;
         }
 
+        public List<DepartamentoAtividadesResumoDTO> GetDepartamentoAtividadesResumo(Guid departamentoId)
+        {
+            var departamento = GetDepartamento(departamentoId);
+
+            var response = departamento.Atividades.Select(x => new DepartamentoAtividadesResumoDTO
+            {
+                DataEntrega = x.DataEntrega,
+                Descricao = x.Titulo,
+                AtividadeId = x.Id.GetValueOrDefault(),
+                Funcionario = _serviceWrapper.FuncionarioService.GetFuncionario(_serviceWrapper.AtividadeService.GetAtividade(x.Id.GetValueOrDefault()).AtividadeFuncionarios.FirstOrDefault(x => x.NivelAcesso == NivelAcesso.Todos).FuncionarioId).Nome,
+                Status = (x.DataEntrega < DateTime.Now && x.AtividadeChecks.Any(y => !y.Checked) ? "Em andamento" : (x.AtividadeChecks.Any(y => !y.Checked) ? "Atrasado" : "Finalizado"))
+            }).OrderBy(x => x.DataEntrega).ToList();
+
+            return response;
+        }
+
         public List<DepartamentoDTO> GetDepartamentoList()
         {
             var departamentos = _repository.DepartamentoRepository.GetAll();
