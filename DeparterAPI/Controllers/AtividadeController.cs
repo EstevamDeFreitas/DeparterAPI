@@ -68,7 +68,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult UpdateAtividade([FromBody] AtividadeDTO atividade)
+        public IActionResult UpdateAtividade([FromBody] AtividadePutDTO atividade)
         {
             try
             {
