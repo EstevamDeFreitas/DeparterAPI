@@ -121,11 +121,6 @@ namespace Services.Services.Implementation
         {
             var funcionarioDepartamento = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamentoId && funcionarioId.Any(y => y == x.FuncionarioId)).ToList();
 
-            if(funcionarioDepartamento.Any(x => x.FuncionarioId == funcionarioLogadoId))
-            {
-                throw new FuncionarioNaoPodeSeRemover();
-            }
-
             _repository.DepartamentoFuncionarioRepository.DeleteMultiple(funcionarioDepartamento);
             _repository.Save();
         }
