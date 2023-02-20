@@ -68,6 +68,26 @@ namespace Services.DTO
         public DepartamentoDTO Departamento { get; set; }
     }
 
+    public class AtividadePutDTO
+    {
+        public Guid? Id { get; set; }
+        [Required]
+        public string Titulo { get; set; }
+        [Required]
+        public string Descricao { get; set; }
+        [Required]
+        public DateTime DataEntrega { get; set; }
+        [Required]
+        public int TempoPrevisto { get; set; }
+        public Guid? AtividadePaiId { get; set; }
+        [Required]
+        public Guid DepartamentoId { get; set; }
+
+
+        public List<AtividadeCategoriaDTO> AtividadeCategorias { get; set; }
+        public List<AtividadeFuncionarioDTO> AtividadeFuncionarios { get; set; }
+    }
+
     public class AtividadeCategoriaDTO
     {
         [Required]

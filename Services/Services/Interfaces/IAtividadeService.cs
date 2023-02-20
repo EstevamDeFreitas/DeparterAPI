@@ -14,7 +14,7 @@ namespace Services.Services.Interfaces
         List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId);
         List<AtividadeDTO> GetAtividades();
         void CreateAtividade(AtividadeCreateDTO atividade, Guid funcionarioId);
-        void UpdateAtividade(AtividadeDTO atividade, Guid funcionarioId);
+        void UpdateAtividade(AtividadePutDTO atividade, Guid funcionarioId);
         void DeleteAtividade(Guid id, Guid funcionarioId);
         void UpdateAccessAtividade(AtividadeAcessoFuncionario atividadeFuncionario, Guid funcionarioId);
         void DeleteAccessAtividade(AtividadeAcessoFuncionario atividadeFuncionario, Guid funcionarioId);

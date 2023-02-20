@@ -165,7 +165,7 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public void UpdateAtividade(AtividadeDTO atividade, Guid funcionarioId)
+        public void UpdateAtividade(AtividadePutDTO atividade, Guid funcionarioId)
         {
             HasAccess(funcionarioId, atividade.Id.GetValueOrDefault(), NivelAcesso.Editar);
 
