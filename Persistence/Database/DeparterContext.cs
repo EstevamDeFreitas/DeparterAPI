@@ -20,9 +20,14 @@ namespace Persistence.Database
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<AtividadeCheck> AtividadeChecks { get; set; }
         #endregion
+
         #region Departamentos
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
+        #endregion
+
+        #region Horas
+        public DbSet<FuncionarioAtividadeHoras> FuncionarioAtividadeHoras { get; set; }
         #endregion
         public DeparterContext(DbContextOptions<DeparterContext> options) : base(options)
         {
@@ -34,6 +39,7 @@ namespace Persistence.Database
             modelBuilder.ApplyConfiguration(new AtividadeCategoriaMapping());
             modelBuilder.ApplyConfiguration(new AtividadeMapping());
             modelBuilder.ApplyConfiguration(new DepartamentoFuncionarioMapping());
+            modelBuilder.ApplyConfiguration(new FuncionarioAtividadeHorasMapping());
         }
     }
 }
