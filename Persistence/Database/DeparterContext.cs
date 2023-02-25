@@ -28,6 +28,7 @@ namespace Persistence.Database
 
         #region Horas
         public DbSet<FuncionarioAtividadeHoras> FuncionarioAtividadeHoras { get; set; }
+        public DbSet<FuncionarioHorasConfiguracao> FuncionarioHorasConfiguracaos { get; set; }
         #endregion
         public DeparterContext(DbContextOptions<DeparterContext> options) : base(options)
         {
