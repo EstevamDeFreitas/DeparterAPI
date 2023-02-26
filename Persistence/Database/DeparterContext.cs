@@ -40,7 +40,6 @@ namespace Persistence.Database
             modelBuilder.ApplyConfiguration(new AtividadeCategoriaMapping());
             modelBuilder.ApplyConfiguration(new AtividadeMapping());
             modelBuilder.ApplyConfiguration(new DepartamentoFuncionarioMapping());
-            modelBuilder.ApplyConfiguration(new FuncionarioAtividadeHorasMapping());
         }
     }
 }

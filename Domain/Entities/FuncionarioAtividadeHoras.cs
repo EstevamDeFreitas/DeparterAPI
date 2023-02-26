@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.Entities
 {
     [Table("funcionario_atividade_horas")]
-    public class FuncionarioAtividadeHoras
+    public class FuncionarioAtividadeHoras : EntityBase
     {
         [Required]
         [Column("id_funcionario")]

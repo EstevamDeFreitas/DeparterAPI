@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Interfaces
 {
-    public interface IFuncionarioAtividadeHorasRepository : IRepositoryBase<FuncionarioAtividadeHoras>
+    public interface IFuncionarioAtividadeHorasRepository : IEntityRepositoryBase<FuncionarioAtividadeHoras>
     {
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Implementation
 {
-    public class FuncionarioAtividadeHorasRepository : RepositoryBase<FuncionarioAtividadeHoras>, IFuncionarioAtividadeHorasRepository
+    public class FuncionarioAtividadeHorasRepository : EntityRepositoryBase<FuncionarioAtividadeHoras>, IFuncionarioAtividadeHorasRepository
     {
         public FuncionarioAtividadeHorasRepository(DeparterContext dbContext) : base(dbContext)
         {
