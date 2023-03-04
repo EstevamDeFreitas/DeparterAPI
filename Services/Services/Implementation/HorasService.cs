@@ -92,13 +92,19 @@ namespace Services.Services.Implementation
             horasConfiguracao.FuncionarioId = funcionarioHorasConfiguracao.FuncionarioId;
             
             _repository.FuncionarioHorasConfiguracaoRepository.Update(horasConfiguracao);
+            _repository.Save();
         }
 
         public void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras, Guid funcionarioId)
         {
             var horasFound = _repository.AtividadeHorasRepository.FindById(funcionarioAtividadeHoras.Id.GetValueOrDefault()).FirstOrDefault();
 
-           
+            horasFound.AtividadeId = funcionarioAtividadeHoras.AtividadeId;
+            horasFound.FuncionarioId = funcionarioAtividadeHoras.FuncionarioId;
+            horasFound.Minutos = funcionarioAtividadeHoras.Minutos;
+
+            _repository.AtividadeHorasRepository.Update(horasFound);
+            _repository.Save();
         }
     }
 }
