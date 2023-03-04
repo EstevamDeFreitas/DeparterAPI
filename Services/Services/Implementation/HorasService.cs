@@ -1,4 +1,8 @@
-﻿using Services.DTO;
+﻿using AutoMapper;
+using Domain.Entities;
+using Persistence.Repositories.Interfaces;
+using Services.DTO;
+using Services.Exceptions;
 using Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,56 +12,93 @@ using System.Threading.Tasks;
 
 namespace Services.Services.Implementation
 {
-    public class HorasService : IHorasService
+    public class HorasService : ServiceBase, IHorasService
     {
+        public HorasService(IRepositoryWrapper repository, IMapper mapper, IServiceWrapper serviceWrapper) : base(repository, mapper, serviceWrapper)
+        {
+        }
+
         public void CreateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoDTO funcionarioHorasConfiguracao)
         {
-            throw new NotImplementedException();
+            var funcionarioHorasConfiguracaoCreate = _mapper.Map<FuncionarioHorasConfiguracao>(funcionarioHorasConfiguracao);
+
+            funcionarioHorasConfiguracaoCreate.Gerar();
+
+            _repository.FuncionarioHorasConfiguracaoRepository.Create(funcionarioHorasConfiguracaoCreate);
+            _repository.Save();
         }
 
         public void CreateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras)
         {
-            throw new NotImplementedException();
+            var horas = _mapper.Map<FuncionarioAtividadeHoras>(funcionarioAtividadeHoras);
+
+            //TODO adicionar verificação das horas atuais do funcionario (dia, mes e departamento)
+
+            _repository.AtividadeHorasRepository.Create(horas);
+            _repository.Save();
         }
 
         public void DeleteFuncionarioHorasConfiguracao(Guid horaConfiguracaoId)
         {
-            throw new NotImplementedException();
+            _repository.FuncionarioHorasConfiguracaoRepository.DeleteById(horaConfiguracaoId);
+            _repository.Save();
         }
 
         public void DeleteHoras(Guid horaId)
         {
-            throw new NotImplementedException();
+            _repository.AtividadeHorasRepository.DeleteById(horaId);
+            _repository.Save();
         }
 
         public List<FuncionarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId)
         {
-            throw new NotImplementedException();
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.AtividadeId == atividadeId);
+
+            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
         public List<FuncionarioAtividadeHorasDTO> GetFuncionarioHoras(Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.FuncionarioId == funcionarioId);
+
+            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
         public List<FuncionarioHorasConfiguracaoDTO> GetFuncionarioHorasConfiguracoes(Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            var configuracoes = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.FuncionarioId == funcionarioId);
+
+            return _mapper.Map<List<FuncionarioHorasConfiguracaoDTO>>(configuracoes);
         }
 
         public List<FuncionarioAtividadeHorasDTO> GetHoras()
         {
-            throw new NotImplementedException();
+            var horas = _repository.FuncionarioHorasConfiguracaoRepository.GetAll();
+
+            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
         public void UpdateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoDTO funcionarioHorasConfiguracao)
         {
-            throw new NotImplementedException();
+            var horasConfiguracao = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.Id == funcionarioHorasConfiguracao.Id).FirstOrDefault();
+            if(horasConfiguracao is null)
+            {
+                throw new EntidadeNaoEncontrada("Funcionario Horas Configuracao");
+            }
+
+
+            horasConfiguracao.Minutos = funcionarioHorasConfiguracao.Minutos;
+            horasConfiguracao.TipoConfiguracao = funcionarioHorasConfiguracao.TipoConfiguracao;
+            horasConfiguracao.FuncionarioId = funcionarioHorasConfiguracao.FuncionarioId;
+            
+            _repository.FuncionarioHorasConfiguracaoRepository.Update(horasConfiguracao);
         }
 
         public void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras, Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            var horasFound = _repository.AtividadeHorasRepository.FindById(funcionarioAtividadeHoras.Id.GetValueOrDefault()).FirstOrDefault();
+
+           
         }
     }
 }
