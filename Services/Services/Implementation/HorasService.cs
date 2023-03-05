@@ -32,6 +32,8 @@ namespace Services.Services.Implementation
         {
             var horas = _mapper.Map<FuncionarioAtividadeHoras>(funcionarioAtividadeHoras);
 
+            horas.Gerar();
+
             //TODO adicionar verificação das horas atuais do funcionario (dia, mes e departamento)
 
             _repository.AtividadeHorasRepository.Create(horas);
@@ -52,28 +54,28 @@ namespace Services.Services.Implementation
 
         public List<FuncionarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId)
         {
-            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.AtividadeId == atividadeId);
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.AtividadeId == atividadeId).ToList();
 
             return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
         public List<FuncionarioAtividadeHorasDTO> GetFuncionarioHoras(Guid funcionarioId)
         {
-            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.FuncionarioId == funcionarioId);
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.FuncionarioId == funcionarioId).ToList();
 
             return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
         public List<FuncionarioHorasConfiguracaoDTO> GetFuncionarioHorasConfiguracoes(Guid funcionarioId)
         {
-            var configuracoes = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.FuncionarioId == funcionarioId);
+            var configuracoes = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.FuncionarioId == funcionarioId).ToList();
 
             return _mapper.Map<List<FuncionarioHorasConfiguracaoDTO>>(configuracoes);
         }
 
         public List<FuncionarioAtividadeHorasDTO> GetHoras()
         {
-            var horas = _repository.FuncionarioHorasConfiguracaoRepository.GetAll();
+            var horas = _repository.AtividadeHorasRepository.GetAll().ToList();
 
             return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
@@ -95,7 +97,7 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras, Guid funcionarioId)
+        public void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras)
         {
             var horasFound = _repository.AtividadeHorasRepository.FindById(funcionarioAtividadeHoras.Id.GetValueOrDefault()).FirstOrDefault();
 

@@ -32,6 +32,9 @@ namespace Services.DTO
         [Required]
         public int Minutos { get; set; }
 
+        public DateTime? DataModificacao { get; set; }
+        public DateTime? DataCriacao { get; set; }
+
         public FuncionarioDTO? Funcionario { get; set; }
         public AtividadeDTO? Atividade { get; set; }
     }

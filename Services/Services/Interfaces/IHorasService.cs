@@ -13,7 +13,7 @@ namespace Services.Services.Interfaces
         List<FuncionarioAtividadeHorasDTO> GetHoras();
         List<FuncionarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId);
         void CreateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras);
-        void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras, Guid funcionarioId);
+        void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras);
         void DeleteHoras(Guid horaId);
 
         List<FuncionarioHorasConfiguracaoDTO> GetFuncionarioHorasConfiguracoes(Guid funcionarioId);

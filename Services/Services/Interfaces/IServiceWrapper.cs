@@ -14,5 +14,6 @@ namespace Services.Services.Interfaces
         ICategoriaService CategoriaService { get; }
         IAtividadeService AtividadeService { get; }
         IDepartamentoService DepartamentoService { get; }
+        IHorasService HorasService { get; }
     }
 }
