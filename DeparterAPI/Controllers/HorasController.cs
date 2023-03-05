@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services.DTO;
+using Services.Notations;
 using Services.Services.Interfaces;
 using Services.Utilities;
 
@@ -19,6 +20,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             var horas = _serviceWrapper.HorasService.GetHoras();
@@ -27,6 +29,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpGet("funcionario/{funcionarioId}")]
+        [Authorize]
         public IActionResult GetByFuncionario(Guid funcionarioId)
         {
             var horas = _serviceWrapper.HorasService.GetFuncionarioHoras(funcionarioId);
@@ -35,6 +38,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpGet("atividade/{atividadeId}")]
+        [Authorize]
         public IActionResult GetByAtividade(Guid atividadeId)
         {
             var horas = _serviceWrapper.HorasService.GetAtividadeHoras(atividadeId);
@@ -43,6 +47,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Post([FromBody] FuncionarioAtividadeHorasDTO funcionarioAtividadeHora)
         {
             _serviceWrapper.HorasService.CreateHoras(funcionarioAtividadeHora);
@@ -51,6 +56,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult Put([FromBody] FuncionarioAtividadeHorasDTO funcionarioAtividadeHora)
         {
             _serviceWrapper.HorasService.UpdateHoras(funcionarioAtividadeHora);
@@ -59,6 +65,7 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpDelete("{horaId}")]
+        [Authorize]
         public IActionResult Delete(Guid horaId)
         {
             _serviceWrapper.HorasService.DeleteHoras(horaId);
@@ -68,11 +75,39 @@ namespace DeparterAPI.Controllers
 
 
         [HttpGet("configuracao/funcionario/{funcionarioId}")]
+        [Authorize]
         public IActionResult GetFuncionarioConfiguracao(Guid funcionarioId)
         {
             var horas = _serviceWrapper.HorasService.GetFuncionarioHorasConfiguracoes(funcionarioId);
 
-            return Ok(new Result<List<FuncionarioHorasConfiguracaoDTO>>("Horas Encontradas", horas));
+            return Ok(new Result<List<FuncionarioHorasConfiguracaoDTO>>("Configuração das Horas Encontradas", horas));
+        }
+
+        [HttpPost("configuracao")]
+        [Authorize]
+        public IActionResult PostConfiguration([FromBody] FuncionarioHorasConfiguracaoDTO funcionarioAtividadeHora)
+        {
+            _serviceWrapper.HorasService.CreateFuncionarioHorasConfiguracao(funcionarioAtividadeHora);
+
+            return Ok(new Result<object>("Hora Criada"));
+        }
+
+        [HttpPut("configuracao")]
+        [Authorize]
+        public IActionResult PutConfiguration([FromBody] FuncionarioHorasConfiguracaoDTO funcionarioAtividadeHora)
+        {
+            _serviceWrapper.HorasService.UpdateFuncionarioHorasConfiguracao(funcionarioAtividadeHora);
+
+            return Ok(new Result<object>("Hora Atualizada"));
+        }
+
+        [HttpDelete("configuracao/{horaConfiguracaoId}")]
+        [Authorize]
+        public IActionResult DeleteConfiguration(Guid horaConfiguracaoId)
+        {
+            _serviceWrapper.HorasService.DeleteFuncionarioHorasConfiguracao(horaConfiguracaoId);
+
+            return Ok(new Result<object>("Hora Deletada"));
         }
     }
 }
