@@ -120,7 +120,7 @@ namespace DeparterAPI.Controllers
         {
             try
             {
-                _serviceWrapper.DepartamentoService.RemoveFuncionarioDepartamento(departamentoId, funcionarioId);
+                _serviceWrapper.DepartamentoService.RemoveFuncionarioDepartamento(departamentoId, funcionarioId, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<object>("Funcionario Removido do Departamento"));
             }

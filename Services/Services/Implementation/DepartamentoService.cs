@@ -117,7 +117,7 @@ namespace Services.Services.Implementation
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
         }
 
-        public void RemoveFuncionarioDepartamento(Guid departamentoId, List<Guid> funcionarioId)
+        public void RemoveFuncionarioDepartamento(Guid departamentoId, List<Guid> funcionarioId, Guid funcionarioLogadoId)
         {
             var funcionarioDepartamento = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamentoId && funcionarioId.Any(y => y == x.FuncionarioId)).ToList();
 

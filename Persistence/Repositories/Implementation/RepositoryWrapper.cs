@@ -20,6 +20,8 @@ namespace Persistence.Repositories.Implementation
         private readonly Lazy<IEntityRepositoryBase<Departamento>> _departamentoRepository;
         private readonly Lazy<IRepositoryBase<DepartamentoFuncionario>> _departamentoFuncionarioRepository;
         private readonly Lazy<IEntityRepositoryBase<AtividadeCheck>> _atividadeCheckRepository;
+        private readonly Lazy<IFuncionarioAtividadeHorasRepository> _funcionarioAtividadeHorasRepository;
+        private readonly Lazy<IFuncionarioHorasConfiguracaoRepository> _funcionarioHorasConfiguracaoRepository;
 
         public RepositoryWrapper(DeparterContext context)
         {
@@ -32,6 +34,8 @@ namespace Persistence.Repositories.Implementation
             _departamentoRepository = new Lazy<IEntityRepositoryBase<Departamento>>(() => new EntityRepositoryBase<Departamento>(context));
             _departamentoFuncionarioRepository = new Lazy<IRepositoryBase<DepartamentoFuncionario>>(() => new RepositoryBase<DepartamentoFuncionario>(context));
             _atividadeCheckRepository = new Lazy<IEntityRepositoryBase<AtividadeCheck>>(() => new EntityRepositoryBase<AtividadeCheck>(context));
+            _funcionarioAtividadeHorasRepository = new Lazy<IFuncionarioAtividadeHorasRepository>(() => new FuncionarioAtividadeHorasRepository(context));
+            _funcionarioHorasConfiguracaoRepository = new Lazy<IFuncionarioHorasConfiguracaoRepository>(() => new FuncionarioHorasConfiguracaoRepository(context));
         }
 
         public IFuncionarioRepository FuncionarioRepository => _funcionarioRepository.Value;
@@ -47,6 +51,10 @@ namespace Persistence.Repositories.Implementation
         public IEntityRepositoryBase<Departamento> DepartamentoRepository => _departamentoRepository.Value;
         public IRepositoryBase<DepartamentoFuncionario> DepartamentoFuncionarioRepository => _departamentoFuncionarioRepository.Value;
         public IEntityRepositoryBase<AtividadeCheck> AtividadeCheckRepository => _atividadeCheckRepository.Value;
+
+        public IFuncionarioHorasConfiguracaoRepository FuncionarioHorasConfiguracaoRepository => _funcionarioHorasConfiguracaoRepository.Value;
+
+        public IFuncionarioAtividadeHorasRepository AtividadeHorasRepository => _funcionarioAtividadeHorasRepository.Value;
 
         public void Save()
         {

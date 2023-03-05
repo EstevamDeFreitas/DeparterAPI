@@ -28,5 +28,7 @@ namespace Domain.Entities
 
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
         public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
+        public ICollection<FuncionarioAtividadeHoras> FuncionarioAtividadeHoras { get; set; }
+        public ICollection<FuncionarioHorasConfiguracao> FuncionarioHorasConfiguracaos { get; set; }
     }
 }

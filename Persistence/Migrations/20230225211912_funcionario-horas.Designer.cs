@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence.Database;
@@ -11,9 +12,10 @@ using Persistence.Database;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DeparterContext))]
-    partial class DeparterContextModelSnapshot : ModelSnapshot
+    [Migration("20230225211912_funcionario-horas")]
+    partial class funcionariohoras
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,22 +279,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.FuncionarioAtividadeHoras", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
                     b.Property<Guid>("AtividadeId")
                         .HasColumnType("uuid")
                         .HasColumnName("id_atividade");
-
-                    b.Property<DateTime>("DataCriacao")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("dt_criacao");
-
-                    b.Property<DateTime>("DataModificacao")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("dt_modificacao");
 
                     b.Property<Guid>("FuncionarioId")
                         .HasColumnType("uuid")
@@ -302,9 +291,7 @@ namespace Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("minutos");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("AtividadeId");
+                    b.HasKey("AtividadeId", "FuncionarioId");
 
                     b.HasIndex("FuncionarioId");
 
