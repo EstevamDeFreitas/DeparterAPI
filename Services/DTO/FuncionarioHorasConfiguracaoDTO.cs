@@ -38,4 +38,47 @@ namespace Services.DTO
         public FuncionarioDTO? Funcionario { get; set; }
         public AtividadeDTO? Atividade { get; set; }
     }
+
+    public class FuncionarioAtividadeHorasCreateDTO
+    {
+        [Required]
+        public Guid FuncionarioId { get; set; }
+        [Required]
+        public Guid AtividadeId { get; set; }
+        [Required]
+        public int Minutos { get; set; }
+    }
+
+    public class FuncionarioAtividadeHorasUpdateDTO
+    {
+        [Required]
+        public Guid FuncionarioId { get; set; }
+        [Required]
+        public Guid AtividadeId { get; set; }
+        [Required]
+        public Guid Id { get; set; }
+        [Required]
+        public int Minutos { get; set; }
+    }
+
+    public class FuncionarioHorasConfiguracaoCreateDTO
+    {
+        [Required]
+        public Guid FuncionarioId { get; set; }
+        [Required]
+        public TipoConfigHora TipoConfiguracao { get; set; }
+        [Required]
+        public int Minutos { get; set; }
+    }
+
+    public class FuncionarioHorasConfiguracaoUpdateDTO
+    {
+        public Guid? Id { get; set; }
+        [Required]
+        public Guid FuncionarioId { get; set; }
+        [Required]
+        public TipoConfigHora TipoConfiguracao { get; set; }
+        [Required]
+        public int Minutos { get; set; }
+    }
 }

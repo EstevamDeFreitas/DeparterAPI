@@ -18,7 +18,7 @@ namespace Services.Services.Implementation
         {
         }
 
-        public void CreateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoDTO funcionarioHorasConfiguracao)
+        public void CreateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoCreateDTO funcionarioHorasConfiguracao)
         {
             var funcionarioHorasConfiguracaoCreate = _mapper.Map<FuncionarioHorasConfiguracao>(funcionarioHorasConfiguracao);
 
@@ -28,7 +28,7 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public void CreateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras)
+        public void CreateHoras(FuncionarioAtividadeHorasCreateDTO funcionarioAtividadeHoras)
         {
             var horas = _mapper.Map<FuncionarioAtividadeHoras>(funcionarioAtividadeHoras);
 
@@ -80,7 +80,7 @@ namespace Services.Services.Implementation
             return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
-        public void UpdateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoDTO funcionarioHorasConfiguracao)
+        public void UpdateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoUpdateDTO funcionarioHorasConfiguracao)
         {
             var horasConfiguracao = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.Id == funcionarioHorasConfiguracao.Id).FirstOrDefault();
             if(horasConfiguracao is null)
@@ -97,9 +97,9 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public void UpdateHoras(FuncionarioAtividadeHorasDTO funcionarioAtividadeHoras)
+        public void UpdateHoras(FuncionarioAtividadeHorasUpdateDTO funcionarioAtividadeHoras)
         {
-            var horasFound = _repository.AtividadeHorasRepository.FindById(funcionarioAtividadeHoras.Id.GetValueOrDefault()).FirstOrDefault();
+            var horasFound = _repository.AtividadeHorasRepository.FindById(funcionarioAtividadeHoras.Id).FirstOrDefault();
 
             horasFound.AtividadeId = funcionarioAtividadeHoras.AtividadeId;
             horasFound.FuncionarioId = funcionarioAtividadeHoras.FuncionarioId;
