@@ -48,7 +48,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult Post([FromBody] FuncionarioAtividadeHorasDTO funcionarioAtividadeHora)
+        public IActionResult Post([FromBody] FuncionarioAtividadeHorasCreateDTO funcionarioAtividadeHora)
         {
             _serviceWrapper.HorasService.CreateHoras(funcionarioAtividadeHora);
 
@@ -57,7 +57,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult Put([FromBody] FuncionarioAtividadeHorasDTO funcionarioAtividadeHora)
+        public IActionResult Put([FromBody] FuncionarioAtividadeHorasUpdateDTO funcionarioAtividadeHora)
         {
             _serviceWrapper.HorasService.UpdateHoras(funcionarioAtividadeHora);
 
@@ -85,7 +85,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPost("configuracao")]
         [Authorize]
-        public IActionResult PostConfiguration([FromBody] FuncionarioHorasConfiguracaoDTO funcionarioAtividadeHora)
+        public IActionResult PostConfiguration([FromBody] FuncionarioHorasConfiguracaoCreateDTO funcionarioAtividadeHora)
         {
             _serviceWrapper.HorasService.CreateFuncionarioHorasConfiguracao(funcionarioAtividadeHora);
 
@@ -94,7 +94,7 @@ namespace DeparterAPI.Controllers
 
         [HttpPut("configuracao")]
         [Authorize]
-        public IActionResult PutConfiguration([FromBody] FuncionarioHorasConfiguracaoDTO funcionarioAtividadeHora)
+        public IActionResult PutConfiguration([FromBody] FuncionarioHorasConfiguracaoUpdateDTO funcionarioAtividadeHora)
         {
             _serviceWrapper.HorasService.UpdateFuncionarioHorasConfiguracao(funcionarioAtividadeHora);
 
