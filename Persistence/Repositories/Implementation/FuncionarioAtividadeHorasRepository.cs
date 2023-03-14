@@ -22,5 +22,6 @@ namespace Persistence.Repositories.Implementation
         {
             return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario).Include(x => x.Atividade).Where(value).ToList();
         }
+
     }
 }

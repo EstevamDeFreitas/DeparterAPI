@@ -13,4 +13,6 @@ namespace Persistence.Repositories.Interfaces
     {
         List<FuncionarioAtividadeHoras> FindFullByCondition(Expression<Func<FuncionarioAtividadeHoras, bool>> value);
     }
+
+    
 }

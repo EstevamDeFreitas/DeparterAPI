@@ -12,6 +12,7 @@ namespace Services.Services.Interfaces
         List<FuncionarioAtividadeHorasDTO> GetFuncionarioHoras(Guid funcionarioId);
         List<FuncionarioAtividadeHorasDTO> GetHoras();
         List<FuncionarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId);
+        List<FuncionarioAtividadeHorasDTO> GetFuncionarioAtividadeHoras(Guid funcionarioId, Guid atividadeId);
         void CreateHoras(FuncionarioAtividadeHorasCreateDTO funcionarioAtividadeHoras);
         void UpdateHoras(FuncionarioAtividadeHorasUpdateDTO funcionarioAtividadeHoras);
         void DeleteHoras(Guid horaId);

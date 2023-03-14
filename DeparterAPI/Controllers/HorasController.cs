@@ -46,6 +46,15 @@ namespace DeparterAPI.Controllers
             return Ok(new Result<List<FuncionarioAtividadeHorasDTO>>("Horas Encontradas", horas));
         }
 
+        [HttpGet("funcionario/{funcionarioId}/atividade/{atividadeId}")]
+        [Authorize]
+        public IActionResult GetByFuncionarioAndAtividade(Guid funcionarioId, Guid atividadeId)
+        {
+            var horas = _serviceWrapper.HorasService.GetFuncionarioAtividadeHoras(funcionarioId, atividadeId);
+
+            return Ok(new Result<List<FuncionarioAtividadeHorasDTO>>("Horas Encontradas", horas));
+        }
+
         [HttpPost]
         [Authorize]
         public IActionResult Post([FromBody] FuncionarioAtividadeHorasCreateDTO funcionarioAtividadeHora)

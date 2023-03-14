@@ -66,6 +66,13 @@ namespace Services.Services.Implementation
             return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }
 
+        public List<FuncionarioAtividadeHorasDTO> GetFuncionarioAtividadeHoras(Guid funcionarioId, Guid atividadeId)
+        {
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.FuncionarioId == funcionarioId && x.AtividadeId == atividadeId);
+
+            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
+        }
+
         public List<FuncionarioHorasConfiguracaoDTO> GetFuncionarioHorasConfiguracoes(Guid funcionarioId)
         {
             var configuracoes = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.FuncionarioId == funcionarioId).ToList();
@@ -83,7 +90,7 @@ namespace Services.Services.Implementation
         public void UpdateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoUpdateDTO funcionarioHorasConfiguracao)
         {
             var horasConfiguracao = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.Id == funcionarioHorasConfiguracao.Id).FirstOrDefault();
-            if(horasConfiguracao is null)
+            if (horasConfiguracao is null)
             {
                 throw new EntidadeNaoEncontrada("Funcionario Horas Configuracao");
             }
@@ -92,7 +99,7 @@ namespace Services.Services.Implementation
             horasConfiguracao.Minutos = funcionarioHorasConfiguracao.Minutos;
             horasConfiguracao.TipoConfiguracao = funcionarioHorasConfiguracao.TipoConfiguracao;
             horasConfiguracao.FuncionarioId = funcionarioHorasConfiguracao.FuncionarioId;
-            
+
             _repository.FuncionarioHorasConfiguracaoRepository.Update(horasConfiguracao);
             _repository.Save();
         }
