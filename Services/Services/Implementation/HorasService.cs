@@ -130,21 +130,29 @@ namespace Services.Services.Implementation
                 MinutosMesVigente = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.Year && x.DataCriacao.Month == dtHoje.Month).Sum(x => x.Minutos),
             };
 
-            //TODO corrigir para varios funcionarios diferentes
-            var regrasHoras = funcionarioHoras.SelectMany(x => x.Funcionario.FuncionarioHorasConfiguracaos).ToList();
-
-            var horasDiariasRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Diario);
-            var horasMensaisRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Mensal);
-
-            if(horasDiariasRegra is not null)
+            try
             {
-                result.MinutosHojeRestantes = horasDiariasRegra.Minutos - result.MinutosHoje;
+                //TODO corrigir para varios funcionarios diferentes
+                var regrasHoras = funcionarioHoras.SelectMany(x => x.Funcionario.FuncionarioHorasConfiguracaos).ToList();
+
+                var horasDiariasRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Diario);
+                var horasMensaisRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Mensal);
+
+                if (horasDiariasRegra is not null)
+                {
+                    result.MinutosHojeRestantes = horasDiariasRegra.Minutos - result.MinutosHoje;
+                }
+
+                if (horasMensaisRegra is not null)
+                {
+                    result.MinutosMesRestantes = horasMensaisRegra.Minutos - result.MinutosMesVigente;
+                }
+            }
+            catch(Exception ex)
+            {
+
             }
             
-            if(horasMensaisRegra is not null)
-            {
-                result.MinutosMesRestantes = horasMensaisRegra.Minutos - result.MinutosMesVigente;
-            }
 
             return result;
         }
