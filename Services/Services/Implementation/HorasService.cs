@@ -115,5 +115,38 @@ namespace Services.Services.Implementation
             _repository.AtividadeHorasRepository.Update(horasFound);
             _repository.Save();
         }
+
+        public HorasResumo GetHorasResumo(Guid? funcionarioId, Guid? departamentoId)
+        {
+            var funcionarioHoras = _repository.AtividadeHorasRepository.FindFullByCondition(x => (funcionarioId.HasValue ? funcionarioId == x.FuncionarioId : true) && (departamentoId.HasValue ? departamentoId == x.Atividade.DepartamentoId : true)).ToList();
+
+            var dtHoje = DateTime.Now;
+
+            var result = new HorasResumo
+            {
+                MediaMensalMinutos = ((int)funcionarioHoras.GroupBy(x => new { x.DataCriacao.Month, x.DataCriacao.Year }).Select(x => x.Sum(y => y.Minutos)).Average(x => x)),
+                MinutosHoje = funcionarioHoras.Where(x => x.DataCriacao.Day == dtHoje.Day && x.DataCriacao.Month == dtHoje.Month && x.DataCriacao.Year == dtHoje.Year).Sum(x => x.Minutos),
+                MinutosMesPassado = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.AddMonths(-1).Year && x.DataCriacao.Month == dtHoje.AddMonths(-1).Month).Sum(x => x.Minutos),
+                MinutosMesVigente = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.Year && x.DataCriacao.Month == dtHoje.Month).Sum(x => x.Minutos),
+            };
+
+            //TODO corrigir para varios funcionarios diferentes
+            var regrasHoras = funcionarioHoras.SelectMany(x => x.Funcionario.FuncionarioHorasConfiguracaos).ToList();
+
+            var horasDiariasRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Diario);
+            var horasMensaisRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Mensal);
+
+            if(horasDiariasRegra is not null)
+            {
+                result.MinutosHojeRestantes = horasDiariasRegra.Minutos - result.MinutosHoje;
+            }
+            
+            if(horasMensaisRegra is not null)
+            {
+                result.MinutosMesRestantes = horasMensaisRegra.Minutos - result.MinutosMesVigente;
+            }
+
+            return result;
+        }
     }
 }

@@ -20,7 +20,11 @@ namespace Persistence.Repositories.Implementation
 
         public List<FuncionarioAtividadeHoras> FindFullByCondition(Expression<Func<FuncionarioAtividadeHoras, bool>> value)
         {
-            return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario).Include(x => x.Atividade).Where(value).ToList();
+            return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario)
+                                                            .ThenInclude(x => x.FuncionarioHorasConfiguracaos)
+                                                        .Include(x => x.Atividade)
+                                                        .Where(value)
+                                                        .ToList();
         }
 
     }

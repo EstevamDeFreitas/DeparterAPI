@@ -28,6 +28,15 @@ namespace DeparterAPI.Controllers
             return Ok(new Result<List<FuncionarioAtividadeHorasDTO>>("Horas Encontradas", horas));
         }
 
+        [HttpGet("resumo")]
+        [Authorize]
+        public IActionResult GetResumo([FromQuery] Guid? funcionarioId, [FromQuery] Guid? departamentoId)
+        {
+            var resumo = _serviceWrapper.HorasService.GetHorasResumo(funcionarioId, departamentoId);
+
+            return Ok(new Result<HorasResumo>("Resumo de Horas Encontrado", resumo));
+        }
+
         [HttpGet("funcionario/{funcionarioId}")]
         [Authorize]
         public IActionResult GetByFuncionario(Guid funcionarioId)

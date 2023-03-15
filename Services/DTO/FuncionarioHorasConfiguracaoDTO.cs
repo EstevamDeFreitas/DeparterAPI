@@ -81,4 +81,14 @@ namespace Services.DTO
         [Required]
         public int Minutos { get; set; }
     }
+
+    public class HorasResumo
+    {
+        public int MinutosMesPassado { get; set; }
+        public int MediaMensalMinutos { get; set; }
+        public int MinutosMesVigente { get; set; }
+        public int MinutosMesRestantes { get; set; }
+        public int MinutosHoje { get; set; }
+        public int MinutosHojeRestantes { get; set; }
+    }
 }
