@@ -156,5 +156,27 @@ namespace Services.Services.Implementation
 
             return result;
         }
+
+        public List<HorasCategoria> GetHorasCategorias(Guid? funcionarioId, Guid? departamentoId)
+        {
+            var funcionarioHoras = _repository.AtividadeHorasRepository.FindFullByCondition(x => (funcionarioId.HasValue ? funcionarioId == x.FuncionarioId : true) && (departamentoId.HasValue ? departamentoId == x.Atividade.DepartamentoId : true)).ToList();
+
+            var categorias = funcionarioHoras.SelectMany(x => x.Atividade.AtividadeCategorias).Select(x => x.Categoria).Distinct().ToList();
+
+            var horasCategorias = new List<HorasCategoria>();
+
+            categorias.ForEach(categoria =>
+            {
+                var horas = funcionarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id)).Sum(x => x.Minutos) / 60;
+
+                horasCategorias.Add(new HorasCategoria
+                {
+                    Categoria = categoria.Nome,
+                    Horas = horas
+                });
+            });
+
+            return horasCategorias;
+        }
     }
 }

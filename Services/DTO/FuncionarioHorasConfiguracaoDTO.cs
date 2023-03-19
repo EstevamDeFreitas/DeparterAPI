@@ -91,4 +91,10 @@ namespace Services.DTO
         public int MinutosHoje { get; set; }
         public int MinutosHojeRestantes { get; set; }
     }
+
+    public class HorasCategoria
+    {
+        public string Categoria { get; set; }
+        public int Horas { get; set; }
+    }
 }

@@ -23,6 +23,8 @@ namespace Persistence.Repositories.Implementation
             return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario)
                                                             .ThenInclude(x => x.FuncionarioHorasConfiguracaos)
                                                         .Include(x => x.Atividade)
+                                                            .ThenInclude(x => x.AtividadeCategorias)
+                                                                .ThenInclude(x => x.Categoria)
                                                         .Where(value)
                                                         .ToList();
         }

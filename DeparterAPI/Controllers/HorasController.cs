@@ -37,6 +37,15 @@ namespace DeparterAPI.Controllers
             return Ok(new Result<HorasResumo>("Resumo de Horas Encontrado", resumo));
         }
 
+        [HttpGet("agrupamento/categorias")]
+        [Authorize]
+        public IActionResult GetHorasPorCategoria([FromQuery] Guid? funcionarioId, [FromQuery] Guid? departamentoId)
+        {
+            var horasCategorias = _serviceWrapper.HorasService.GetHorasCategorias(funcionarioId, departamentoId);
+
+            return Ok(new Result<List<HorasCategoria>>("Agrupamento de horas por categoria encontrado", horasCategorias));
+        }
+
         [HttpGet("funcionario/{funcionarioId}")]
         [Authorize]
         public IActionResult GetByFuncionario(Guid funcionarioId)
