@@ -27,7 +27,8 @@ namespace Services.Services.Implementation
                 TempoPrevisto = atividade.TempoPrevisto,
                 Titulo = atividade.Titulo,
                 DataEntrega = atividade.DataEntrega,
-                DepartamentoId = atividade.DepartamentoId
+                DepartamentoId = atividade.DepartamentoId,
+                StatusAtividade = StatusAtividade.Pendente
                 
             };
 
