@@ -153,6 +153,11 @@ namespace Services.Services.Implementation
 
             var existsAtividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoFuncionario.AtividadeId && x.FuncionarioId == atividadeAcessoFuncionario.FuncionarioId).FirstOrDefault();
 
+            if(atividadeAcessoFuncionario.NivelAcesso == NivelAcesso.Todos)
+            {
+                atividadeAcessoFuncionario.NivelAcesso = NivelAcesso.Compartilhar;
+            }
+
             if(existsAtividadeFuncionario is null)
             {
                 var atividadeFuncionario = new AtividadeFuncionario
@@ -215,10 +220,20 @@ namespace Services.Services.Implementation
 
             if (newFuncionarios.Any())
             {
+                newFuncionarios = newFuncionarios.Select(x => new AtividadeFuncionarioDTO
+                {
+                    AtividadeId = x.AtividadeId,
+                    FuncionarioEmail = x.FuncionarioEmail,
+                    FuncionarioId = x.FuncionarioId,
+                    NivelAcesso = (x.NivelAcesso == NivelAcesso.Todos ? NivelAcesso.Compartilhar : x.NivelAcesso)
+                });
+
                 _repository.AtividadeFuncionarioRepository.CreateMultiple(_mapper.Map<List<AtividadeFuncionario>>(newFuncionarios));
             }
             //Adicionar validações para funcionarios removidos
             var removedFuncionarios = atividadeUpdated.AtividadeFuncionarios.Where(x => !atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId));
+
+            removedFuncionarios = removedFuncionarios.Where(x => x.NivelAcesso != NivelAcesso.Todos);
 
             if (removedFuncionarios.Any())
             {
@@ -228,9 +243,15 @@ namespace Services.Services.Implementation
             //Realizar update noq sobrar
             var funcionariosUpdated = atividadeUpdated.AtividadeFuncionarios.Where(x => atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId)).ToList();
 
+            funcionariosUpdated = funcionariosUpdated.Where(x => x.NivelAcesso != NivelAcesso.Todos).ToList();
+
             funcionariosUpdated.ForEach(func =>
             {
                 func.NivelAcesso = atividade.AtividadeFuncionarios.FirstOrDefault(x => x.AtividadeId == func.AtividadeId && x.FuncionarioId == func.FuncionarioId).NivelAcesso;
+                if(func.NivelAcesso == NivelAcesso.Todos)
+                {
+                    func.NivelAcesso = NivelAcesso.Compartilhar;
+                }
             });
 
             _repository.AtividadeFuncionarioRepository.UpdateMultiple(funcionariosUpdated);
