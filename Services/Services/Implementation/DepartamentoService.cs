@@ -94,6 +94,13 @@ namespace Services.Services.Implementation
             return response;
         }
 
+        public DepartamentoDTO GetDepartamento(Guid departamentoId, Guid funcionarioId)
+        {
+            HasAccess(funcionarioId, departamentoId);
+
+            return GetDepartamento(departamentoId);
+        }
+
         public List<DepartamentoAtividadesResumoDTO> GetDepartamentoAtividadesResumo(Guid departamentoId)
         {
             var departamento = GetDepartamento(departamentoId);
@@ -136,6 +143,16 @@ namespace Services.Services.Implementation
 
             _repository.DepartamentoRepository.Update(departamentoUpdate);
             _repository.Save();
+        }
+
+        public void HasAccess(Guid funcionarioId, Guid departamentoId)
+        {
+            var departamentoFuncionario = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.FuncionarioId == departamentoId).FirstOrDefault();
+
+            if (departamentoFuncionario is null)
+            {
+                throw new SemAutorizacao();
+            }
         }
     }
 }
