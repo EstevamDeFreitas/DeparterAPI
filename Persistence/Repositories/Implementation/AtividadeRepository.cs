@@ -36,5 +36,17 @@ namespace Persistence.Repositories.Implementation
                                             .ThenInclude(x => x.Funcionario)
                                         .AsNoTracking();
         }
+
+        public void UpdateDatabaseAtividadesStatus()
+        {
+            var connection = DbContext.Database.GetDbConnection();
+
+            var command = connection.CreateCommand();
+
+            command.CommandText = "UPDATE atividades SET status_tarefa = 3 WHERE dt_entrega < NOW() and status_tarefa != 2";
+            connection.Open();
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
     }
 }

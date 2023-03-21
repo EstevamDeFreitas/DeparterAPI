@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace Domain.Entities
         [Column("id_departamento")]
         public Guid DepartamentoId { get; set; }
 
+        [Required]
+        [Column("status_tarefa")]
+        public StatusAtividade StatusAtividade { get; set; }
+
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
         public Atividade? AtividadePai { get; set; }
@@ -38,5 +43,15 @@ namespace Domain.Entities
         public ICollection<FuncionarioAtividadeHoras> FuncionarioAtividadeHoras { get; set; }
         public ICollection<AtividadeCheck> AtividadeChecks { get; set; }
         public Departamento Departamento { get; set; }
+    }
+
+    public enum StatusAtividade
+    {
+        Pendente,
+        Desenvolvendo,
+        Conclúida,
+
+        //Apenas automático
+        Atrasada
     }
 }

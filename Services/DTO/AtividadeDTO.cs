@@ -59,6 +59,8 @@ namespace Services.DTO
         public Guid? AtividadePaiId { get; set; }
         [Required]
         public Guid DepartamentoId { get; set; }
+        [Required]
+        public StatusAtividade StatusAtividade { get; set; }
 
 
         public List<AtividadeCheckDTO> AtividadeChecks { get; set; }
@@ -82,6 +84,8 @@ namespace Services.DTO
         public Guid? AtividadePaiId { get; set; }
         [Required]
         public Guid DepartamentoId { get; set; }
+        [Required]
+        public StatusAtividade StatusAtividade { get; set; }
 
 
         public List<AtividadeCategoriaDTO> AtividadeCategorias { get; set; }

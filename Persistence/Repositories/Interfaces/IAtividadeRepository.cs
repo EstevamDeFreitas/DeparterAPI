@@ -12,5 +12,6 @@ namespace Persistence.Repositories.Interfaces
         IQueryable<Atividade> FindFullById(Guid id);
 
         IQueryable<Atividade> FindAllFull();
+        void UpdateDatabaseAtividadesStatus();
     }
 }

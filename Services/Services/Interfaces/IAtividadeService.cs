@@ -22,5 +22,6 @@ namespace Services.Services.Interfaces
         void CreateAtividadeCheck(AtividadeCheckCreateDTO atividadeCheck, Guid funcionarioId);
         void UpdateAtividadeCheck(AtividadeCheckDTO atividade, Guid funcionarioId);
         void DeleteAtividadeCheck(Guid atividadeCheckId, Guid funcionarioId);
+        void UpdateDatabaseAtividadesStatus();
     }
 }

@@ -27,7 +27,8 @@ namespace Services.Services.Implementation
                 TempoPrevisto = atividade.TempoPrevisto,
                 Titulo = atividade.Titulo,
                 DataEntrega = atividade.DataEntrega,
-                DepartamentoId = atividade.DepartamentoId
+                DepartamentoId = atividade.DepartamentoId,
+                StatusAtividade = StatusAtividade.Pendente
                 
             };
 
@@ -80,6 +81,13 @@ namespace Services.Services.Implementation
                 throw new EntidadeNaoEncontrada("Atividade Funcionario");
             }
 
+
+            if(atividadeFuncionario.NivelAcesso == NivelAcesso.Todos)
+            {
+                throw new CriadorNaoPodeSerRemovido();
+            }
+
+
             _repository.AtividadeFuncionarioRepository.Delete(atividadeFuncionario);
             _repository.Save();
         }
@@ -104,6 +112,8 @@ namespace Services.Services.Implementation
 
         public AtividadeDTO GetAtividade(Guid id)
         {
+            UpdateDatabaseAtividadesStatus();
+
             var atividadeFull = _repository.AtividadeRepository.FindFullById(id).FirstOrDefault();
 
             var atividadeFullDTO = _mapper.Map<AtividadeDTO>(atividadeFull);
@@ -118,6 +128,8 @@ namespace Services.Services.Implementation
 
         public List<AtividadeDTO> GetAtividades()
         {
+            UpdateDatabaseAtividadesStatus();
+
             var atividades = _repository.AtividadeRepository.FindAllFull().ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
@@ -125,7 +137,11 @@ namespace Services.Services.Implementation
 
         public List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            UpdateDatabaseAtividadesStatus();
+
+            var atividades = _repository.AtividadeRepository.FindByCondition(x => x.AtividadeFuncionarios.Any(x => x.FuncionarioId == funcionarioId)).ToList();
+
+            return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
 
         public void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
@@ -143,6 +159,11 @@ namespace Services.Services.Implementation
             HasAccess(funcionarioId, atividadeAcessoFuncionario.AtividadeId, NivelAcesso.Compartilhar);
 
             var existsAtividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoFuncionario.AtividadeId && x.FuncionarioId == atividadeAcessoFuncionario.FuncionarioId).FirstOrDefault();
+
+            if(atividadeAcessoFuncionario.NivelAcesso == NivelAcesso.Todos)
+            {
+                atividadeAcessoFuncionario.NivelAcesso = NivelAcesso.Compartilhar;
+            }
 
             if(existsAtividadeFuncionario is null)
             {
@@ -181,6 +202,7 @@ namespace Services.Services.Implementation
             atividadeUpdated.Descricao = atividade.Descricao;
             atividadeUpdated.TempoPrevisto = atividade.TempoPrevisto;
             atividadeUpdated.AtividadePaiId = atividade.AtividadePaiId;
+            atividadeUpdated.StatusAtividade = atividade.StatusAtividade;
 
             
             var newCategories = atividade.AtividadeCategorias.Where(x => !atividadeUpdated.AtividadeCategorias.Any(y => y.AtividadeId == x.AtividadeId && y.CategoriaId == x.CategoriaId));
@@ -205,10 +227,20 @@ namespace Services.Services.Implementation
 
             if (newFuncionarios.Any())
             {
+                newFuncionarios = newFuncionarios.Select(x => new AtividadeFuncionarioDTO
+                {
+                    AtividadeId = x.AtividadeId,
+                    FuncionarioEmail = x.FuncionarioEmail,
+                    FuncionarioId = x.FuncionarioId,
+                    NivelAcesso = (x.NivelAcesso == NivelAcesso.Todos ? NivelAcesso.Compartilhar : x.NivelAcesso)
+                });
+
                 _repository.AtividadeFuncionarioRepository.CreateMultiple(_mapper.Map<List<AtividadeFuncionario>>(newFuncionarios));
             }
             //Adicionar validações para funcionarios removidos
             var removedFuncionarios = atividadeUpdated.AtividadeFuncionarios.Where(x => !atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId));
+
+            removedFuncionarios = removedFuncionarios.Where(x => x.NivelAcesso != NivelAcesso.Todos);
 
             if (removedFuncionarios.Any())
             {
@@ -218,9 +250,15 @@ namespace Services.Services.Implementation
             //Realizar update noq sobrar
             var funcionariosUpdated = atividadeUpdated.AtividadeFuncionarios.Where(x => atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId)).ToList();
 
+            funcionariosUpdated = funcionariosUpdated.Where(x => x.NivelAcesso != NivelAcesso.Todos).ToList();
+
             funcionariosUpdated.ForEach(func =>
             {
                 func.NivelAcesso = atividade.AtividadeFuncionarios.FirstOrDefault(x => x.AtividadeId == func.AtividadeId && x.FuncionarioId == func.FuncionarioId).NivelAcesso;
+                if(func.NivelAcesso == NivelAcesso.Todos)
+                {
+                    func.NivelAcesso = NivelAcesso.Compartilhar;
+                }
             });
 
             _repository.AtividadeFuncionarioRepository.UpdateMultiple(funcionariosUpdated);
@@ -240,6 +278,11 @@ namespace Services.Services.Implementation
 
             _repository.AtividadeCheckRepository.Update(atividadeCheckUpdate);
             _repository.Save();
+        }
+
+        public void UpdateDatabaseAtividadesStatus()
+        {
+            _repository.AtividadeRepository.UpdateDatabaseAtividadesStatus();
         }
     }
 }
