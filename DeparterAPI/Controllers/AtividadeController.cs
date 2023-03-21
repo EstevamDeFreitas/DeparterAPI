@@ -20,11 +20,11 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetAtividades()
+        public IActionResult GetAtividades(bool? isAdminSearch)
         {
             try
             {
-                var atividades = _serviceWrapper.AtividadeService.GetAtividades();
+                var atividades = _serviceWrapper.AtividadeService.GetAtividades(isAdminSearch, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<List<AtividadeDTO>>("Atividades Encontradas", atividades));
             }

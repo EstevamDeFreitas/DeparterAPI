@@ -126,11 +126,11 @@ namespace Services.Services.Implementation
             return atividadeFullDTO;
         }
 
-        public List<AtividadeDTO> GetAtividades()
+        public List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId)
         {
             UpdateDatabaseAtividadesStatus();
 
-            var atividades = _repository.AtividadeRepository.FindAllFull().ToList();
+            var atividades = _repository.AtividadeRepository.FindAllFull(isAdminSearch, funcionarioId).ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
         }

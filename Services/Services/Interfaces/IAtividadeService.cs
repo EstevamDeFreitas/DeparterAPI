@@ -12,7 +12,7 @@ namespace Services.Services.Interfaces
     {
         AtividadeDTO GetAtividade(Guid id);
         List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId);
-        List<AtividadeDTO> GetAtividades();
+        List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId);
         void CreateAtividade(AtividadeCreateDTO atividade, Guid funcionarioId);
         void UpdateAtividade(AtividadePutDTO atividade, Guid funcionarioId);
         void DeleteAtividade(Guid id, Guid funcionarioId);

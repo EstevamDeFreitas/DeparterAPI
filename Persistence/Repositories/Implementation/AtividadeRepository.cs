@@ -28,12 +28,13 @@ namespace Persistence.Repositories.Implementation
                                         .Where(x => x.Id == id).AsNoTracking();
         }
 
-        public IQueryable<Atividade> FindAllFull()
+        public IQueryable<Atividade> FindAllFull(bool? isAdminSearch, Guid funcionarioId)
         {
             return DbContext.Atividades.Include(x => x.AtividadeCategorias)
                                             .ThenInclude(x => x.Categoria)
                                         .Include(x => x.AtividadeFuncionarios)
                                             .ThenInclude(x => x.Funcionario)
+                                        .Where(x => (isAdminSearch.HasValue && isAdminSearch == true)? true : x.AtividadeFuncionarios.Any(y => y.FuncionarioId == funcionarioId))
                                         .AsNoTracking();
         }
 
