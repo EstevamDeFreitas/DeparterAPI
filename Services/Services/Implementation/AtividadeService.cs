@@ -182,6 +182,7 @@ namespace Services.Services.Implementation
             atividadeUpdated.Descricao = atividade.Descricao;
             atividadeUpdated.TempoPrevisto = atividade.TempoPrevisto;
             atividadeUpdated.AtividadePaiId = atividade.AtividadePaiId;
+            atividadeUpdated.StatusAtividade = atividade.StatusAtividade;
 
             
             var newCategories = atividade.AtividadeCategorias.Where(x => !atividadeUpdated.AtividadeCategorias.Any(y => y.AtividadeId == x.AtividadeId && y.CategoriaId == x.CategoriaId));
