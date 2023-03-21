@@ -36,11 +36,11 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetDepartamentos()
+        public IActionResult GetDepartamentos([FromQuery] bool? isAdminSearch)
         {
             try
             {
-                var departamentos = _serviceWrapper.DepartamentoService.GetDepartamentoList();
+                var departamentos = _serviceWrapper.DepartamentoService.GetDepartamentoList(isAdminSearch, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<List<DepartamentoDTO>>("Departamentos Encontrados", departamentos));
             }

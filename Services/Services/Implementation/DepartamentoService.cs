@@ -110,9 +110,9 @@ namespace Services.Services.Implementation
             return response;
         }
 
-        public List<DepartamentoDTO> GetDepartamentoList()
+        public List<DepartamentoDTO> GetDepartamentoList(bool? isAdminSearch, Guid funcionarioId)
         {
-            var departamentos = _repository.DepartamentoRepository.GetAll();
+            var departamentos = _repository.DepartamentoRepository.FindByCondition(x => (isAdminSearch.HasValue && isAdminSearch == true) ? true : x.DepartamentoFuncionarios.Any(y => y.FuncionarioId == funcionarioId));
 
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
         }

@@ -20,7 +20,7 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetAtividades(bool? isAdminSearch)
+        public IActionResult GetAtividades([FromQuery]bool? isAdminSearch)
         {
             try
             {
