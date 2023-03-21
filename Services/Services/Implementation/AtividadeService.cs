@@ -105,6 +105,8 @@ namespace Services.Services.Implementation
 
         public AtividadeDTO GetAtividade(Guid id)
         {
+            UpdateDatabaseAtividadesStatus();
+
             var atividadeFull = _repository.AtividadeRepository.FindFullById(id).FirstOrDefault();
 
             var atividadeFullDTO = _mapper.Map<AtividadeDTO>(atividadeFull);
@@ -119,6 +121,8 @@ namespace Services.Services.Implementation
 
         public List<AtividadeDTO> GetAtividades()
         {
+            UpdateDatabaseAtividadesStatus();
+
             var atividades = _repository.AtividadeRepository.FindAllFull().ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
@@ -126,7 +130,11 @@ namespace Services.Services.Implementation
 
         public List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId)
         {
-            throw new NotImplementedException();
+            UpdateDatabaseAtividadesStatus();
+
+            var atividades = _repository.AtividadeRepository.FindByCondition(x => x.AtividadeFuncionarios.Any(x => x.FuncionarioId == funcionarioId)).ToList();
+
+            return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
 
         public void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
@@ -242,6 +250,11 @@ namespace Services.Services.Implementation
 
             _repository.AtividadeCheckRepository.Update(atividadeCheckUpdate);
             _repository.Save();
+        }
+
+        public void UpdateDatabaseAtividadesStatus()
+        {
+            _repository.AtividadeRepository.UpdateDatabaseAtividadesStatus();
         }
     }
 }
