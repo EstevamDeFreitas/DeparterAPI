@@ -81,6 +81,13 @@ namespace Services.Services.Implementation
                 throw new EntidadeNaoEncontrada("Atividade Funcionario");
             }
 
+
+            if(atividadeFuncionario.NivelAcesso == NivelAcesso.Todos)
+            {
+                throw new CriadorNaoPodeSerRemovido();
+            }
+
+
             _repository.AtividadeFuncionarioRepository.Delete(atividadeFuncionario);
             _repository.Save();
         }
