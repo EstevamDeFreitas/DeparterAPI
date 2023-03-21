@@ -43,7 +43,7 @@ namespace Persistence.Repositories.Implementation
 
             var command = connection.CreateCommand();
 
-            command.CommandText = "UPDATE atividades SET status_tarefa = 3 WHERE dt_entrega < NOW()";
+            command.CommandText = "UPDATE atividades SET status_tarefa = 3 WHERE dt_entrega < NOW() and status_tarefa != 2";
             connection.Open();
             command.ExecuteNonQuery();
             connection.Close();
