@@ -36,11 +36,22 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetAtividade(Guid id)
+        public IActionResult GetAtividade(Guid id, [FromQuery] bool? isAdminSearch)
         {
             try
             {
-                var atividade = _serviceWrapper.AtividadeService.GetAtividade(id);
+                
+                AtividadeDTO atividade = new AtividadeDTO();
+
+                if (isAdminSearch.HasValue && isAdminSearch == true)
+                {
+                    atividade = _serviceWrapper.AtividadeService.GetAtividade(id);
+                }
+                else
+                {
+                    atividade = _serviceWrapper.AtividadeService.GetAtividade(id, Guid.Parse(HttpContext.Items["User"].ToString()));
+                }
+
 
                 return Ok(new Result<AtividadeDTO>("Atividade Encontrada", atividade));
             }

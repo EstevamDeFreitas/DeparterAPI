@@ -10,6 +10,7 @@ namespace Services.Services.Interfaces
 {
     public interface IAtividadeService
     {
+        AtividadeDTO GetAtividade(Guid id, Guid funcionario);
         AtividadeDTO GetAtividade(Guid id);
         List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId);
         List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId);
