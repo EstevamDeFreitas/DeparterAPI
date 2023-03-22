@@ -140,6 +140,7 @@ namespace Services.Services.Implementation
             departamentoUpdate.Descricao = departamento.Descricao;
             departamentoUpdate.MaximoHorasDiarias = departamento.MaximoHorasDiarias;
             departamentoUpdate.MaximoHorasMensais = departamento.MaximoHorasMensais;
+            departamentoUpdate.ImageUrl = departamento.ImageUrl;
 
             _repository.DepartamentoRepository.Update(departamentoUpdate);
             _repository.Save();
