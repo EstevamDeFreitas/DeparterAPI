@@ -20,6 +20,8 @@ namespace Services.DTO
         public int MaximoHorasDiarias { get; set; }
         [Required]
         public int MaximoHorasMensais { get; set; }
+        [Required]
+        public string ImageUrl { get; set; }
 
         public List<DepartamentoFuncionarioDTO> DepartamentoFuncionarios { get; set; }
         public List<AtividadeDTO> Atividades { get; set; }
@@ -44,7 +46,8 @@ namespace Services.DTO
         public int MaximoHorasDiarias { get; set; }
         [Required]
         public int MaximoHorasMensais { get; set; }
-
+        [Required]
+        public string ImageUrl { get; set; }
         public List<DepartamentoFuncionarioCreateDTO> DepartamentoFuncionarios { get; set; }
     }
 

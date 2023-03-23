@@ -20,6 +20,8 @@ namespace Domain.Entities
         public int MaximoHorasDiarias { get; set; }
         [Column("maximo_horas_mensais")]
         public int MaximoHorasMensais { get; set; }
+        [Column("image_url")]
+        public string ImageUrl { get; set; }
 
         public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
         public ICollection<Atividade> Atividades { get; set; }

@@ -94,6 +94,13 @@ namespace Services.Services.Implementation
             return response;
         }
 
+        public DepartamentoDTO GetDepartamento(Guid departamentoId, Guid funcionarioId)
+        {
+            HasAccess(funcionarioId, departamentoId);
+
+            return GetDepartamento(departamentoId);
+        }
+
         public List<DepartamentoAtividadesResumoDTO> GetDepartamentoAtividadesResumo(Guid departamentoId)
         {
             var departamento = GetDepartamento(departamentoId);
@@ -110,9 +117,9 @@ namespace Services.Services.Implementation
             return response;
         }
 
-        public List<DepartamentoDTO> GetDepartamentoList()
+        public List<DepartamentoDTO> GetDepartamentoList(bool? isAdminSearch, Guid funcionarioId)
         {
-            var departamentos = _repository.DepartamentoRepository.GetAll();
+            var departamentos = _repository.DepartamentoRepository.FindByCondition(x => (isAdminSearch.HasValue && isAdminSearch == true) ? true : x.DepartamentoFuncionarios.Any(y => y.FuncionarioId == funcionarioId));
 
             return _mapper.Map<List<DepartamentoDTO>>(departamentos);
         }
@@ -133,9 +140,20 @@ namespace Services.Services.Implementation
             departamentoUpdate.Descricao = departamento.Descricao;
             departamentoUpdate.MaximoHorasDiarias = departamento.MaximoHorasDiarias;
             departamentoUpdate.MaximoHorasMensais = departamento.MaximoHorasMensais;
+            departamentoUpdate.ImageUrl = departamento.ImageUrl;
 
             _repository.DepartamentoRepository.Update(departamentoUpdate);
             _repository.Save();
+        }
+
+        public void HasAccess(Guid funcionarioId, Guid departamentoId)
+        {
+            var departamentoFuncionario = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.FuncionarioId == departamentoId).FirstOrDefault();
+
+            if (departamentoFuncionario is null)
+            {
+                throw new SemAutorizacao();
+            }
         }
     }
 }

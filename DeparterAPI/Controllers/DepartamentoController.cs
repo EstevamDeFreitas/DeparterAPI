@@ -20,11 +20,20 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetDepartamento(Guid id)
+        public IActionResult GetDepartamento(Guid id, [FromQuery]bool? isAdminSearch)
         {
             try
             {
-                var departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
+                var departamento = new DepartamentoDTO();
+
+                if(isAdminSearch.HasValue && isAdminSearch == true)
+                {
+                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
+                }
+                else
+                {
+                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id, Guid.Parse(HttpContext.Items["User"].ToString()));
+                }
 
                 return Ok(new Result<DepartamentoDTO>("Departamento Encontrado", departamento));
             }
@@ -36,11 +45,11 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetDepartamentos()
+        public IActionResult GetDepartamentos([FromQuery] bool? isAdminSearch)
         {
             try
             {
-                var departamentos = _serviceWrapper.DepartamentoService.GetDepartamentoList();
+                var departamentos = _serviceWrapper.DepartamentoService.GetDepartamentoList(isAdminSearch, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<List<DepartamentoDTO>>("Departamentos Encontrados", departamentos));
             }

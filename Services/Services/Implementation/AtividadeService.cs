@@ -110,6 +110,24 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
+        public AtividadeDTO GetAtividade(Guid id, Guid funcionarioId)
+        {
+            UpdateDatabaseAtividadesStatus();
+
+            HasAccess(funcionarioId, id, NivelAcesso.Ler);
+
+            var atividadeFull = _repository.AtividadeRepository.FindFullById(id).FirstOrDefault();
+
+            var atividadeFullDTO = _mapper.Map<AtividadeDTO>(atividadeFull);
+
+            atividadeFullDTO.AtividadeFuncionarios.ForEach(funcionario =>
+            {
+                funcionario.FuncionarioEmail = atividadeFull.AtividadeFuncionarios.FirstOrDefault(x => x.FuncionarioId == funcionario.FuncionarioId).Funcionario.Email;
+            });
+
+            return atividadeFullDTO;
+        }
+
         public AtividadeDTO GetAtividade(Guid id)
         {
             UpdateDatabaseAtividadesStatus();
@@ -126,11 +144,11 @@ namespace Services.Services.Implementation
             return atividadeFullDTO;
         }
 
-        public List<AtividadeDTO> GetAtividades()
+        public List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId)
         {
             UpdateDatabaseAtividadesStatus();
 
-            var atividades = _repository.AtividadeRepository.FindAllFull().ToList();
+            var atividades = _repository.AtividadeRepository.FindAllFull(isAdminSearch, funcionarioId).ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
