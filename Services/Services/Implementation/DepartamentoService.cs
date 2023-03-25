@@ -148,7 +148,7 @@ namespace Services.Services.Implementation
 
         public void HasAccess(Guid funcionarioId, Guid departamentoId)
         {
-            var departamentoFuncionario = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.FuncionarioId == departamentoId).FirstOrDefault();
+            var departamentoFuncionario = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.DepartamentoId == departamentoId).FirstOrDefault();
 
             if (departamentoFuncionario is null)
             {
