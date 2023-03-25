@@ -122,13 +122,24 @@ namespace Services.Services.Implementation
 
             var dtHoje = DateTime.Now;
 
-            var result = new HorasResumo
+            HorasResumo result = new HorasResumo();
+
+            try
             {
-                MediaMensalMinutos = ((int)funcionarioHoras.GroupBy(x => new { x.DataCriacao.Month, x.DataCriacao.Year }).Select(x => x.Sum(y => y.Minutos)).Average(x => x)),
-                MinutosHoje = funcionarioHoras.Where(x => x.DataCriacao.Day == dtHoje.Day && x.DataCriacao.Month == dtHoje.Month && x.DataCriacao.Year == dtHoje.Year).Sum(x => x.Minutos),
-                MinutosMesPassado = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.AddMonths(-1).Year && x.DataCriacao.Month == dtHoje.AddMonths(-1).Month).Sum(x => x.Minutos),
-                MinutosMesVigente = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.Year && x.DataCriacao.Month == dtHoje.Month).Sum(x => x.Minutos),
-            };
+                result = new HorasResumo
+                {
+                    MediaMensalMinutos = ((int)funcionarioHoras.GroupBy(x => new { x.DataCriacao.Month, x.DataCriacao.Year }).Select(x => x.Sum(y => y.Minutos)).Average(x => x)),
+                    MinutosHoje = funcionarioHoras.Where(x => x.DataCriacao.Day == dtHoje.Day && x.DataCriacao.Month == dtHoje.Month && x.DataCriacao.Year == dtHoje.Year).Sum(x => x.Minutos),
+                    MinutosMesPassado = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.AddMonths(-1).Year && x.DataCriacao.Month == dtHoje.AddMonths(-1).Month).Sum(x => x.Minutos),
+                    MinutosMesVigente = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.Year && x.DataCriacao.Month == dtHoje.Month).Sum(x => x.Minutos),
+                };
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            
 
             try
             {
