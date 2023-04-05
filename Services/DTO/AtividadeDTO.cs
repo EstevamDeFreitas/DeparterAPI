@@ -61,6 +61,8 @@ namespace Services.DTO
         public Guid DepartamentoId { get; set; }
         [Required]
         public StatusAtividade StatusAtividade { get; set; }
+        public DateTime DataCriacao { get; set; }
+
 
 
         public List<AtividadeCheckDTO> AtividadeChecks { get; set; }
