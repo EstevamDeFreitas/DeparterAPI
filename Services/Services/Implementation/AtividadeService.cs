@@ -162,6 +162,22 @@ namespace Services.Services.Implementation
             return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
 
+        public ResumoAtividades GetResumoAtividades(TempoBusca tempoBusca, Guid? funcionarioId, Guid? departamentoId)
+        {
+            var tempo = Tempo.GetMaxTempo(tempoBusca);
+
+            var atividades = _repository.AtividadeRepository.FindByCondition(x => (tempo.HasValue? x.DataCriacao <= tempo : true) && (funcionarioId.HasValue ? x.AtividadeFuncionarios.Any(y => y.FuncionarioId == funcionarioId) : true) && (departamentoId.HasValue ? departamentoId == x.DepartamentoId : true));
+
+            var resumo = new ResumoAtividades
+            {
+                Atrasadas = atividades.Count(x => x.StatusAtividade == StatusAtividade.Atrasada),
+                Finalizadas = atividades.Count(x => x.StatusAtividade == StatusAtividade.Conclúida),
+                Pendente = atividades.Count(x => x.StatusAtividade == StatusAtividade.Desenvolvendo || x.StatusAtividade == StatusAtividade.Pendente)
+            };
+
+            return resumo;
+        }
+
         public void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
         {
             var atividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.AtividadeId == atividadeId).FirstOrDefault();
