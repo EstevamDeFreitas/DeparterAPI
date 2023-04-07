@@ -34,6 +34,22 @@ namespace DeparterAPI.Controllers
             }
         }
 
+        [HttpGet("resumo")]
+        [Authorize]
+        public IActionResult GetAtividadeResumo([FromQuery]TempoBusca tempo, [FromQuery] Guid? funcionarioId, [FromQuery] Guid? departamentoId)
+        {
+            try
+            {
+                var resumo = _serviceWrapper.AtividadeService.GetResumoAtividades(tempo, funcionarioId, departamentoId);
+
+                return Ok(new Result<ResumoAtividades>("Resumo das Atividades Encontrado", resumo));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>(ex.Message));
+            }
+        }
+
         [HttpGet("{id}")]
         [Authorize]
         public IActionResult GetAtividade(Guid id, [FromQuery] bool? isAdminSearch)

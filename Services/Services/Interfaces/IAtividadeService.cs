@@ -14,6 +14,7 @@ namespace Services.Services.Interfaces
         AtividadeDTO GetAtividade(Guid id);
         List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId);
         List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId);
+        ResumoAtividades GetResumoAtividades(TempoBusca tempoBusca, Guid? funcionarioId, Guid? departamentoId);
         void CreateAtividade(AtividadeCreateDTO atividade, Guid funcionarioId);
         void UpdateAtividade(AtividadePutDTO atividade, Guid funcionarioId);
         void DeleteAtividade(Guid id, Guid funcionarioId);
