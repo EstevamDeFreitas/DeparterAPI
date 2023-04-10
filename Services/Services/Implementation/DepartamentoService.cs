@@ -98,7 +98,33 @@ namespace Services.Services.Implementation
         {
             HasAccess(funcionarioId, departamentoId);
 
-            return GetDepartamento(departamentoId);
+            var departamento = _repository.DepartamentoRepository.FindById(departamentoId).FirstOrDefault();
+
+            if (departamento is null)
+            {
+                throw new EntidadeNaoEncontrada("Departamento");
+            }
+
+            departamento.Atividades = _repository.AtividadeRepository.FindByCondition(x => x.DepartamentoId == departamentoId && x.AtividadeFuncionarios.Any(y => y.FuncionarioId == funcionarioId)).ToList();
+            departamento.DepartamentoFuncionarios = _repository.DepartamentoFuncionarioRepository.FindByCondition(x => x.DepartamentoId == departamento.Id).ToList();
+
+            var response = _mapper.Map<DepartamentoDTO>(departamento);
+
+            response.DepartamentoFuncionarios.ForEach(fun =>
+            {
+                var funcTemp = _repository.FuncionarioRepository.FindByCondition(x => x.Id == fun.FuncionarioId).FirstOrDefault();
+
+                fun.Funcionario = new FuncionarioDTO
+                {
+                    Nome = funcTemp.Nome,
+                    Email = funcTemp.Email,
+                    Imagem = funcTemp.Imagem,
+                    Id = funcTemp.Id,
+                    Apelido = funcTemp.Apelido
+                };
+            });
+
+            return response;
         }
 
         public List<DepartamentoAtividadesResumoDTO> GetDepartamentoAtividadesResumo(Guid departamentoId)
