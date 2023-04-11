@@ -40,15 +40,5 @@ namespace Persistence.Repositories.Implementation
                                                         .ToList();
         }
 
-        public List<FuncionarioAtividadeHoras> FindFull()
-        {
-            return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario)
-                                                            .ThenInclude(x => x.FuncionarioHorasConfiguracaos)
-                                                        .Include(x => x.Atividade)
-                                                            .ThenInclude(x => x.AtividadeCategorias)
-                                                                .ThenInclude(x => x.Categoria)
-                                                        .ToList();
-        }
-
     }
 }
