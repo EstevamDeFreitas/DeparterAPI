@@ -82,7 +82,7 @@ namespace Services.Services.Implementation
 
         public List<FuncionarioAtividadeHorasDTO> GetHoras()
         {
-            var horas = _repository.AtividadeHorasRepository.GetAll().ToList();
+            var horas = _repository.AtividadeHorasRepository.FindFull().ToList();
 
             return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
         }

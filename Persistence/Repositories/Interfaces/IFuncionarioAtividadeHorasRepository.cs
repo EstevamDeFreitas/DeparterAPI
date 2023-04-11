@@ -11,6 +11,7 @@ namespace Persistence.Repositories.Interfaces
 {
     public interface IFuncionarioAtividadeHorasRepository : IEntityRepositoryBase<FuncionarioAtividadeHoras>
     {
+        List<FuncionarioAtividadeHoras> FindFull();
         List<FuncionarioAtividadeHoras> FindFullByCondition(Expression<Func<FuncionarioAtividadeHoras, bool>> value);
     }
 
