@@ -178,14 +178,22 @@ namespace Services.Services.Implementation
 
             categorias.ForEach(categoria =>
             {
-                var horas = funcionarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id)).Sum(x => x.Minutos) / 60;
+                var horas = funcionarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id))
+                                            .GroupBy(x => new {Mes = x.DataCriacao.Month, Ano = x.DataCriacao.Year})
+                                            .Select(x => new ValorPorData
+                                            {
+                                                Data = new DateTime(x.Key.Ano, x.Key.Mes, 1),
+                                                Valor = x.Sum(x => x.Minutos) / 60
+                                            }).ToList();
 
                 horasCategorias.Add(new HorasCategoria
                 {
                     Categoria = categoria.Nome,
-                    Horas = horas
+                    HorasPorMes = horas
                 });
             });
+
+
 
             return horasCategorias;
         }
