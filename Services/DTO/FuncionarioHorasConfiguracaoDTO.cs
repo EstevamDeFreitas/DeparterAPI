@@ -95,6 +95,12 @@ namespace Services.DTO
     public class HorasCategoria
     {
         public string Categoria { get; set; }
-        public int Horas { get; set; }
+        public List<ValorPorData> HorasPorMes { get; set; }
+    }
+
+    public class ValorPorData
+    {
+        public DateTime Data { get; set; }
+        public int Valor { get; set; }
     }
 }
