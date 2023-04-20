@@ -194,23 +194,28 @@ namespace Services.Services.Implementation
                 });
             });
 
-            var dates = DateHelper.GetDatesInPeriod(horasCategorias.SelectMany(x => x.HorasPorMes).Min(x=>x.Data), horasCategorias.SelectMany(x => x.HorasPorMes).Max(x => x.Data));
 
-            dates.ForEach(date =>
+            if(horasCategorias.Count > 0)
             {
-                horasCategorias.ForEach(cat =>
+                var dates = DateHelper.GetDatesInPeriod(horasCategorias.SelectMany(x => x.HorasPorMes).Min(x => x.Data), horasCategorias.SelectMany(x => x.HorasPorMes).Max(x => x.Data));
+
+                dates.ForEach(date =>
                 {
-                    if (!cat.HorasPorMes.Any(x => x.Data == date))
+                    horasCategorias.ForEach(cat =>
                     {
-                        cat.HorasPorMes.Add(new ValorPorData { Data = date, Valor = 0 });
-                    }
+                        if (!cat.HorasPorMes.Any(x => x.Data == date))
+                        {
+                            cat.HorasPorMes.Add(new ValorPorData { Data = date, Valor = 0 });
+                        }
+                    });
                 });
-            });
 
-            horasCategorias.ForEach(hor =>
-            {
-                hor.HorasPorMes = hor.HorasPorMes.OrderBy(x => x.Data).ToList();
-            });
+                horasCategorias.ForEach(hor =>
+                {
+                    hor.HorasPorMes = hor.HorasPorMes.OrderBy(x => x.Data).ToList();
+                });
+            }
+            
 
             return horasCategorias;
         }
