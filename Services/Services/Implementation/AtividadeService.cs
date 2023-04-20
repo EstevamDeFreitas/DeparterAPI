@@ -172,7 +172,8 @@ namespace Services.Services.Implementation
             {
                 Atrasadas = atividades.Count(x => x.StatusAtividade == StatusAtividade.Atrasada),
                 Finalizadas = atividades.Count(x => x.StatusAtividade == StatusAtividade.Conclúida),
-                Pendente = atividades.Count(x => x.StatusAtividade == StatusAtividade.Desenvolvendo || x.StatusAtividade == StatusAtividade.Pendente)
+                Pendente = atividades.Count(x => x.StatusAtividade == StatusAtividade.Pendente),
+                EmDesenvolvimento = atividades.Count(x => x.StatusAtividade == StatusAtividade.Desenvolvendo)
             };
 
             return resumo;
