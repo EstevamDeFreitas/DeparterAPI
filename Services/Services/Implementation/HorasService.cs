@@ -184,13 +184,15 @@ namespace Services.Services.Implementation
                                             {
                                                 Data = new DateTime(x.Key.Ano, x.Key.Mes, 1),
                                                 Valor = x.Sum(x => x.Minutos) / 60
-                                            }).ToList();
+                                            }).OrderBy(x => x.Data).ToList();
 
                 horasCategorias.Add(new HorasCategoria
                 {
                     Categoria = categoria.Nome,
                     HorasPorMes = horas
                 });
+
+                
             });
 
 
