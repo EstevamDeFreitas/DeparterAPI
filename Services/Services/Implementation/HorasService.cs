@@ -4,6 +4,7 @@ using Persistence.Repositories.Interfaces;
 using Services.DTO;
 using Services.Exceptions;
 using Services.Services.Interfaces;
+using Services.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -195,7 +196,23 @@ namespace Services.Services.Implementation
                 
             });
 
+            var dates = DateHelper.GetDatesInPeriod(horasCategorias.SelectMany(x => x.HorasPorMes).Min(x=>x.Data), horasCategorias.SelectMany(x => x.HorasPorMes).Max(x => x.Data));
 
+            dates.ForEach(date =>
+            {
+                horasCategorias.ForEach(cat =>
+                {
+                    if (!cat.HorasPorMes.Any(x => x.Data == date))
+                    {
+                        cat.HorasPorMes.Add(new ValorPorData { Data = date, Valor = 0 });
+                    }
+                });
+            });
+
+            horasCategorias.ForEach(hor =>
+            {
+                hor.HorasPorMes = hor.HorasPorMes.OrderBy(x => x.Data).ToList();
+            });
 
             return horasCategorias;
         }
