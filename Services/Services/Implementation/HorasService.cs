@@ -4,6 +4,7 @@ using Persistence.Repositories.Interfaces;
 using Services.DTO;
 using Services.Exceptions;
 using Services.Services.Interfaces;
+using Services.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -178,14 +179,43 @@ namespace Services.Services.Implementation
 
             categorias.ForEach(categoria =>
             {
-                var horas = funcionarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id)).Sum(x => x.Minutos) / 60;
+                var horas = funcionarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id))
+                                            .GroupBy(x => new {Mes = x.DataCriacao.Month, Ano = x.DataCriacao.Year})
+                                            .Select(x => new ValorPorData
+                                            {
+                                                Data = new DateTime(x.Key.Ano, x.Key.Mes, 1),
+                                                Valor = x.Sum(x => x.Minutos) / 60
+                                            }).ToList();
 
                 horasCategorias.Add(new HorasCategoria
                 {
                     Categoria = categoria.Nome,
-                    Horas = horas
+                    HorasPorMes = horas
                 });
             });
+
+
+            if(horasCategorias.Count > 0)
+            {
+                var dates = DateHelper.GetDatesInPeriod(horasCategorias.SelectMany(x => x.HorasPorMes).Min(x => x.Data), horasCategorias.SelectMany(x => x.HorasPorMes).Max(x => x.Data));
+
+                dates.ForEach(date =>
+                {
+                    horasCategorias.ForEach(cat =>
+                    {
+                        if (!cat.HorasPorMes.Any(x => x.Data == date))
+                        {
+                            cat.HorasPorMes.Add(new ValorPorData { Data = date, Valor = 0 });
+                        }
+                    });
+                });
+
+                horasCategorias.ForEach(hor =>
+                {
+                    hor.HorasPorMes = hor.HorasPorMes.OrderBy(x => x.Data).ToList();
+                });
+            }
+            
 
             return horasCategorias;
         }

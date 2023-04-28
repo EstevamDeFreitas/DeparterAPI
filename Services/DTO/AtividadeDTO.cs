@@ -168,6 +168,7 @@ namespace Services.DTO
     {
         public int Finalizadas { get; set; }
         public int Atrasadas { get; set; }
-        public int Pendente { get; set; }  
+        public int Pendente { get; set; }
+        public int EmDesenvolvimento { get; set; }
     }
 }
