@@ -69,6 +69,7 @@ namespace Services.Services.Implementation
             funcionarioAchado.Senha = funcionario.Senha;
             funcionarioAchado.Imagem = funcionario.Imagem;
             funcionarioAchado.Nome = funcionario.Nome;
+            funcionarioAchado.IsAdmin = funcionario.IsAdmin;
 
             _repository.FuncionarioRepository.Update(funcionarioAchado);
             _repository.Save();
