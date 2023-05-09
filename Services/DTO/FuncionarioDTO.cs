@@ -14,5 +14,6 @@ namespace Services.DTO
         public string Senha { get; set; }
         public string Apelido { get; set; }
         public string Imagem { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }
