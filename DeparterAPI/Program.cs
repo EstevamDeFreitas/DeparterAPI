@@ -8,6 +8,7 @@ using Services.Middleware;
 using Services.Services.Implementation;
 using Services.Services.Interfaces;
 using Services.Utilities;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -84,6 +85,11 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 
 app.UseCors("AllowAll");
+
+app.UseStaticFiles(new StaticFileOptions() {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
+                RequestPath = new PathString("/Resources")
+            });
 
 if (app.Environment.IsDevelopment())
 {
