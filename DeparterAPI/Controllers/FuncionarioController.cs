@@ -13,10 +13,12 @@ namespace DeparterAPI.Controllers
     public class FuncionarioController : ControllerBase
     {
         protected readonly IServiceWrapper _serviceWrapper;
+        private readonly IWebHostEnvironment hostEnvironment;
 
-        public FuncionarioController(IServiceWrapper serviceWrapper)
+        public FuncionarioController(IServiceWrapper serviceWrapper, IWebHostEnvironment hostEnvironment)
         {
             _serviceWrapper = serviceWrapper;
+            this.hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -130,6 +132,60 @@ namespace DeparterAPI.Controllers
             {
                 return BadRequest(new Result<object>(ex.Message));
             }
+        }
+
+        [HttpPost("upload-image/{funcionarioId}")]
+        [Authorize]
+        public async Task<IActionResult> UploadImage(Guid funcionarioId)
+        {
+            try
+            {
+                var funcionario =  _serviceWrapper.FuncionarioService.GetFuncionario(funcionarioId);
+                if (funcionario == null) return NoContent();
+
+                var file = Request.Form.Files[0];
+                if (file.Length > 0)
+                {
+                    DeleteImage(funcionario.Imagem);
+                    funcionario.Imagem = await SaveImage(file);
+                }
+                _serviceWrapper.FuncionarioService.UpdateFuncionario(funcionario);
+
+                return Ok(new Result<object>("Imagem Alterada"));
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar adicionar eventos. Erro: {ex.Message}");
+            }
+        }
+
+        [NonAction]
+        public async Task<string> SaveImage(IFormFile imageFile) 
+        {
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName) 
+                                            .Take(10)
+                                            .ToArray()
+                                        ).Replace(' ', '-');
+
+            imageName = $"{imageName}{DateTime.UtcNow.ToString("yymmssfff")}{Path.GetExtension(imageFile.FileName)}"; 
+
+            var imagePath = Path.Combine(hostEnvironment.ContentRootPath, @"Resources/images", imageName);
+
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            };
+
+            return imageName;
+        }
+
+        [NonAction]
+        public void DeleteImage(string imageName)
+        {
+            var imagePath = Path.Combine(hostEnvironment.ContentRootPath, @"Resources/images", imageName);
+            if (System.IO.File.Exists(imagePath))
+                System.IO.File.Delete(imagePath);
         }
     }
 }
