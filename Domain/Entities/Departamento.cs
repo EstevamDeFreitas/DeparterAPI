@@ -23,6 +23,10 @@ namespace Domain.Entities
         [Column("image_url")]
         public string ImageUrl { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id_onscreen")]
+        public int OnScreenId { get; set; }
+
         public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
         public ICollection<Atividade> Atividades { get; set; }
     }

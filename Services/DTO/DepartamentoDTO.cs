@@ -23,6 +23,7 @@ namespace Services.DTO
         [Required]
         public string ImageUrl { get; set; }
 
+        public int OnScreenId { get; set; }
         public List<DepartamentoFuncionarioDTO> DepartamentoFuncionarios { get; set; }
         public List<AtividadeDTO> Atividades { get; set; }
     }

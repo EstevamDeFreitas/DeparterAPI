@@ -144,6 +144,18 @@ namespace Services.Services.Implementation
             return atividadeFullDTO;
         }
 
+        public AtividadeDTO GetAtividadeByScreenId(int screenId)
+        {
+            var atividade = _repository.AtividadeRepository.FindByCondition(x => x.OnScreenId == screenId).FirstOrDefault();
+
+            if(atividade is null)
+            {
+                throw new EntidadeNaoEncontrada("Atividade");
+            }
+
+            return _mapper.Map<AtividadeDTO>(atividade);
+        }
+
         public List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId)
         {
             UpdateDatabaseAtividadesStatus();
