@@ -22,21 +22,19 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetDepartamento(int id, [FromQuery]bool? isAdminSearch)
+        public IActionResult GetDepartamento(Guid id, [FromQuery]bool? isAdminSearch)
         {
             try
             {
-                var departamentoFound = _serviceWrapper.DepartamentoService.GetDepartamentoByScreenId(id);
-
                 var departamento = new DepartamentoDTO();
 
                 if(isAdminSearch.HasValue && isAdminSearch == true)
                 {
-                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(departamentoFound.Id);
+                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
                 }
                 else
                 {
-                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(departamentoFound.Id, Guid.Parse(HttpContext.Items["User"].ToString()));
+                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id, Guid.Parse(HttpContext.Items["User"].ToString()));
                 }
 
                 return Ok(new Result<DepartamentoDTO>("Departamento Encontrado", departamento));
