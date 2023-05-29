@@ -25,7 +25,6 @@ namespace Services.DTO
 
         public List<Guid> Categorias { get; set; }
 
-        public int OnScreenId { get; set; }
         public List<AtividadeFuncionarioCreateDTO> AtividadeFuncionarios { get; set; }
     }
 
@@ -64,7 +63,7 @@ namespace Services.DTO
         [Required]
         public StatusAtividade StatusAtividade { get; set; }
         public DateTime DataCriacao { get; set; }
-
+        public int OnScreenId { get; set; }
 
 
         public List<AtividadeCheckDTO> AtividadeChecks { get; set; }
