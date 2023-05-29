@@ -12,6 +12,7 @@ namespace Services.Services.Interfaces
     {
         AtividadeDTO GetAtividade(Guid id, Guid funcionario);
         AtividadeDTO GetAtividade(Guid id);
+        AtividadeDTO GetAtividadeByScreenId(int screenId);
         List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId);
         List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId);
         ResumoAtividades GetResumoAtividades(TempoBusca tempoBusca, Guid? funcionarioId, Guid? departamentoId);

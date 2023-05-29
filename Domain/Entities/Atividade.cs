@@ -36,6 +36,10 @@ namespace Domain.Entities
         [Column("status_tarefa")]
         public StatusAtividade StatusAtividade { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("id_onscreen")]
+        public int OnScreenId { get; set; }
+
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }
         public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
         public Atividade? AtividadePai { get; set; }

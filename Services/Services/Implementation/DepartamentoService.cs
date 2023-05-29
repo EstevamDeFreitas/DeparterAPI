@@ -181,5 +181,17 @@ namespace Services.Services.Implementation
                 throw new SemAutorizacao();
             }
         }
+
+        public DepartamentoDTO GetDepartamentoByScreenId(int screenId)
+        {
+            var departamento = _repository.DepartamentoRepository.FindByCondition(x => x.OnScreenId == screenId).FirstOrDefault();
+
+            if (departamento is null)
+            {
+                throw new EntidadeNaoEncontrada("Departamento");
+            }
+
+            return _mapper.Map<DepartamentoDTO>(departamento);
+        }
     }
 }

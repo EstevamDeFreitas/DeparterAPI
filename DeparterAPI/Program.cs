@@ -91,11 +91,8 @@ app.UseStaticFiles(new StaticFileOptions() {
                 RequestPath = new PathString("/Resources")
             });
 
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 // Configure the HTTP request pipeline.
 

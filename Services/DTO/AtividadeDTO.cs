@@ -24,6 +24,8 @@ namespace Services.DTO
         public Guid DepartamentoId { get; set; }
 
         public List<Guid> Categorias { get; set; }
+
+        public int OnScreenId { get; set; }
         public List<AtividadeFuncionarioCreateDTO> AtividadeFuncionarios { get; set; }
     }
 

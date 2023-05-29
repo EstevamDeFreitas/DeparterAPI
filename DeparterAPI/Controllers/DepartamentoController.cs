@@ -18,24 +18,26 @@ namespace DeparterAPI.Controllers
         public DepartamentoController(IServiceWrapper serviceWrapper, IWebHostEnvironment hostEnvironment)
         {
             _serviceWrapper = serviceWrapper;
-            this.hostEnvironment = hostEnvironment;
+             this.hostEnvironment = hostEnvironment;
         }
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetDepartamento(Guid id, [FromQuery]bool? isAdminSearch)
+        public IActionResult GetDepartamento(int id, [FromQuery]bool? isAdminSearch)
         {
             try
             {
+                var departamentoFound = _serviceWrapper.DepartamentoService.GetDepartamentoByScreenId(id);
+
                 var departamento = new DepartamentoDTO();
 
                 if(isAdminSearch.HasValue && isAdminSearch == true)
                 {
-                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
+                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(departamentoFound.Id);
                 }
                 else
                 {
-                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id, Guid.Parse(HttpContext.Items["User"].ToString()));
+                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(departamentoFound.Id, Guid.Parse(HttpContext.Items["User"].ToString()));
                 }
 
                 return Ok(new Result<DepartamentoDTO>("Departamento Encontrado", departamento));
@@ -151,7 +153,6 @@ namespace DeparterAPI.Controllers
             return Ok(new Result<List<DepartamentoAtividadesResumoDTO>>("Resumo das atividades encontrado", atividades));
         }
 
-
         [HttpPost("upload-image/{departamentoId}")]
         [Authorize]
         public async Task<IActionResult> UploadImage(Guid departamentoId)
@@ -204,6 +205,6 @@ namespace DeparterAPI.Controllers
             var imagePath = Path.Combine(hostEnvironment.ContentRootPath, @"Resources/images", imageName);
             if (System.IO.File.Exists(imagePath))
                 System.IO.File.Delete(imagePath);
-        }
+        } 
     }
 }
