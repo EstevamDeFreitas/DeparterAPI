@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="Domain.Entities.Atividade">
+    <Position X="3" Y="4.25" Width="2.25" />
+    <AssociationLine Name="AtividadePai" Type="Domain.Entities.Atividade">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.117" Y="0.266" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>oAAAAAAgDAABEAIEAAAAAAAAAAAAAAQgIBAAAAAAgBA=</HashCode>
+      <FileName>Entities\Atividade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AtividadePai" />
+      <Property Name="Departamento" />
+      <Property Name="StatusAtividade" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="AtividadeCategorias" />
+      <Property Name="AtividadeChecks" />
+      <Property Name="AtividadeFuncionarios" />
+      <Property Name="Atividades" />
+      <Property Name="FuncionarioAtividadeHoras" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Entities.AtividadeCategoria">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAgAAAAAAAAAAQAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Entities\AtividadeCategoria.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atividade" />
+      <Property Name="Categoria" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Entities.AtividadeCheck">
+    <Position X="10.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAACAAgAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\AtividadeCheck.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atividade" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Entities.AtividadeFuncionario">
+    <Position X="0.5" Y="0.5" Width="1.75" />
+    <AssociationLine Name="Funcionario" Type="Domain.Entities.Funcionario">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.091" Y="0.006" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAQQAAAAAAgAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\AtividadeFuncionario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atividade" />
+      <Property Name="Funcionario" />
+      <Property Name="NivelAcesso" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Entities.Categoria">
+    <Position X="0.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entities\Categoria.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AtividadeCategorias" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Entities.Departamento">
+    <Position X="13.5" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAAAQAAAAAABEAAAAAAAAAAAAABAAEIAAAAAAAEAAAA=</HashCode>
+      <FileName>Entities\Departamento.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Atividades" />
+      <Property Name="DepartamentoFuncionarios" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Entities.DepartamentoFuncionario">
+    <Position X="13.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAAAIEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\DepartamentoFuncionario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Departamento" />
+      <Property Name="Funcionario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Entities.Funcionario">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="AtividadeFuncionarios" Type="Domain.Entities.AtividadeFuncionario">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.003" Y="0.1" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAACAAAAAAIAAAACCAAAFAgAAAAAAEAgAA=</HashCode>
+      <FileName>Entities\Funcionario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="AtividadeFuncionarios" />
+      <Property Name="DepartamentoFuncionarios" />
+      <Property Name="FuncionarioAtividadeHoras" />
+      <Property Name="FuncionarioHorasConfiguracaos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Entities.FuncionarioAtividadeHoras">
+    <Position X="2.75" Y="1.75" Width="2.5" />
+    <AssociationLine Name="Atividade" Type="Domain.Entities.Atividade">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.805" Y="0.495" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAQAAAAAQgAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\FuncionarioAtividadeHoras.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Atividade" />
+      <Property Name="Funcionario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Entities.FuncionarioHorasConfiguracao">
+    <Position X="11.75" Y="0.5" Width="1.25" />
+    <AssociationLine Name="TipoConfiguracao" Type="Domain.Entities.TipoConfigHora">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.43" Y="0.475" Height="0.182" Width="1.368" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAEAQAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\FuncionarioHorasConfiguracao.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Funcionario" />
+      <Property Name="TipoConfiguracao" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="Domain.Entities.StatusAtividade">
+    <Position X="8.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAABAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Entities\Atividade.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Domain.Entities.NivelAcesso" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAQAAAAAAAAAAAAAAAIAAAAAAQAAI=</HashCode>
+      <FileName>Entities\AtividadeFuncionario.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Domain.Entities.TipoConfigHora" Collapsed="true">
+    <Position X="14" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Entities\FuncionarioHorasConfiguracao.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
