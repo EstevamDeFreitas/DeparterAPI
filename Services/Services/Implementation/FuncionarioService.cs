@@ -45,15 +45,24 @@ namespace Services.Services.Implementation
         public FuncionarioDTO GetFuncionario(Guid id)
         {
             var funcionario = _repository.FuncionarioRepository.FindById(id).FirstOrDefault();
+            var resposta = _mapper.Map<FuncionarioDTO>(funcionario);
 
-            return _mapper.Map<FuncionarioDTO>(funcionario);
+            resposta.Senha = "";
+
+            return resposta;
         }
 
         public List<FuncionarioDTO> GetFuncionarios()
         {
             var funcionarios = _repository.FuncionarioRepository.GetAll().ToList();
+            var resposta = _mapper.Map<List<FuncionarioDTO>>(funcionarios);
 
-            return _mapper.Map<List<FuncionarioDTO>>(funcionarios);
+            resposta.ForEach(res =>
+            {
+                res.Senha = "";
+            });
+
+            return resposta;
         }
 
         public void UpdateFuncionario(FuncionarioDTO funcionario)
@@ -66,7 +75,12 @@ namespace Services.Services.Implementation
             }
 
             funcionarioAchado.Apelido = funcionario.Apelido;
-            funcionarioAchado.Senha = funcionario.Senha;
+
+            if(funcionario.Senha != "")
+            {
+                funcionarioAchado.Senha = funcionario.Senha;
+            }
+
             funcionarioAchado.Imagem = funcionario.Imagem;
             funcionarioAchado.Nome = funcionario.Nome;
             funcionarioAchado.IsAdmin = funcionario.IsAdmin;
