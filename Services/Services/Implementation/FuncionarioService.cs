@@ -8,6 +8,7 @@ using Services.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,23 @@ namespace Services.Services.Implementation
             var funcionarioCreate = _mapper.Map<Funcionario>(funcionario);
 
             funcionarioCreate.Gerar();
+
+            var senhaHash = "";
+
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(funcionario.Senha));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2")); 
+                }
+
+                senhaHash =  builder.ToString();
+            }
+
+            funcionarioCreate.Senha = senhaHash;
 
             _repository.FuncionarioRepository.Create(funcionarioCreate);
             _repository.Save();
@@ -78,7 +96,22 @@ namespace Services.Services.Implementation
 
             if(funcionario.Senha != "")
             {
-                funcionarioAchado.Senha = funcionario.Senha;
+                var senhaHash = "";
+
+                using (SHA256 sha256Hash = SHA256.Create())
+                {
+                    byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(funcionario.Senha));
+
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < bytes.Length; i++)
+                    {
+                        builder.Append(bytes[i].ToString("x2"));
+                    }
+
+                    senhaHash = builder.ToString();
+                }
+
+                funcionarioAchado.Senha = senhaHash;
             }
 
             funcionarioAchado.Imagem = funcionario.Imagem;
