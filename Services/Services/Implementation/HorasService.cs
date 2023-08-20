@@ -35,10 +35,17 @@ namespace Services.Services.Implementation
 
             horas.Gerar();
 
-            //TODO adicionar verificação das horas atuais do funcionario (dia, mes e departamento)
+            
+            var resumo = GetHorasResumo(funcionarioAtividadeHoras.FuncionarioId, null);
 
             _repository.AtividadeHorasRepository.Create(horas);
             _repository.Save();
+
+            //TODO adicionar verificação das horas atuais do funcionario (dia, mes e departamento)
+            if (resumo.MinutosHojeRestantes - funcionarioAtividadeHoras.Minutos < 0 || resumo.MinutosMesRestantes - funcionarioAtividadeHoras.Minutos < 0)
+            {
+                
+            }
         }
 
         public void DeleteFuncionarioHorasConfiguracao(Guid horaConfiguracaoId)
