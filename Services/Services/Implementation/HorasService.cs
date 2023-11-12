@@ -19,38 +19,38 @@ namespace Services.Services.Implementation
         {
         }
 
-        public void CreateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoCreateDTO funcionarioHorasConfiguracao)
+        public void CreateUsuarioHorasConfiguracao(UsuarioHorasConfiguracaoCreateDTO usuarioHorasConfiguracao)
         {
-            var funcionarioHorasConfiguracaoCreate = _mapper.Map<FuncionarioHorasConfiguracao>(funcionarioHorasConfiguracao);
+            var usuarioHorasConfiguracaoCreate = _mapper.Map<UsuarioHorasConfiguracao>(usuarioHorasConfiguracao);
 
-            funcionarioHorasConfiguracaoCreate.Gerar();
+            usuarioHorasConfiguracaoCreate.Gerar();
 
-            _repository.FuncionarioHorasConfiguracaoRepository.Create(funcionarioHorasConfiguracaoCreate);
+            _repository.UsuarioHorasConfiguracaoRepository.Create(usuarioHorasConfiguracaoCreate);
             _repository.Save();
         }
 
-        public void CreateHoras(FuncionarioAtividadeHorasCreateDTO funcionarioAtividadeHoras)
+        public void CreateHoras(UsuarioAtividadeHorasCreateDTO usuarioAtividadeHoras)
         {
-            var horas = _mapper.Map<FuncionarioAtividadeHoras>(funcionarioAtividadeHoras);
+            var horas = _mapper.Map<UsuarioAtividadeHoras>(usuarioAtividadeHoras);
 
             horas.Gerar();
 
             
-            var resumo = GetHorasResumo(funcionarioAtividadeHoras.FuncionarioId, null);
+            var resumo = GetHorasResumo(usuarioAtividadeHoras.UsuarioId, null);
 
             _repository.AtividadeHorasRepository.Create(horas);
             _repository.Save();
 
-            //TODO adicionar verificação das horas atuais do funcionario (dia, mes e departamento)
-            if (resumo.MinutosHojeRestantes - funcionarioAtividadeHoras.Minutos < 0 || resumo.MinutosMesRestantes - funcionarioAtividadeHoras.Minutos < 0)
+            //TODO adicionar verificação das horas atuais do usuario (dia, mes e equipe)
+            if (resumo.MinutosHojeRestantes - usuarioAtividadeHoras.Minutos < 0 || resumo.MinutosMesRestantes - usuarioAtividadeHoras.Minutos < 0)
             {
                 
             }
         }
 
-        public void DeleteFuncionarioHorasConfiguracao(Guid horaConfiguracaoId)
+        public void DeleteUsuarioHorasConfiguracao(Guid horaConfiguracaoId)
         {
-            _repository.FuncionarioHorasConfiguracaoRepository.DeleteById(horaConfiguracaoId);
+            _repository.UsuarioHorasConfiguracaoRepository.DeleteById(horaConfiguracaoId);
             _repository.Save();
         }
 
@@ -60,73 +60,73 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public List<FuncionarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId)
+        public List<UsuarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId)
         {
             var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.AtividadeId == atividadeId).ToList();
 
-            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
+            return _mapper.Map<List<UsuarioAtividadeHorasDTO>>(horas);
         }
 
-        public List<FuncionarioAtividadeHorasDTO> GetFuncionarioHoras(Guid funcionarioId)
+        public List<UsuarioAtividadeHorasDTO> GetUsuarioHoras(Guid usuarioId)
         {
-            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.FuncionarioId == funcionarioId).ToList();
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.UsuarioId == usuarioId).ToList();
 
-            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
+            return _mapper.Map<List<UsuarioAtividadeHorasDTO>>(horas);
         }
 
-        public List<FuncionarioAtividadeHorasDTO> GetFuncionarioAtividadeHoras(Guid funcionarioId, Guid atividadeId)
+        public List<UsuarioAtividadeHorasDTO> GetUsuarioAtividadeHoras(Guid usuarioId, Guid atividadeId)
         {
-            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.FuncionarioId == funcionarioId && x.AtividadeId == atividadeId);
+            var horas = _repository.AtividadeHorasRepository.FindFullByCondition(x => x.UsuarioId == usuarioId && x.AtividadeId == atividadeId);
 
-            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
+            return _mapper.Map<List<UsuarioAtividadeHorasDTO>>(horas);
         }
 
-        public List<FuncionarioHorasConfiguracaoDTO> GetFuncionarioHorasConfiguracoes(Guid funcionarioId)
+        public List<UsuarioHorasConfiguracaoDTO> GetUsuarioHorasConfiguracoes(Guid usuarioId)
         {
-            var configuracoes = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.FuncionarioId == funcionarioId).ToList();
+            var configuracoes = _repository.UsuarioHorasConfiguracaoRepository.FindByCondition(x => x.UsuarioId == usuarioId).ToList();
 
-            return _mapper.Map<List<FuncionarioHorasConfiguracaoDTO>>(configuracoes);
+            return _mapper.Map<List<UsuarioHorasConfiguracaoDTO>>(configuracoes);
         }
 
-        public List<FuncionarioAtividadeHorasDTO> GetHoras()
+        public List<UsuarioAtividadeHorasDTO> GetHoras()
         {
             var horas = _repository.AtividadeHorasRepository.FindFull().ToList();
 
-            return _mapper.Map<List<FuncionarioAtividadeHorasDTO>>(horas);
+            return _mapper.Map<List<UsuarioAtividadeHorasDTO>>(horas);
         }
 
-        public void UpdateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoUpdateDTO funcionarioHorasConfiguracao)
+        public void UpdateUsuarioHorasConfiguracao(UsuarioHorasConfiguracaoUpdateDTO usuarioHorasConfiguracao)
         {
-            var horasConfiguracao = _repository.FuncionarioHorasConfiguracaoRepository.FindByCondition(x => x.Id == funcionarioHorasConfiguracao.Id).FirstOrDefault();
+            var horasConfiguracao = _repository.UsuarioHorasConfiguracaoRepository.FindByCondition(x => x.Id == usuarioHorasConfiguracao.Id).FirstOrDefault();
             if (horasConfiguracao is null)
             {
-                throw new EntidadeNaoEncontrada("Funcionario Horas Configuracao");
+                throw new EntidadeNaoEncontrada("Usuario Horas Configuracao");
             }
 
 
-            horasConfiguracao.Minutos = funcionarioHorasConfiguracao.Minutos;
-            horasConfiguracao.TipoConfiguracao = funcionarioHorasConfiguracao.TipoConfiguracao;
-            horasConfiguracao.FuncionarioId = funcionarioHorasConfiguracao.FuncionarioId;
+            horasConfiguracao.Minutos = usuarioHorasConfiguracao.Minutos;
+            horasConfiguracao.TipoConfiguracao = usuarioHorasConfiguracao.TipoConfiguracao;
+            horasConfiguracao.UsuarioId = usuarioHorasConfiguracao.UsuarioId;
 
-            _repository.FuncionarioHorasConfiguracaoRepository.Update(horasConfiguracao);
+            _repository.UsuarioHorasConfiguracaoRepository.Update(horasConfiguracao);
             _repository.Save();
         }
 
-        public void UpdateHoras(FuncionarioAtividadeHorasUpdateDTO funcionarioAtividadeHoras)
+        public void UpdateHoras(UsuarioAtividadeHorasUpdateDTO usuarioAtividadeHoras)
         {
-            var horasFound = _repository.AtividadeHorasRepository.FindById(funcionarioAtividadeHoras.Id).FirstOrDefault();
+            var horasFound = _repository.AtividadeHorasRepository.FindById(usuarioAtividadeHoras.Id).FirstOrDefault();
 
-            horasFound.AtividadeId = funcionarioAtividadeHoras.AtividadeId;
-            horasFound.FuncionarioId = funcionarioAtividadeHoras.FuncionarioId;
-            horasFound.Minutos = funcionarioAtividadeHoras.Minutos;
+            horasFound.AtividadeId = usuarioAtividadeHoras.AtividadeId;
+            horasFound.UsuarioId = usuarioAtividadeHoras.UsuarioId;
+            horasFound.Minutos = usuarioAtividadeHoras.Minutos;
 
             _repository.AtividadeHorasRepository.Update(horasFound);
             _repository.Save();
         }
 
-        public HorasResumo GetHorasResumo(Guid? funcionarioId, Guid? departamentoId)
+        public HorasResumo GetHorasResumo(Guid? usuarioId, Guid? equipeId)
         {
-            var funcionarioHoras = _repository.AtividadeHorasRepository.FindFullByCondition(x => (funcionarioId.HasValue ? funcionarioId == x.FuncionarioId : true) && (departamentoId.HasValue ? departamentoId == x.Atividade.DepartamentoId : true)).ToList();
+            var usuarioHoras = _repository.AtividadeHorasRepository.FindFullByCondition(x => (usuarioId.HasValue ? usuarioId == x.UsuarioId : true) && (equipeId.HasValue ? equipeId == x.Atividade.EquipeId : true)).ToList();
 
             var dtHoje = DateTime.Now;
 
@@ -136,10 +136,10 @@ namespace Services.Services.Implementation
             {
                 result = new HorasResumo
                 {
-                    MediaMensalMinutos = ((int)funcionarioHoras.GroupBy(x => new { x.DataCriacao.Month, x.DataCriacao.Year }).Select(x => x.Sum(y => y.Minutos)).Average(x => x)),
-                    MinutosHoje = funcionarioHoras.Where(x => x.DataCriacao.Day == dtHoje.Day && x.DataCriacao.Month == dtHoje.Month && x.DataCriacao.Year == dtHoje.Year).Sum(x => x.Minutos),
-                    MinutosMesPassado = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.AddMonths(-1).Year && x.DataCriacao.Month == dtHoje.AddMonths(-1).Month).Sum(x => x.Minutos),
-                    MinutosMesVigente = funcionarioHoras.Where(x => x.DataCriacao.Year == dtHoje.Year && x.DataCriacao.Month == dtHoje.Month).Sum(x => x.Minutos),
+                    MediaMensalMinutos = ((int)usuarioHoras.GroupBy(x => new { x.DataCriacao.Month, x.DataCriacao.Year }).Select(x => x.Sum(y => y.Minutos)).Average(x => x)),
+                    MinutosHoje = usuarioHoras.Where(x => x.DataCriacao.Day == dtHoje.Day && x.DataCriacao.Month == dtHoje.Month && x.DataCriacao.Year == dtHoje.Year).Sum(x => x.Minutos),
+                    MinutosMesPassado = usuarioHoras.Where(x => x.DataCriacao.Year == dtHoje.AddMonths(-1).Year && x.DataCriacao.Month == dtHoje.AddMonths(-1).Month).Sum(x => x.Minutos),
+                    MinutosMesVigente = usuarioHoras.Where(x => x.DataCriacao.Year == dtHoje.Year && x.DataCriacao.Month == dtHoje.Month).Sum(x => x.Minutos),
                 };
             }
             catch(Exception ex)
@@ -151,8 +151,8 @@ namespace Services.Services.Implementation
 
             try
             {
-                //TODO corrigir para varios funcionarios diferentes
-                var regrasHoras = funcionarioHoras.SelectMany(x => x.Funcionario.FuncionarioHorasConfiguracaos).ToList();
+                //TODO corrigir para varios usuarios diferentes
+                var regrasHoras = usuarioHoras.SelectMany(x => x.Usuario.UsuarioHorasConfiguracaos).ToList();
 
                 var horasDiariasRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Diario);
                 var horasMensaisRegra = regrasHoras.First(x => x.TipoConfiguracao == TipoConfigHora.Mensal);
@@ -176,17 +176,17 @@ namespace Services.Services.Implementation
             return result;
         }
 
-        public List<HorasCategoria> GetHorasCategorias(Guid? funcionarioId, Guid? departamentoId)
+        public List<HorasCategoria> GetHorasCategorias(Guid? usuarioId, Guid? equipeId)
         {
-            var funcionarioHoras = _repository.AtividadeHorasRepository.FindFullByCondition(x => (funcionarioId.HasValue ? funcionarioId == x.FuncionarioId : true) && (departamentoId.HasValue ? departamentoId == x.Atividade.DepartamentoId : true)).ToList();
+            var usuarioHoras = _repository.AtividadeHorasRepository.FindFullByCondition(x => (usuarioId.HasValue ? usuarioId == x.UsuarioId : true) && (equipeId.HasValue ? equipeId == x.Atividade.EquipeId : true)).ToList();
 
-            var categorias = funcionarioHoras.SelectMany(x => x.Atividade.AtividadeCategorias).Select(x => x.Categoria).Distinct().ToList();
+            var categorias = usuarioHoras.SelectMany(x => x.Atividade.AtividadeCategorias).Select(x => x.Categoria).Distinct().ToList();
 
             var horasCategorias = new List<HorasCategoria>();
 
             categorias.ForEach(categoria =>
             {
-                var horas = funcionarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id))
+                var horas = usuarioHoras.Where(x => x.Atividade.AtividadeCategorias.Any(y => y.CategoriaId == categoria.Id))
                                             .GroupBy(x => new {Mes = x.DataCriacao.Month, Ano = x.DataCriacao.Year})
                                             .Select(x => new ValorPorData
                                             {

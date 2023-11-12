@@ -36,11 +36,11 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("resumo")]
         [Authorize]
-        public IActionResult GetAtividadeResumo([FromQuery]TempoBusca tempo, [FromQuery] Guid? funcionarioId, [FromQuery] Guid? departamentoId)
+        public IActionResult GetAtividadeResumo([FromQuery]TempoBusca tempo, [FromQuery] Guid? usuarioId, [FromQuery] Guid? equipeId)
         {
             try
             {
-                var resumo = _serviceWrapper.AtividadeService.GetResumoAtividades(tempo, funcionarioId, departamentoId);
+                var resumo = _serviceWrapper.AtividadeService.GetResumoAtividades(tempo, usuarioId, equipeId);
 
                 return Ok(new Result<ResumoAtividades>("Resumo das Atividades Encontrado", resumo));
             }
@@ -126,11 +126,11 @@ namespace DeparterAPI.Controllers
 
         [HttpPost("share")]
         [Authorize]
-        public IActionResult ShareAtividade([FromBody] AtividadeAcessoFuncionario atividadeAcessoFuncionario)
+        public IActionResult ShareAtividade([FromBody] AtividadeAcessoUsuario atividadeAcessoUsuario)
         {
             try
             {
-                _serviceWrapper.AtividadeService.UpdateAccessAtividade(atividadeAcessoFuncionario, Guid.Parse(HttpContext.Items["User"].ToString()));
+                _serviceWrapper.AtividadeService.UpdateAccessAtividade(atividadeAcessoUsuario, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<object>("Acesso Atualizado Para a Atividade"));
             }
@@ -142,11 +142,11 @@ namespace DeparterAPI.Controllers
 
         [HttpDelete("share")]
         [Authorize]
-        public IActionResult DeleteShareAtividade([FromBody] AtividadeAcessoFuncionario atividadeAcessoFuncionario)
+        public IActionResult DeleteShareAtividade([FromBody] AtividadeAcessoUsuario atividadeAcessoUsuario)
         {
             try
             {
-                _serviceWrapper.AtividadeService.DeleteAccessAtividade(atividadeAcessoFuncionario, Guid.Parse(HttpContext.Items["User"].ToString()));
+                _serviceWrapper.AtividadeService.DeleteAccessAtividade(atividadeAcessoUsuario, Guid.Parse(HttpContext.Items["User"].ToString()));
 
                 return Ok(new Result<object>("Acesso Removido Para a Atividade"));
             }

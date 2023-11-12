@@ -9,21 +9,21 @@ namespace Services.Services.Interfaces
 {
     public interface IHorasService
     {
-        List<FuncionarioAtividadeHorasDTO> GetFuncionarioHoras(Guid funcionarioId);
-        List<FuncionarioAtividadeHorasDTO> GetHoras();
-        List<FuncionarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId);
-        List<FuncionarioAtividadeHorasDTO> GetFuncionarioAtividadeHoras(Guid funcionarioId, Guid atividadeId);
+        List<UsuarioAtividadeHorasDTO> GetUsuarioHoras(Guid usuarioId);
+        List<UsuarioAtividadeHorasDTO> GetHoras();
+        List<UsuarioAtividadeHorasDTO> GetAtividadeHoras(Guid atividadeId);
+        List<UsuarioAtividadeHorasDTO> GetUsuarioAtividadeHoras(Guid usuarioId, Guid atividadeId);
 
-        HorasResumo GetHorasResumo(Guid? funcionarioId, Guid? departamentoId);
-        List<HorasCategoria> GetHorasCategorias(Guid? funcionarioId, Guid? departamentoId);
+        HorasResumo GetHorasResumo(Guid? usuarioId, Guid? equipeId);
+        List<HorasCategoria> GetHorasCategorias(Guid? usuarioId, Guid? equipeId);
 
-        void CreateHoras(FuncionarioAtividadeHorasCreateDTO funcionarioAtividadeHoras);
-        void UpdateHoras(FuncionarioAtividadeHorasUpdateDTO funcionarioAtividadeHoras);
+        void CreateHoras(UsuarioAtividadeHorasCreateDTO usuarioAtividadeHoras);
+        void UpdateHoras(UsuarioAtividadeHorasUpdateDTO usuarioAtividadeHoras);
         void DeleteHoras(Guid horaId);
 
-        List<FuncionarioHorasConfiguracaoDTO> GetFuncionarioHorasConfiguracoes(Guid funcionarioId);
-        void CreateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoCreateDTO funcionarioHorasConfiguracao);
-        void UpdateFuncionarioHorasConfiguracao(FuncionarioHorasConfiguracaoUpdateDTO funcionarioHorasConfiguracao);
-        void DeleteFuncionarioHorasConfiguracao(Guid horaConfiguracaoId);
+        List<UsuarioHorasConfiguracaoDTO> GetUsuarioHorasConfiguracoes(Guid usuarioId);
+        void CreateUsuarioHorasConfiguracao(UsuarioHorasConfiguracaoCreateDTO usuarioHorasConfiguracao);
+        void UpdateUsuarioHorasConfiguracao(UsuarioHorasConfiguracaoUpdateDTO usuarioHorasConfiguracao);
+        void DeleteUsuarioHorasConfiguracao(Guid horaConfiguracaoId);
     }
 }

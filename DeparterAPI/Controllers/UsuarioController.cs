@@ -10,12 +10,12 @@ namespace DeparterAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FuncionarioController : ControllerBase
+    public class UsuarioController : ControllerBase
     {
         protected readonly IServiceWrapper _serviceWrapper;
         private readonly IWebHostEnvironment hostEnvironment;
 
-        public FuncionarioController(IServiceWrapper serviceWrapper, IWebHostEnvironment hostEnvironment)
+        public UsuarioController(IServiceWrapper serviceWrapper, IWebHostEnvironment hostEnvironment)
         {
             _serviceWrapper = serviceWrapper;
             this.hostEnvironment = hostEnvironment;
@@ -23,13 +23,13 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetFuncionario([FromQuery]Guid id)
+        public IActionResult GetUsuario([FromQuery]Guid id)
         {
             try
             {
-                var funcionario = _serviceWrapper.FuncionarioService.GetFuncionario(id);
+                var usuario = _serviceWrapper.UsuarioService.GetUsuario(id);
 
-                return Ok(new Result<FuncionarioDTO>("Funcionário Encontrado", funcionario));
+                return Ok(new Result<UsuarioDTO>("Usuário Encontrado", usuario));
             }
             catch(Exception ex)
             {
@@ -40,13 +40,13 @@ namespace DeparterAPI.Controllers
         [Route("account/my")]
         [HttpGet]
         [Authorize]
-        public IActionResult GetFuncionarioLogged()
+        public IActionResult GetUsuarioLogged()
         {
             try
             {
-                var funcionario = _serviceWrapper.FuncionarioService.GetFuncionario(Guid.Parse(HttpContext.Items["User"].ToString()));
+                var usuario = _serviceWrapper.UsuarioService.GetUsuario(Guid.Parse(HttpContext.Items["User"].ToString()));
 
-                return Ok(new Result<FuncionarioDTO>("Funcionário Encontrado", funcionario));
+                return Ok(new Result<UsuarioDTO>("Usuário Encontrado", usuario));
             }
             catch(Exception ex)
             {
@@ -71,13 +71,13 @@ namespace DeparterAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateFuncionario([FromBody]FuncionarioDTO funcionario)
+        public IActionResult CreateUsuario([FromBody]UsuarioDTO usuario)
         {
             try
             {
-                _serviceWrapper.FuncionarioService.CreateFuncionario(funcionario);
+                _serviceWrapper.UsuarioService.CreateUsuario(usuario);
 
-                return Ok(new Result<object>("Funcionário Criado"));
+                return Ok(new Result<object>("Usuário Criado"));
             }
             catch (Exception ex)
             {
@@ -87,13 +87,13 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("all")]
         [Authorize]
-        public IActionResult GetFuncionarios()
+        public IActionResult GetUsuarios()
         {
             try
             {
-                var funcionarios = _serviceWrapper.FuncionarioService.GetFuncionarios();
+                var usuarios = _serviceWrapper.UsuarioService.GetUsuarios();
 
-                return Ok(new Result<List<FuncionarioDTO>>("Funcionários Encontrado", funcionarios));
+                return Ok(new Result<List<UsuarioDTO>>("Usuários Encontrado", usuarios));
             }
             catch (Exception ex)
             {
@@ -103,13 +103,13 @@ namespace DeparterAPI.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult UpdateFuncionario([FromBody]FuncionarioDTO funcionario)
+        public IActionResult UpdateUsuario([FromBody]UsuarioDTO usuario)
         {
             try
             {
-                _serviceWrapper.FuncionarioService.UpdateFuncionario(funcionario);
+                _serviceWrapper.UsuarioService.UpdateUsuario(usuario);
 
-                return Ok(new Result<object>("Funcionário Editado"));
+                return Ok(new Result<object>("Usuário Editado"));
             }
             catch (Exception ex)
             {
@@ -120,13 +120,13 @@ namespace DeparterAPI.Controllers
         [Route("{id}")]
         [HttpDelete]
         [Authorize]
-        public IActionResult DeleteFuncionario(Guid id)
+        public IActionResult DeleteUsuario(Guid id)
         {
             try
             {
-                _serviceWrapper.FuncionarioService.DeleteFuncionario(id);
+                _serviceWrapper.UsuarioService.DeleteUsuario(id);
 
-                return Ok(new Result<object>("Funcionário Deletado"));
+                return Ok(new Result<object>("Usuário Deletado"));
             }
             catch (Exception ex)
             {
@@ -134,22 +134,22 @@ namespace DeparterAPI.Controllers
             }
         }
 
-        [HttpPost("upload-image/{funcionarioId}")]
+        [HttpPost("upload-image/{usuarioId}")]
         [Authorize]
-        public async Task<IActionResult> UploadImage(Guid funcionarioId)
+        public async Task<IActionResult> UploadImage(Guid usuarioId)
         {
             try
             {
-                var funcionario =  _serviceWrapper.FuncionarioService.GetFuncionario(funcionarioId);
-                if (funcionario == null) return NoContent();
+                var usuario =  _serviceWrapper.UsuarioService.GetUsuario(usuarioId);
+                if (usuario == null) return NoContent();
 
                 var file = Request.Form.Files[0];
                 if (file.Length > 0)
                 {
-                    DeleteImage(funcionario.Imagem);
-                    funcionario.Imagem = await SaveImage(file);
+                    DeleteImage(usuario.Imagem);
+                    usuario.Imagem = await SaveImage(file);
                 }
-                _serviceWrapper.FuncionarioService.UpdateFuncionario(funcionario);
+                _serviceWrapper.UsuarioService.UpdateUsuario(usuario);
 
                 return Ok(new Result<object>("Imagem Alterada"));
             }

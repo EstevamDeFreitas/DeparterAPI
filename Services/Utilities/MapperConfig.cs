@@ -13,23 +13,23 @@ namespace Services.Utilities
     {
         public MapperConfig()
         {
-            CreateMap<FuncionarioDTO, Funcionario>().ReverseMap();
+            CreateMap<UsuarioDTO, Usuario>().ReverseMap();
             CreateMap<CategoriaDTO, Categoria>().ReverseMap();
             CreateMap<AtividadeDTO, Atividade>().ReverseMap();
             CreateMap<AtividadeCheckDTO, AtividadeCheck>().ReverseMap();
             CreateMap<AtividadeCheckCreateDTO, AtividadeCheck>().ReverseMap();
             CreateMap<AtividadeCategoriaDTO, AtividadeCategoria>().ReverseMap();
-            CreateMap<AtividadeFuncionarioDTO, AtividadeFuncionario>().ReverseMap();
-            CreateMap<DepartamentoDTO, Departamento>().ReverseMap();
-            CreateMap<DepartamentoCreateDTO, Departamento>().ReverseMap();
-            CreateMap<DepartamentoFuncionarioDTO, DepartamentoFuncionario>().ReverseMap();
-            CreateMap<DepartamentoFuncionarioCreateDTO, DepartamentoFuncionario>().ReverseMap();
-            CreateMap<FuncionarioAtividadeHorasDTO, FuncionarioAtividadeHoras>().ReverseMap();
-            CreateMap<FuncionarioAtividadeHorasCreateDTO, FuncionarioAtividadeHoras>().ReverseMap();
-            CreateMap<FuncionarioAtividadeHorasUpdateDTO, FuncionarioAtividadeHoras>().ReverseMap();
-            CreateMap<FuncionarioHorasConfiguracaoDTO, FuncionarioHorasConfiguracao>().ReverseMap();
-            CreateMap<FuncionarioHorasConfiguracaoCreateDTO, FuncionarioHorasConfiguracao>().ReverseMap();
-            CreateMap<FuncionarioHorasConfiguracaoUpdateDTO, FuncionarioHorasConfiguracao>().ReverseMap();
+            CreateMap<AtividadeUsuarioDTO, AtividadeUsuario>().ReverseMap();
+            CreateMap<EquipeDTO, Equipe>().ReverseMap();
+            CreateMap<EquipeCreateDTO, Equipe>().ReverseMap();
+            CreateMap<EquipeUsuarioDTO, EquipeUsuario>().ReverseMap();
+            CreateMap<EquipeUsuarioCreateDTO, EquipeUsuario>().ReverseMap();
+            CreateMap<UsuarioAtividadeHorasDTO, UsuarioAtividadeHoras>().ReverseMap();
+            CreateMap<UsuarioAtividadeHorasCreateDTO, UsuarioAtividadeHoras>().ReverseMap();
+            CreateMap<UsuarioAtividadeHorasUpdateDTO, UsuarioAtividadeHoras>().ReverseMap();
+            CreateMap<UsuarioHorasConfiguracaoDTO, UsuarioHorasConfiguracao>().ReverseMap();
+            CreateMap<UsuarioHorasConfiguracaoCreateDTO, UsuarioHorasConfiguracao>().ReverseMap();
+            CreateMap<UsuarioHorasConfiguracaoUpdateDTO, UsuarioHorasConfiguracao>().ReverseMap();
         }
     }
 }

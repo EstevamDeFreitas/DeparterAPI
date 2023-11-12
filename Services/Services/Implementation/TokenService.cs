@@ -21,7 +21,7 @@ namespace Services.Services.Implementation
             _configuration = configuration;
         }
 
-        public string GenerateToken(Funcionario user)
+        public string GenerateToken(Usuario user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 

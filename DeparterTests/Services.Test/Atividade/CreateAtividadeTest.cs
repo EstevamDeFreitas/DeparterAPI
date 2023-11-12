@@ -14,16 +14,15 @@ namespace DeparterTests.Services.Test.Atividade
         [SetUp]
         public void Setup()
         {
-            var funcionario = new FuncionarioDTO
+            var usuario = new UsuarioDTO
             {
-                Apelido = "Funcionario Teste",
                 Email = "Teste@teste.com",
                 IsAdmin = true,
                 Nome = "TESTE",
                 Senha = "teste123",
                 Imagem = ""
             };
-            serviceWrapper.FuncionarioService.CreateFuncionario(funcionario);
+            serviceWrapper.UsuarioService.CreateUsuario(usuario);
 
         }
 

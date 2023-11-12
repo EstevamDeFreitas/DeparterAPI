@@ -9,7 +9,7 @@ namespace Services.Services.Interfaces
 {
     public interface ITokenService
     {
-        public string GenerateToken(Funcionario user);
+        public string GenerateToken(Usuario user);
         public Guid? ValidateToken(string token);
     }
 }

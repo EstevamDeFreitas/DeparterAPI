@@ -35,14 +35,14 @@ namespace Services.Services.Implementation
                 senhaHash = builder.ToString();
             }
 
-            var funcionario = _repository.FuncionarioRepository.FindByCondition(x => x.Email == login.Email && x.Senha == senhaHash).FirstOrDefault();
+            var usuario = _repository.UsuarioRepository.FindByCondition(x => x.Email == login.Email && x.Senha == senhaHash).FirstOrDefault();
 
-            if(funcionario is null)
+            if(usuario is null)
             {
                 throw new EmailOuSenhaIncorretos();
             }
 
-            return this._serviceWrapper.TokenService.GenerateToken(funcionario);
+            return this._serviceWrapper.TokenService.GenerateToken(usuario);
 
         }
     }

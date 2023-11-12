@@ -11,7 +11,7 @@ namespace Persistence.Repositories.Interfaces
     {
         IQueryable<Atividade> FindFullById(Guid id);
 
-        IQueryable<Atividade> FindAllFull(bool? isAdminSearch, Guid funcionarioId);
+        IQueryable<Atividade> FindAllFull(bool? isAdminSearch, Guid usuarioId);
         void UpdateDatabaseAtividadesStatus();
     }
 }

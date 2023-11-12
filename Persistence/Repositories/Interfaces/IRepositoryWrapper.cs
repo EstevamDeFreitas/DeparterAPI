@@ -9,16 +9,16 @@ namespace Persistence.Repositories.Interfaces
 {
     public interface IRepositoryWrapper
     {
-        IFuncionarioRepository FuncionarioRepository { get; }
+        IUsuarioRepository UsuarioRepository { get; }
         IAtividadeCategoriaRepository AtividadeCategoriaRepository { get; }
-        IAtividadeFuncionarioRepository AtividadeFuncionarioRepository { get; }
+        IAtividadeUsuarioRepository AtividadeUsuarioRepository { get; }
         IAtividadeRepository AtividadeRepository { get; }
         ICategoriaRepository CategoriaRepository { get; }
-        IEntityRepositoryBase<Departamento> DepartamentoRepository { get; }
-        IRepositoryBase<DepartamentoFuncionario> DepartamentoFuncionarioRepository { get; }
+        IEntityRepositoryBase<Equipe> EquipeRepository { get; }
+        IRepositoryBase<EquipeUsuario> EquipeUsuarioRepository { get; }
         IEntityRepositoryBase<AtividadeCheck> AtividadeCheckRepository { get; }
-        IFuncionarioHorasConfiguracaoRepository FuncionarioHorasConfiguracaoRepository { get; }
-        IFuncionarioAtividadeHorasRepository AtividadeHorasRepository { get; }
+        IUsuarioHorasConfiguracaoRepository UsuarioHorasConfiguracaoRepository { get; }
+        IUsuarioAtividadeHorasRepository AtividadeHorasRepository { get; }
         void Save();
     }
 }

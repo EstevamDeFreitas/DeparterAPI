@@ -45,14 +45,14 @@ namespace Persistence.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("dt_modificacao");
 
-                    b.Property<Guid>("DepartamentoId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id_departamento");
-
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("descricao");
+
+                    b.Property<Guid>("EquipeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id_equipe");
 
                     b.Property<int>("OnScreenId")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("AtividadePaiId");
 
-                    b.HasIndex("DepartamentoId");
+                    b.HasIndex("EquipeId");
 
                     b.ToTable("atividades");
                 });
@@ -135,25 +135,25 @@ namespace Persistence.Migrations
                     b.ToTable("atividade_check");
                 });
 
-            modelBuilder.Entity("Domain.Entities.AtividadeFuncionario", b =>
+            modelBuilder.Entity("Domain.Entities.AtividadeUsuario", b =>
                 {
                     b.Property<Guid>("AtividadeId")
                         .HasColumnType("uuid")
                         .HasColumnName("id_atividade");
 
-                    b.Property<Guid>("FuncionarioId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uuid")
-                        .HasColumnName("id_funcionario");
+                        .HasColumnName("id_usuario");
 
                     b.Property<int>("NivelAcesso")
                         .HasColumnType("integer")
                         .HasColumnName("nivel_acesso");
 
-                    b.HasKey("AtividadeId", "FuncionarioId");
+                    b.HasKey("AtividadeId", "UsuarioId");
 
-                    b.HasIndex("FuncionarioId");
+                    b.HasIndex("UsuarioId");
 
-                    b.ToTable("atividade_funcionarios");
+                    b.ToTable("atividade_usuarios");
                 });
 
             modelBuilder.Entity("Domain.Entities.Categoria", b =>
@@ -186,7 +186,7 @@ namespace Persistence.Migrations
                     b.ToTable("categorias");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Departamento", b =>
+            modelBuilder.Entity("Domain.Entities.Equipe", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,37 +233,32 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("departamentos");
+                    b.ToTable("equipes");
                 });
 
-            modelBuilder.Entity("Domain.Entities.DepartamentoFuncionario", b =>
+            modelBuilder.Entity("Domain.Entities.EquipeUsuario", b =>
                 {
-                    b.Property<Guid>("FuncionarioId")
+                    b.Property<Guid>("UsuarioId")
                         .HasColumnType("uuid")
-                        .HasColumnName("id_funcionario");
+                        .HasColumnName("id_usuario");
 
-                    b.Property<Guid>("DepartamentoId")
+                    b.Property<Guid>("EquipeId")
                         .HasColumnType("uuid")
-                        .HasColumnName("id_departamento");
+                        .HasColumnName("id_equipe");
 
-                    b.HasKey("FuncionarioId", "DepartamentoId");
+                    b.HasKey("UsuarioId", "EquipeId");
 
-                    b.HasIndex("DepartamentoId");
+                    b.HasIndex("EquipeId");
 
-                    b.ToTable("departamento_funcionarios");
+                    b.ToTable("equipe_usuarios");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Funcionario", b =>
+            modelBuilder.Entity("Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<string>("Apelido")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("apelido");
 
                     b.Property<DateTime>("DataCriacao")
                         .HasColumnType("timestamp without time zone")
@@ -299,10 +294,10 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("funcionarios");
+                    b.ToTable("usuarios");
                 });
 
-            modelBuilder.Entity("Domain.Entities.FuncionarioAtividadeHoras", b =>
+            modelBuilder.Entity("Domain.Entities.UsuarioAtividadeHoras", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -321,24 +316,24 @@ namespace Persistence.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("dt_modificacao");
 
-                    b.Property<Guid>("FuncionarioId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id_funcionario");
-
                     b.Property<int>("Minutos")
                         .HasColumnType("integer")
                         .HasColumnName("minutos");
+
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id_usuario");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AtividadeId");
 
-                    b.HasIndex("FuncionarioId");
+                    b.HasIndex("UsuarioId");
 
-                    b.ToTable("funcionario_atividade_horas");
+                    b.ToTable("usuario_atividade_horas");
                 });
 
-            modelBuilder.Entity("Domain.Entities.FuncionarioHorasConfiguracao", b =>
+            modelBuilder.Entity("Domain.Entities.UsuarioHorasConfiguracao", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -353,10 +348,6 @@ namespace Persistence.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("dt_modificacao");
 
-                    b.Property<Guid>("FuncionarioId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id_funcionario");
-
                     b.Property<int>("Minutos")
                         .HasColumnType("integer")
                         .HasColumnName("minutos");
@@ -365,11 +356,15 @@ namespace Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("tipo_configuracao");
 
+                    b.Property<Guid>("UsuarioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id_usuario");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioId");
+                    b.HasIndex("UsuarioId");
 
-                    b.ToTable("funcionario_horas_configuracoes");
+                    b.ToTable("usuario_horas_configuracoes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Atividade", b =>
@@ -378,15 +373,15 @@ namespace Persistence.Migrations
                         .WithMany("Atividades")
                         .HasForeignKey("AtividadePaiId");
 
-                    b.HasOne("Domain.Entities.Departamento", "Departamento")
+                    b.HasOne("Domain.Entities.Equipe", "Equipe")
                         .WithMany("Atividades")
-                        .HasForeignKey("DepartamentoId")
+                        .HasForeignKey("EquipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AtividadePai");
 
-                    b.Navigation("Departamento");
+                    b.Navigation("Equipe");
                 });
 
             modelBuilder.Entity("Domain.Entities.AtividadeCategoria", b =>
@@ -419,72 +414,72 @@ namespace Persistence.Migrations
                     b.Navigation("Atividade");
                 });
 
-            modelBuilder.Entity("Domain.Entities.AtividadeFuncionario", b =>
+            modelBuilder.Entity("Domain.Entities.AtividadeUsuario", b =>
                 {
                     b.HasOne("Domain.Entities.Atividade", "Atividade")
-                        .WithMany("AtividadeFuncionarios")
+                        .WithMany("AtividadeUsuarios")
                         .HasForeignKey("AtividadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Funcionario", "Funcionario")
-                        .WithMany("AtividadeFuncionarios")
-                        .HasForeignKey("FuncionarioId")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
+                        .WithMany("AtividadeUsuarios")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Atividade");
 
-                    b.Navigation("Funcionario");
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Domain.Entities.DepartamentoFuncionario", b =>
+            modelBuilder.Entity("Domain.Entities.EquipeUsuario", b =>
                 {
-                    b.HasOne("Domain.Entities.Departamento", "Departamento")
-                        .WithMany("DepartamentoFuncionarios")
-                        .HasForeignKey("DepartamentoId")
+                    b.HasOne("Domain.Entities.Equipe", "Equipe")
+                        .WithMany("EquipeUsuarios")
+                        .HasForeignKey("EquipeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Funcionario", "Funcionario")
-                        .WithMany("DepartamentoFuncionarios")
-                        .HasForeignKey("FuncionarioId")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
+                        .WithMany("EquipeUsuarios")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Departamento");
+                    b.Navigation("Equipe");
 
-                    b.Navigation("Funcionario");
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Domain.Entities.FuncionarioAtividadeHoras", b =>
+            modelBuilder.Entity("Domain.Entities.UsuarioAtividadeHoras", b =>
                 {
                     b.HasOne("Domain.Entities.Atividade", "Atividade")
-                        .WithMany("FuncionarioAtividadeHoras")
+                        .WithMany("UsuarioAtividadeHoras")
                         .HasForeignKey("AtividadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Funcionario", "Funcionario")
-                        .WithMany("FuncionarioAtividadeHoras")
-                        .HasForeignKey("FuncionarioId")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
+                        .WithMany("UsuarioAtividadeHoras")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Atividade");
 
-                    b.Navigation("Funcionario");
+                    b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("Domain.Entities.FuncionarioHorasConfiguracao", b =>
+            modelBuilder.Entity("Domain.Entities.UsuarioHorasConfiguracao", b =>
                 {
-                    b.HasOne("Domain.Entities.Funcionario", "Funcionario")
-                        .WithMany("FuncionarioHorasConfiguracaos")
-                        .HasForeignKey("FuncionarioId")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
+                        .WithMany("UsuarioHorasConfiguracaos")
+                        .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Funcionario");
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Domain.Entities.Atividade", b =>
@@ -493,11 +488,11 @@ namespace Persistence.Migrations
 
                     b.Navigation("AtividadeChecks");
 
-                    b.Navigation("AtividadeFuncionarios");
+                    b.Navigation("AtividadeUsuarios");
 
                     b.Navigation("Atividades");
 
-                    b.Navigation("FuncionarioAtividadeHoras");
+                    b.Navigation("UsuarioAtividadeHoras");
                 });
 
             modelBuilder.Entity("Domain.Entities.Categoria", b =>
@@ -505,22 +500,22 @@ namespace Persistence.Migrations
                     b.Navigation("AtividadeCategorias");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Departamento", b =>
+            modelBuilder.Entity("Domain.Entities.Equipe", b =>
                 {
                     b.Navigation("Atividades");
 
-                    b.Navigation("DepartamentoFuncionarios");
+                    b.Navigation("EquipeUsuarios");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Funcionario", b =>
+            modelBuilder.Entity("Domain.Entities.Usuario", b =>
                 {
-                    b.Navigation("AtividadeFuncionarios");
+                    b.Navigation("AtividadeUsuarios");
 
-                    b.Navigation("DepartamentoFuncionarios");
+                    b.Navigation("EquipeUsuarios");
 
-                    b.Navigation("FuncionarioAtividadeHoras");
+                    b.Navigation("UsuarioAtividadeHoras");
 
-                    b.Navigation("FuncionarioHorasConfiguracaos");
+                    b.Navigation("UsuarioHorasConfiguracaos");
                 });
 #pragma warning restore 612, 618
         }

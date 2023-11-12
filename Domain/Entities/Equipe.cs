@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("departamentos")]
-    public class Departamento : EntityBase
+    [Table("equipes")]
+    public class Equipe : EntityBase
     {
         [Required]
         [Column("nome")]
@@ -27,7 +27,7 @@ namespace Domain.Entities
         [Column("id_onscreen")]
         public int OnScreenId { get; set; }
 
-        public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
+        public ICollection<EquipeUsuario> EquipeUsuarios { get; set; }
         public ICollection<Atividade> Atividades { get; set; }
     }
 }

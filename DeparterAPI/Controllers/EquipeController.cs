@@ -9,12 +9,12 @@ namespace DeparterAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartamentoController : ControllerBase
+    public class EquipeController : ControllerBase
     {
         protected readonly IServiceWrapper _serviceWrapper;
         private readonly IWebHostEnvironment hostEnvironment;
 
-        public DepartamentoController(IServiceWrapper serviceWrapper, IWebHostEnvironment hostEnvironment)
+        public EquipeController(IServiceWrapper serviceWrapper, IWebHostEnvironment hostEnvironment)
         {
             _serviceWrapper = serviceWrapper;
              this.hostEnvironment = hostEnvironment;
@@ -22,22 +22,22 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public IActionResult GetDepartamento(Guid id, [FromQuery]bool? isAdminSearch)
+        public IActionResult GetEquipe(Guid id, [FromQuery]bool? isAdminSearch)
         {
             try
             {
-                var departamento = new DepartamentoDTO();
+                var equipe = new EquipeDTO();
 
                 if(isAdminSearch.HasValue && isAdminSearch == true)
                 {
-                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id);
+                    equipe = _serviceWrapper.EquipeService.GetEquipe(id);
                 }
                 else
                 {
-                    departamento = _serviceWrapper.DepartamentoService.GetDepartamento(id, Guid.Parse(HttpContext.Items["User"].ToString()));
+                    equipe = _serviceWrapper.EquipeService.GetEquipe(id, Guid.Parse(HttpContext.Items["User"].ToString()));
                 }
 
-                return Ok(new Result<DepartamentoDTO>("Departamento Encontrado", departamento));
+                return Ok(new Result<EquipeDTO>("Equipe Encontrado", equipe));
             }
             catch (Exception ex)
             {
@@ -47,13 +47,13 @@ namespace DeparterAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetDepartamentos([FromQuery] bool? isAdminSearch)
+        public IActionResult GetEquipes([FromQuery] bool? isAdminSearch)
         {
             try
             {
-                var departamentos = _serviceWrapper.DepartamentoService.GetDepartamentoList(isAdminSearch, Guid.Parse(HttpContext.Items["User"].ToString()));
+                var equipes = _serviceWrapper.EquipeService.GetEquipeList(isAdminSearch, Guid.Parse(HttpContext.Items["User"].ToString()));
 
-                return Ok(new Result<List<DepartamentoDTO>>("Departamentos Encontrados", departamentos));
+                return Ok(new Result<List<EquipeDTO>>("Equipes Encontrados", equipes));
             }
             catch (Exception ex)
             {
@@ -63,13 +63,13 @@ namespace DeparterAPI.Controllers
 
         [HttpPost]
         [Authorize]
-        public IActionResult CreateDepartamento([FromBody] DepartamentoCreateDTO departamento)
+        public IActionResult CreateEquipe([FromBody] EquipeCreateDTO equipe)
         {
             try
             {
-                _serviceWrapper.DepartamentoService.CreateDepartamento(departamento, Guid.Parse(HttpContext.Items["User"].ToString()));
+                _serviceWrapper.EquipeService.CreateEquipe(equipe, Guid.Parse(HttpContext.Items["User"].ToString()));
 
-                return Ok(new Result<object>("Departamento Criado"));
+                return Ok(new Result<object>("Equipe Criado"));
             }
             catch (Exception ex)
             {
@@ -79,13 +79,13 @@ namespace DeparterAPI.Controllers
 
         [HttpPut]
         [Authorize]
-        public IActionResult UpdateDepartamento([FromBody] DepartamentoDTO departamento)
+        public IActionResult UpdateEquipe([FromBody] EquipeDTO equipe)
         {
             try
             {
-                _serviceWrapper.DepartamentoService.UpdateDepartamento(departamento);
+                _serviceWrapper.EquipeService.UpdateEquipe(equipe);
 
-                return Ok(new Result<object>("Departamento alterado"));
+                return Ok(new Result<object>("Equipe alterado"));
             }
             catch (Exception ex)
             {
@@ -95,13 +95,13 @@ namespace DeparterAPI.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public IActionResult DeleteDepartamento(Guid id)
+        public IActionResult DeleteEquipe(Guid id)
         {
             try
             {
-                _serviceWrapper.DepartamentoService.DeleteDepartamento(id);
+                _serviceWrapper.EquipeService.DeleteEquipe(id);
 
-                return Ok(new Result<object>("Departamento Deletado"));
+                return Ok(new Result<object>("Equipe Deletado"));
             }
             catch (Exception ex)
             {
@@ -109,15 +109,15 @@ namespace DeparterAPI.Controllers
             }
         }
 
-        [HttpPost("funcionario")]
+        [HttpPost("usuario")]
         [Authorize]
-        public IActionResult AddFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromBody] List<Guid> funcionarioId)
+        public IActionResult AddUsuarioEquipe([FromQuery] Guid equipeId, [FromBody] List<Guid> usuarioId)
         {
             try
             {
-                _serviceWrapper.DepartamentoService.AddFuncionarioDepartamento(departamentoId, funcionarioId);
+                _serviceWrapper.EquipeService.AddUsuarioEquipe(equipeId, usuarioId);
 
-                return Ok(new Result<object>("Funcionario adicionado ao Departamento"));
+                return Ok(new Result<object>("Usuario adicionado ao Equipe"));
             }
             catch (Exception ex)
             {
@@ -125,15 +125,15 @@ namespace DeparterAPI.Controllers
             }
         }
 
-        [HttpPost("funcionario/delete")]
+        [HttpPost("usuario/delete")]
         [Authorize]
-        public IActionResult RemoveFuncionarioDepartamento([FromQuery] Guid departamentoId, [FromBody] List<Guid> funcionarioId)
+        public IActionResult RemoveUsuarioEquipe([FromQuery] Guid equipeId, [FromBody] List<Guid> usuarioId)
         {
             try
             {
-                _serviceWrapper.DepartamentoService.RemoveFuncionarioDepartamento(departamentoId, funcionarioId, Guid.Parse(HttpContext.Items["User"].ToString()));
+                _serviceWrapper.EquipeService.RemoveUsuarioEquipe(equipeId, usuarioId, Guid.Parse(HttpContext.Items["User"].ToString()));
 
-                return Ok(new Result<object>("Funcionario Removido do Departamento"));
+                return Ok(new Result<object>("Usuario Removido do Equipe"));
             }
             catch (Exception ex)
             {
@@ -143,29 +143,29 @@ namespace DeparterAPI.Controllers
 
         [HttpGet("{id}/atividades/resumo")]
         [Authorize]
-        public IActionResult GetDepartamentoAtividadesResumo(Guid id)
+        public IActionResult GetEquipeAtividadesResumo(Guid id)
         {
-            var atividades = _serviceWrapper.DepartamentoService.GetDepartamentoAtividadesResumo(id);
+            var atividades = _serviceWrapper.EquipeService.GetEquipeAtividadesResumo(id);
 
-            return Ok(new Result<List<DepartamentoAtividadesResumoDTO>>("Resumo das atividades encontrado", atividades));
+            return Ok(new Result<List<EquipeAtividadesResumoDTO>>("Resumo das atividades encontrado", atividades));
         }
 
-        [HttpPost("upload-image/{departamentoId}")]
+        [HttpPost("upload-image/{equipeId}")]
         [Authorize]
-        public async Task<IActionResult> UploadImage(Guid departamentoId)
+        public async Task<IActionResult> UploadImage(Guid equipeId)
         {
             try
             {
-                var departamento = _serviceWrapper.DepartamentoService.GetDepartamento(departamentoId);
-                if (departamento == null) return NoContent();
+                var equipe = _serviceWrapper.EquipeService.GetEquipe(equipeId);
+                if (equipe == null) return NoContent();
 
                 var file = Request.Form.Files[0];
                 if (file.Length > 0)
                 {
-                    DeleteImage(departamento.ImageUrl);
-                    departamento.ImageUrl = await SaveImage(file);
+                    DeleteImage(equipe.ImageUrl);
+                    equipe.ImageUrl = await SaveImage(file);
                 }
-                _serviceWrapper.DepartamentoService.UpdateDepartamento(departamento);
+                _serviceWrapper.EquipeService.UpdateEquipe(equipe);
 
                 return Ok(new Result<object>("Imagem Alterada"));
             }

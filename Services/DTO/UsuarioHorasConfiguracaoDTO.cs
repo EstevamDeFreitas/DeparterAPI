@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace Services.DTO
 {
-    public class FuncionarioHorasConfiguracaoDTO
+    public class UsuarioHorasConfiguracaoDTO
     {
         public Guid? Id { get; set; }
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public TipoConfigHora TipoConfiguracao { get; set; }
         [Required]
         public int Minutos { get; set; }
 
-        public FuncionarioDTO? Funcionario { get; set; }
+        public UsuarioDTO? Usuario { get; set; }
     }
 
-    public class FuncionarioAtividadeHorasDTO
+    public class UsuarioAtividadeHorasDTO
     {
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public Guid AtividadeId { get; set; }
         public Guid? Id { get; set; }
@@ -35,24 +35,24 @@ namespace Services.DTO
         public DateTime? DataModificacao { get; set; }
         public DateTime? DataCriacao { get; set; }
 
-        public FuncionarioDTO? Funcionario { get; set; }
+        public UsuarioDTO? Usuario { get; set; }
         public AtividadeDTO? Atividade { get; set; }
     }
 
-    public class FuncionarioAtividadeHorasCreateDTO
+    public class UsuarioAtividadeHorasCreateDTO
     {
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public Guid AtividadeId { get; set; }
         [Required]
         public int Minutos { get; set; }
     }
 
-    public class FuncionarioAtividadeHorasUpdateDTO
+    public class UsuarioAtividadeHorasUpdateDTO
     {
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public Guid AtividadeId { get; set; }
         [Required]
@@ -61,21 +61,21 @@ namespace Services.DTO
         public int Minutos { get; set; }
     }
 
-    public class FuncionarioHorasConfiguracaoCreateDTO
+    public class UsuarioHorasConfiguracaoCreateDTO
     {
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public TipoConfigHora TipoConfiguracao { get; set; }
         [Required]
         public int Minutos { get; set; }
     }
 
-    public class FuncionarioHorasConfiguracaoUpdateDTO
+    public class UsuarioHorasConfiguracaoUpdateDTO
     {
         public Guid? Id { get; set; }
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public TipoConfigHora TipoConfiguracao { get; set; }
         [Required]

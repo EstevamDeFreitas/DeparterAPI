@@ -12,49 +12,49 @@ namespace Persistence.Repositories.Implementation
     public class RepositoryWrapper : IRepositoryWrapper
     {
         private DeparterContext _context;
-        private readonly Lazy<IFuncionarioRepository> _funcionarioRepository;
+        private readonly Lazy<IUsuarioRepository> _usuarioRepository;
         private readonly Lazy<IAtividadeRepository> _atividadeRepository;
         private readonly Lazy<ICategoriaRepository> _categoriaRepository;
         private readonly Lazy<IAtividadeCategoriaRepository> _atividadeCategoriaRepository;
-        private readonly Lazy<IAtividadeFuncionarioRepository> _atividadeFuncionarioRepository;
-        private readonly Lazy<IEntityRepositoryBase<Departamento>> _departamentoRepository;
-        private readonly Lazy<IRepositoryBase<DepartamentoFuncionario>> _departamentoFuncionarioRepository;
+        private readonly Lazy<IAtividadeUsuarioRepository> _atividadeUsuarioRepository;
+        private readonly Lazy<IEntityRepositoryBase<Equipe>> _equipeRepository;
+        private readonly Lazy<IRepositoryBase<EquipeUsuario>> _equipeUsuarioRepository;
         private readonly Lazy<IEntityRepositoryBase<AtividadeCheck>> _atividadeCheckRepository;
-        private readonly Lazy<IFuncionarioAtividadeHorasRepository> _funcionarioAtividadeHorasRepository;
-        private readonly Lazy<IFuncionarioHorasConfiguracaoRepository> _funcionarioHorasConfiguracaoRepository;
+        private readonly Lazy<IUsuarioAtividadeHorasRepository> _usuarioAtividadeHorasRepository;
+        private readonly Lazy<IUsuarioHorasConfiguracaoRepository> _usuarioHorasConfiguracaoRepository;
 
         public RepositoryWrapper(DeparterContext context)
         {
             _context = context;
-            _funcionarioRepository = new Lazy<IFuncionarioRepository>(() => new FuncionarioRepository(context));
+            _usuarioRepository = new Lazy<IUsuarioRepository>(() => new UsuarioRepository(context));
             _atividadeCategoriaRepository = new Lazy<IAtividadeCategoriaRepository> (() => new AtividadeCategoriaRepository(context));
-            _atividadeFuncionarioRepository = new Lazy<IAtividadeFuncionarioRepository> (() => new AtividadeFuncionarioRepository(context));
+            _atividadeUsuarioRepository = new Lazy<IAtividadeUsuarioRepository> (() => new AtividadeUsuarioRepository(context));
             _categoriaRepository = new Lazy<ICategoriaRepository>(() => new CategoriaRepository(context));
             _atividadeRepository = new Lazy<IAtividadeRepository>(() => new AtividadeRepository(context));
-            _departamentoRepository = new Lazy<IEntityRepositoryBase<Departamento>>(() => new EntityRepositoryBase<Departamento>(context));
-            _departamentoFuncionarioRepository = new Lazy<IRepositoryBase<DepartamentoFuncionario>>(() => new RepositoryBase<DepartamentoFuncionario>(context));
+            _equipeRepository = new Lazy<IEntityRepositoryBase<Equipe>>(() => new EntityRepositoryBase<Equipe>(context));
+            _equipeUsuarioRepository = new Lazy<IRepositoryBase<EquipeUsuario>>(() => new RepositoryBase<EquipeUsuario>(context));
             _atividadeCheckRepository = new Lazy<IEntityRepositoryBase<AtividadeCheck>>(() => new EntityRepositoryBase<AtividadeCheck>(context));
-            _funcionarioAtividadeHorasRepository = new Lazy<IFuncionarioAtividadeHorasRepository>(() => new FuncionarioAtividadeHorasRepository(context));
-            _funcionarioHorasConfiguracaoRepository = new Lazy<IFuncionarioHorasConfiguracaoRepository>(() => new FuncionarioHorasConfiguracaoRepository(context));
+            _usuarioAtividadeHorasRepository = new Lazy<IUsuarioAtividadeHorasRepository>(() => new UsuarioAtividadeHorasRepository(context));
+            _usuarioHorasConfiguracaoRepository = new Lazy<IUsuarioHorasConfiguracaoRepository>(() => new UsuarioHorasConfiguracaoRepository(context));
         }
 
-        public IFuncionarioRepository FuncionarioRepository => _funcionarioRepository.Value;
+        public IUsuarioRepository UsuarioRepository => _usuarioRepository.Value;
 
         public IAtividadeCategoriaRepository AtividadeCategoriaRepository => _atividadeCategoriaRepository.Value;
 
-        public IAtividadeFuncionarioRepository AtividadeFuncionarioRepository => _atividadeFuncionarioRepository.Value;
+        public IAtividadeUsuarioRepository AtividadeUsuarioRepository => _atividadeUsuarioRepository.Value;
 
         public IAtividadeRepository AtividadeRepository => _atividadeRepository.Value;
 
         public ICategoriaRepository CategoriaRepository => _categoriaRepository.Value;
 
-        public IEntityRepositoryBase<Departamento> DepartamentoRepository => _departamentoRepository.Value;
-        public IRepositoryBase<DepartamentoFuncionario> DepartamentoFuncionarioRepository => _departamentoFuncionarioRepository.Value;
+        public IEntityRepositoryBase<Equipe> EquipeRepository => _equipeRepository.Value;
+        public IRepositoryBase<EquipeUsuario> EquipeUsuarioRepository => _equipeUsuarioRepository.Value;
         public IEntityRepositoryBase<AtividadeCheck> AtividadeCheckRepository => _atividadeCheckRepository.Value;
 
-        public IFuncionarioHorasConfiguracaoRepository FuncionarioHorasConfiguracaoRepository => _funcionarioHorasConfiguracaoRepository.Value;
+        public IUsuarioHorasConfiguracaoRepository UsuarioHorasConfiguracaoRepository => _usuarioHorasConfiguracaoRepository.Value;
 
-        public IFuncionarioAtividadeHorasRepository AtividadeHorasRepository => _funcionarioAtividadeHorasRepository.Value;
+        public IUsuarioAtividadeHorasRepository AtividadeHorasRepository => _usuarioAtividadeHorasRepository.Value;
 
         public void Save()
         {

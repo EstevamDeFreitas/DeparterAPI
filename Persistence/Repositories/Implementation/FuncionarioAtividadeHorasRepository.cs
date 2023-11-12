@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Implementation
 {
-    public class FuncionarioAtividadeHorasRepository : EntityRepositoryBase<FuncionarioAtividadeHoras>, IFuncionarioAtividadeHorasRepository
+    public class UsuarioAtividadeHorasRepository : EntityRepositoryBase<UsuarioAtividadeHoras>, IUsuarioAtividadeHorasRepository
     {
-        public FuncionarioAtividadeHorasRepository(DeparterContext dbContext) : base(dbContext)
+        public UsuarioAtividadeHorasRepository(DeparterContext dbContext) : base(dbContext)
         {
         }
 
-        public List<FuncionarioAtividadeHoras> FindFull()
+        public List<UsuarioAtividadeHoras> FindFull()
         {
-            return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario)
-                                                            .ThenInclude(x => x.FuncionarioHorasConfiguracaos)
+            return DbContext.UsuarioAtividadeHoras.Include(x => x.Usuario)
+                                                            .ThenInclude(x => x.UsuarioHorasConfiguracaos)
                                                         .Include(x => x.Atividade)
                                                             .ThenInclude(x => x.AtividadeCategorias)
                                                                 .ThenInclude(x => x.Categoria)
@@ -29,10 +29,10 @@ namespace Persistence.Repositories.Implementation
         }
 
 
-        public List<FuncionarioAtividadeHoras> FindFullByCondition(Expression<Func<FuncionarioAtividadeHoras, bool>> value)
+        public List<UsuarioAtividadeHoras> FindFullByCondition(Expression<Func<UsuarioAtividadeHoras, bool>> value)
         {
-            return DbContext.FuncionarioAtividadeHoras.Include(x => x.Funcionario)
-                                                            .ThenInclude(x => x.FuncionarioHorasConfiguracaos)
+            return DbContext.UsuarioAtividadeHoras.Include(x => x.Usuario)
+                                                            .ThenInclude(x => x.UsuarioHorasConfiguracaos)
                                                         .Include(x => x.Atividade)
                                                             .ThenInclude(x => x.AtividadeCategorias)
                                                                 .ThenInclude(x => x.Categoria)

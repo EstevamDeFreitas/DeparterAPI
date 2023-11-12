@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("funcionarios")]
-    public class Funcionario : EntityBase
+    [Table("usuarios")]
+    public class Usuario : EntityBase
     {
         [Required]
         [Column("nome")]
@@ -20,17 +20,14 @@ namespace Domain.Entities
         [Required]
         [Column("senha")]
         public string Senha { get; set; }
-        [Required]
-        [Column("apelido")]
-        public string Apelido { get; set; }
         [Column("imagem")]
         public string Imagem { get; set; }
         [Column("is_admin")]
         public bool IsAdmin { get; set; }
 
-        public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
-        public ICollection<DepartamentoFuncionario> DepartamentoFuncionarios { get; set; }
-        public ICollection<FuncionarioAtividadeHoras> FuncionarioAtividadeHoras { get; set; }
-        public ICollection<FuncionarioHorasConfiguracao> FuncionarioHorasConfiguracaos { get; set; }
+        public ICollection<AtividadeUsuario> AtividadeUsuarios { get; set; }
+        public ICollection<EquipeUsuario> EquipeUsuarios { get; set; }
+        public ICollection<UsuarioAtividadeHoras> UsuarioAtividadeHoras { get; set; }
+        public ICollection<UsuarioHorasConfiguracao> UsuarioHorasConfiguracaos { get; set; }
     }
 }

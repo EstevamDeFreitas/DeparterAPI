@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Implementation
 {
-    public class FuncionarioRepository : EntityRepositoryBase<Funcionario>, IFuncionarioRepository
+    public class UsuarioRepository : EntityRepositoryBase<Usuario>, IUsuarioRepository
     {
-        public FuncionarioRepository(DeparterContext dbContext) : base(dbContext)
+        public UsuarioRepository(DeparterContext dbContext) : base(dbContext)
         {
         }
 
-        public IQueryable<Funcionario> GetFuncionariosFromEmails(List<string> emails)
+        public IQueryable<Usuario> GetUsuariosFromEmails(List<string> emails)
         {
-            return DbContext.Funcionarios.Where(x => emails.Contains(x.Email)).AsNoTracking();
+            return DbContext.Usuarios.Where(x => emails.Contains(x.Email)).AsNoTracking();
         }
     }
 }

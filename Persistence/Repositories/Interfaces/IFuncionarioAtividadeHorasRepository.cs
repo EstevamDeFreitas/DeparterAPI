@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories.Interfaces
 {
-    public interface IFuncionarioAtividadeHorasRepository : IEntityRepositoryBase<FuncionarioAtividadeHoras>
+    public interface IUsuarioAtividadeHorasRepository : IEntityRepositoryBase<UsuarioAtividadeHoras>
     {
-        List<FuncionarioAtividadeHoras> FindFull();
-        List<FuncionarioAtividadeHoras> FindFullByCondition(Expression<Func<FuncionarioAtividadeHoras, bool>> value);
+        List<UsuarioAtividadeHoras> FindFull();
+        List<UsuarioAtividadeHoras> FindFullByCondition(Expression<Func<UsuarioAtividadeHoras, bool>> value);
     }
 
     

@@ -29,8 +29,8 @@ namespace Domain.Entities
         [Column("id_atividade_pai")]
         public Guid? AtividadePaiId { get; set; }
 
-        [Column("id_departamento")]
-        public Guid DepartamentoId { get; set; }
+        [Column("id_equipe")]
+        public Guid EquipeId { get; set; }
 
         [Required]
         [Column("status_tarefa")]
@@ -41,12 +41,12 @@ namespace Domain.Entities
         public int OnScreenId { get; set; }
 
         public ICollection<AtividadeCategoria> AtividadeCategorias { get; set; }
-        public ICollection<AtividadeFuncionario> AtividadeFuncionarios { get; set; }
+        public ICollection<AtividadeUsuario> AtividadeUsuarios { get; set; }
         public Atividade? AtividadePai { get; set; }
         public ICollection<Atividade> Atividades { get; set; }
-        public ICollection<FuncionarioAtividadeHoras> FuncionarioAtividadeHoras { get; set; }
+        public ICollection<UsuarioAtividadeHoras> UsuarioAtividadeHoras { get; set; }
         public ICollection<AtividadeCheck> AtividadeChecks { get; set; }
-        public Departamento Departamento { get; set; }
+        public Equipe Equipe { get; set; }
     }
 
     public enum StatusAtividade

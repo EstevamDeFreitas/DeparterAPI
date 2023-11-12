@@ -21,25 +21,25 @@ namespace Services.DTO
         public int TempoPrevisto { get; set; }
         public Guid? AtividadePaiId { get; set; }
         [Required]
-        public Guid DepartamentoId { get; set; }
+        public Guid EquipeId { get; set; }
 
         public List<Guid> Categorias { get; set; }
 
-        public List<AtividadeFuncionarioCreateDTO> AtividadeFuncionarios { get; set; }
+        public List<AtividadeUsuarioCreateDTO> AtividadeUsuarios { get; set; }
     }
 
-    public class AtividadeFuncionarioCreateDTO
+    public class AtividadeUsuarioCreateDTO
     {
         [Required]
-        public string FuncionarioEmail { get; set; }
+        public string UsuarioEmail { get; set; }
         [Required]
         public NivelAcesso NivelAcesso { get; set; }
     }
 
-    public class AtividadeAcessoFuncionario
+    public class AtividadeAcessoUsuario
     {
         [Required]
-        public Guid FuncionarioId { get; set; }
+        public Guid UsuarioId { get; set; }
         [Required]
         public Guid AtividadeId { get; set; }
         [Required]
@@ -59,7 +59,7 @@ namespace Services.DTO
         public int TempoPrevisto { get; set; }
         public Guid? AtividadePaiId { get; set; }
         [Required]
-        public Guid DepartamentoId { get; set; }
+        public Guid EquipeId { get; set; }
         [Required]
         public StatusAtividade StatusAtividade { get; set; }
         public DateTime DataCriacao { get; set; }
@@ -68,9 +68,9 @@ namespace Services.DTO
 
         public List<AtividadeCheckDTO> AtividadeChecks { get; set; }
         public List<AtividadeCategoriaDTO> AtividadeCategorias { get; set; }
-        public List<AtividadeFuncionarioDTO> AtividadeFuncionarios { get; set; }
+        public List<AtividadeUsuarioDTO> AtividadeUsuarios { get; set; }
         public List<AtividadeDTO> Atividades { get; set; }
-        public DepartamentoDTO Departamento { get; set; }
+        public EquipeDTO Equipe { get; set; }
     }
 
     public class AtividadePutDTO
@@ -86,13 +86,13 @@ namespace Services.DTO
         public int TempoPrevisto { get; set; }
         public Guid? AtividadePaiId { get; set; }
         [Required]
-        public Guid DepartamentoId { get; set; }
+        public Guid EquipeId { get; set; }
         [Required]
         public StatusAtividade StatusAtividade { get; set; }
 
 
         public List<AtividadeCategoriaDTO> AtividadeCategorias { get; set; }
-        public List<AtividadeFuncionarioDTO> AtividadeFuncionarios { get; set; }
+        public List<AtividadeUsuarioDTO> AtividadeUsuarios { get; set; }
     }
 
     public class AtividadeCategoriaDTO
@@ -103,13 +103,13 @@ namespace Services.DTO
         public Guid CategoriaId { get; set; }
     }
 
-    public class AtividadeFuncionarioDTO
+    public class AtividadeUsuarioDTO
     {
         [Required]
         public Guid AtividadeId { get; set; }
         [Required]
-        public Guid FuncionarioId { get; set; }
-        public string FuncionarioEmail { get; set; }
+        public Guid UsuarioId { get; set; }
+        public string UsuarioEmail { get; set; }
         [Required]
         public NivelAcesso NivelAcesso { get; set; }
     }

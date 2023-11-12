@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Persistence.Mapping
 {
-    internal class AtividadeFuncionarioMapping : IEntityTypeConfiguration<AtividadeFuncionario>
+    internal class AtividadeUsuarioMapping : IEntityTypeConfiguration<AtividadeUsuario>
     {
-        public void Configure(EntityTypeBuilder<AtividadeFuncionario> builder)
+        public void Configure(EntityTypeBuilder<AtividadeUsuario> builder)
         {
-            builder.HasKey(x => new { x.AtividadeId, x.FuncionarioId });
+            builder.HasKey(x => new { x.AtividadeId, x.UsuarioId });
         }
     }
 }

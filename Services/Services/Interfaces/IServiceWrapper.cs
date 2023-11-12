@@ -8,12 +8,12 @@ namespace Services.Services.Interfaces
 {
     public interface IServiceWrapper
     {
-        IFuncionarioService FuncionarioService { get; }
+        IUsuarioService UsuarioService { get; }
         ITokenService TokenService { get; }
         ILoginService LoginService { get; }
         ICategoriaService CategoriaService { get; }
         IAtividadeService AtividadeService { get; }
-        IDepartamentoService DepartamentoService { get; }
+        IEquipeService EquipeService { get; }
         IHorasService HorasService { get; }
     }
 }

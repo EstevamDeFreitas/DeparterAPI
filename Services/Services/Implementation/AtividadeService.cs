@@ -18,7 +18,7 @@ namespace Services.Services.Implementation
         {
         }
 
-        public void CreateAtividade(AtividadeCreateDTO atividade, Guid funcionarioId)
+        public void CreateAtividade(AtividadeCreateDTO atividade, Guid usuarioId)
         {
             var atividadeCriar = new Atividade
             {
@@ -27,7 +27,7 @@ namespace Services.Services.Implementation
                 TempoPrevisto = atividade.TempoPrevisto,
                 Titulo = atividade.Titulo,
                 DataEntrega = atividade.DataEntrega,
-                DepartamentoId = atividade.DepartamentoId,
+                EquipeId = atividade.EquipeId,
                 StatusAtividade = StatusAtividade.Pendente
                 
             };
@@ -36,21 +36,21 @@ namespace Services.Services.Implementation
 
             atividadeCriar.AtividadeCategorias = atividade.Categorias.Select(x => new AtividadeCategoria { AtividadeId = atividadeCriar.Id, CategoriaId = x }).ToList();
 
-            var funcionarios = _repository.FuncionarioRepository.GetFuncionariosFromEmails(atividade.AtividadeFuncionarios.Select(x => x.FuncionarioEmail).ToList()).ToList();
+            var usuarios = _repository.UsuarioRepository.GetUsuariosFromEmails(atividade.AtividadeUsuarios.Select(x => x.UsuarioEmail).ToList()).ToList();
 
-            if(!funcionarios.Any(x => x.Id == funcionarioId))
+            if(!usuarios.Any(x => x.Id == usuarioId))
             {
-                var funcionarioCriador = _repository.FuncionarioRepository.FindById(funcionarioId).FirstOrDefault();
+                var usuarioCriador = _repository.UsuarioRepository.FindById(usuarioId).FirstOrDefault();
 
-                funcionarios.Add(funcionarioCriador);
-                atividade.AtividadeFuncionarios.Add(new AtividadeFuncionarioCreateDTO { FuncionarioEmail = funcionarioCriador.Email, NivelAcesso = NivelAcesso.Todos });
+                usuarios.Add(usuarioCriador);
+                atividade.AtividadeUsuarios.Add(new AtividadeUsuarioCreateDTO { UsuarioEmail = usuarioCriador.Email, NivelAcesso = NivelAcesso.Todos });
             }
 
-            atividadeCriar.AtividadeFuncionarios = atividade.AtividadeFuncionarios.Select(x => new AtividadeFuncionario
+            atividadeCriar.AtividadeUsuarios = atividade.AtividadeUsuarios.Select(x => new AtividadeUsuario
             {
                 AtividadeId = atividadeCriar.Id,
-                FuncionarioId = funcionarios.Find(y => y.Email == x.FuncionarioEmail).Id,
-                NivelAcesso = funcionarios.Find(y => y.Email == x.FuncionarioEmail).Id == funcionarioId? NivelAcesso.Todos : x.NivelAcesso
+                UsuarioId = usuarios.Find(y => y.Email == x.UsuarioEmail).Id,
+                NivelAcesso = usuarios.Find(y => y.Email == x.UsuarioEmail).Id == usuarioId? NivelAcesso.Todos : x.NivelAcesso
             }).ToList();
 
             _repository.AtividadeRepository.Create(atividadeCriar);
@@ -58,9 +58,9 @@ namespace Services.Services.Implementation
 
         }
 
-        public void CreateAtividadeCheck(AtividadeCheckCreateDTO atividadeCheck, Guid funcionarioId)
+        public void CreateAtividadeCheck(AtividadeCheckCreateDTO atividadeCheck, Guid usuarioId)
         {
-            HasAccess(funcionarioId, atividadeCheck.AtividadeId, NivelAcesso.Editar);
+            HasAccess(usuarioId, atividadeCheck.AtividadeId, NivelAcesso.Editar);
 
             var atividadeCheckCreate = _mapper.Map<AtividadeCheck>(atividadeCheck);
 
@@ -70,59 +70,59 @@ namespace Services.Services.Implementation
             _repository.Save();
         }
 
-        public void DeleteAccessAtividade(AtividadeAcessoFuncionario atividadeAcessoFuncionario, Guid funcionarioId)
+        public void DeleteAccessAtividade(AtividadeAcessoUsuario atividadeAcessoUsuario, Guid usuarioId)
         {
-            HasAccess(funcionarioId, atividadeAcessoFuncionario.AtividadeId, NivelAcesso.Compartilhar);
+            HasAccess(usuarioId, atividadeAcessoUsuario.AtividadeId, NivelAcesso.Compartilhar);
 
-            var atividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoFuncionario.AtividadeId && x.FuncionarioId == atividadeAcessoFuncionario.FuncionarioId).FirstOrDefault();
+            var atividadeUsuario = _repository.AtividadeUsuarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoUsuario.AtividadeId && x.UsuarioId == atividadeAcessoUsuario.UsuarioId).FirstOrDefault();
 
-            if(atividadeFuncionario is null)
+            if(atividadeUsuario is null)
             {
-                throw new EntidadeNaoEncontrada("Atividade Funcionario");
+                throw new EntidadeNaoEncontrada("Atividade Usuario");
             }
 
 
-            if(atividadeFuncionario.NivelAcesso == NivelAcesso.Todos)
+            if(atividadeUsuario.NivelAcesso == NivelAcesso.Todos)
             {
                 throw new CriadorNaoPodeSerRemovido();
             }
 
 
-            _repository.AtividadeFuncionarioRepository.Delete(atividadeFuncionario);
+            _repository.AtividadeUsuarioRepository.Delete(atividadeUsuario);
             _repository.Save();
         }
 
-        public void DeleteAtividade(Guid id, Guid funcionarioId)
+        public void DeleteAtividade(Guid id, Guid usuarioId)
         {
-            HasAccess(funcionarioId, id, NivelAcesso.Deletar);
+            HasAccess(usuarioId, id, NivelAcesso.Deletar);
 
             _repository.AtividadeRepository.DeleteById(id);
             _repository.Save();
         }
 
-        public void DeleteAtividadeCheck(Guid atividadeCheckId, Guid funcionarioId)
+        public void DeleteAtividadeCheck(Guid atividadeCheckId, Guid usuarioId)
         {
             var atividadeCheck = _repository.AtividadeCheckRepository.FindById(atividadeCheckId).FirstOrDefault();
 
-            HasAccess(funcionarioId, atividadeCheck.AtividadeId, NivelAcesso.Editar);
+            HasAccess(usuarioId, atividadeCheck.AtividadeId, NivelAcesso.Editar);
 
             _repository.AtividadeCheckRepository.Delete(atividadeCheck);
             _repository.Save();
         }
 
-        public AtividadeDTO GetAtividade(Guid id, Guid funcionarioId)
+        public AtividadeDTO GetAtividade(Guid id, Guid usuarioId)
         {
             UpdateDatabaseAtividadesStatus();
 
-            HasAccess(funcionarioId, id, NivelAcesso.Ler);
+            HasAccess(usuarioId, id, NivelAcesso.Ler);
 
             var atividadeFull = _repository.AtividadeRepository.FindFullById(id).FirstOrDefault();
 
             var atividadeFullDTO = _mapper.Map<AtividadeDTO>(atividadeFull);
 
-            atividadeFullDTO.AtividadeFuncionarios.ForEach(funcionario =>
+            atividadeFullDTO.AtividadeUsuarios.ForEach(usuario =>
             {
-                funcionario.FuncionarioEmail = atividadeFull.AtividadeFuncionarios.FirstOrDefault(x => x.FuncionarioId == funcionario.FuncionarioId).Funcionario.Email;
+                usuario.UsuarioEmail = atividadeFull.AtividadeUsuarios.FirstOrDefault(x => x.UsuarioId == usuario.UsuarioId).Usuario.Email;
             });
 
             return atividadeFullDTO;
@@ -136,9 +136,9 @@ namespace Services.Services.Implementation
 
             var atividadeFullDTO = _mapper.Map<AtividadeDTO>(atividadeFull);
 
-            atividadeFullDTO.AtividadeFuncionarios.ForEach(funcionario =>
+            atividadeFullDTO.AtividadeUsuarios.ForEach(usuario =>
             {
-                funcionario.FuncionarioEmail = atividadeFull.AtividadeFuncionarios.FirstOrDefault(x => x.FuncionarioId == funcionario.FuncionarioId).Funcionario.Email;
+                usuario.UsuarioEmail = atividadeFull.AtividadeUsuarios.FirstOrDefault(x => x.UsuarioId == usuario.UsuarioId).Usuario.Email;
             });
 
             return atividadeFullDTO;
@@ -156,29 +156,29 @@ namespace Services.Services.Implementation
             return _mapper.Map<AtividadeDTO>(atividade);
         }
 
-        public List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid funcionarioId)
+        public List<AtividadeDTO> GetAtividades(bool? isAdminSearch, Guid usuarioId)
         {
             UpdateDatabaseAtividadesStatus();
 
-            var atividades = _repository.AtividadeRepository.FindAllFull(isAdminSearch, funcionarioId).ToList();
+            var atividades = _repository.AtividadeRepository.FindAllFull(isAdminSearch, usuarioId).ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
 
-        public List<AtividadeDTO> GetAtividadesFuncionario(Guid funcionarioId)
+        public List<AtividadeDTO> GetAtividadesUsuario(Guid usuarioId)
         {
             UpdateDatabaseAtividadesStatus();
 
-            var atividades = _repository.AtividadeRepository.FindByCondition(x => x.AtividadeFuncionarios.Any(x => x.FuncionarioId == funcionarioId)).ToList();
+            var atividades = _repository.AtividadeRepository.FindByCondition(x => x.AtividadeUsuarios.Any(x => x.UsuarioId == usuarioId)).ToList();
 
             return _mapper.Map<List<AtividadeDTO>>(atividades);
         }
 
-        public ResumoAtividades GetResumoAtividades(TempoBusca tempoBusca, Guid? funcionarioId, Guid? departamentoId)
+        public ResumoAtividades GetResumoAtividades(TempoBusca tempoBusca, Guid? usuarioId, Guid? equipeId)
         {
             var tempo = Tempo.GetMaxTempo(tempoBusca);
 
-            var atividades = _repository.AtividadeRepository.FindByCondition(x => (tempo.HasValue? x.DataCriacao <= tempo : true) && (funcionarioId.HasValue ? x.AtividadeFuncionarios.Any(y => y.FuncionarioId == funcionarioId) : true) && (departamentoId.HasValue ? departamentoId == x.DepartamentoId : true));
+            var atividades = _repository.AtividadeRepository.FindByCondition(x => (tempo.HasValue? x.DataCriacao <= tempo : true) && (usuarioId.HasValue ? x.AtividadeUsuarios.Any(y => y.UsuarioId == usuarioId) : true) && (equipeId.HasValue ? equipeId == x.EquipeId : true));
 
             var resumo = new ResumoAtividades
             {
@@ -191,51 +191,51 @@ namespace Services.Services.Implementation
             return resumo;
         }
 
-        public void HasAccess(Guid funcionarioId, Guid atividadeId, NivelAcesso nivelAcesso)
+        public void HasAccess(Guid usuarioId, Guid atividadeId, NivelAcesso nivelAcesso)
         {
-            var atividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.FuncionarioId == funcionarioId && x.AtividadeId == atividadeId).FirstOrDefault();
+            var atividadeUsuario = _repository.AtividadeUsuarioRepository.FindByCondition(x => x.UsuarioId == usuarioId && x.AtividadeId == atividadeId).FirstOrDefault();
 
-            if(atividadeFuncionario is null || atividadeFuncionario.NivelAcesso < nivelAcesso)
+            if(atividadeUsuario is null || atividadeUsuario.NivelAcesso < nivelAcesso)
             {
                 throw new SemAutorizacao();
             }
         }
 
-        public void UpdateAccessAtividade(AtividadeAcessoFuncionario atividadeAcessoFuncionario, Guid funcionarioId)
+        public void UpdateAccessAtividade(AtividadeAcessoUsuario atividadeAcessoUsuario, Guid usuarioId)
         {
-            HasAccess(funcionarioId, atividadeAcessoFuncionario.AtividadeId, NivelAcesso.Compartilhar);
+            HasAccess(usuarioId, atividadeAcessoUsuario.AtividadeId, NivelAcesso.Compartilhar);
 
-            var existsAtividadeFuncionario = _repository.AtividadeFuncionarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoFuncionario.AtividadeId && x.FuncionarioId == atividadeAcessoFuncionario.FuncionarioId).FirstOrDefault();
+            var existsAtividadeUsuario = _repository.AtividadeUsuarioRepository.FindByCondition(x => x.AtividadeId == atividadeAcessoUsuario.AtividadeId && x.UsuarioId == atividadeAcessoUsuario.UsuarioId).FirstOrDefault();
 
-            if(atividadeAcessoFuncionario.NivelAcesso == NivelAcesso.Todos)
+            if(atividadeAcessoUsuario.NivelAcesso == NivelAcesso.Todos)
             {
-                atividadeAcessoFuncionario.NivelAcesso = NivelAcesso.Compartilhar;
+                atividadeAcessoUsuario.NivelAcesso = NivelAcesso.Compartilhar;
             }
 
-            if(existsAtividadeFuncionario is null)
+            if(existsAtividadeUsuario is null)
             {
-                var atividadeFuncionario = new AtividadeFuncionario
+                var atividadeUsuario = new AtividadeUsuario
                 {
-                    AtividadeId = atividadeAcessoFuncionario.AtividadeId,
-                    FuncionarioId = atividadeAcessoFuncionario.FuncionarioId,
-                    NivelAcesso = atividadeAcessoFuncionario.NivelAcesso
+                    AtividadeId = atividadeAcessoUsuario.AtividadeId,
+                    UsuarioId = atividadeAcessoUsuario.UsuarioId,
+                    NivelAcesso = atividadeAcessoUsuario.NivelAcesso
                 };
 
-                _repository.AtividadeFuncionarioRepository.Create(atividadeFuncionario);
+                _repository.AtividadeUsuarioRepository.Create(atividadeUsuario);
                 _repository.Save();
 
                 return;
             }
 
-            existsAtividadeFuncionario.NivelAcesso = atividadeAcessoFuncionario.NivelAcesso;
+            existsAtividadeUsuario.NivelAcesso = atividadeAcessoUsuario.NivelAcesso;
 
-            _repository.AtividadeFuncionarioRepository.Update(existsAtividadeFuncionario);
+            _repository.AtividadeUsuarioRepository.Update(existsAtividadeUsuario);
             _repository.Save();
         }
 
-        public void UpdateAtividade(AtividadePutDTO atividade, Guid funcionarioId)
+        public void UpdateAtividade(AtividadePutDTO atividade, Guid usuarioId)
         {
-            HasAccess(funcionarioId, atividade.Id.GetValueOrDefault(), NivelAcesso.Editar);
+            HasAccess(usuarioId, atividade.Id.GetValueOrDefault(), NivelAcesso.Editar);
 
             var atividadeUpdated = _repository.AtividadeRepository.FindFullById(atividade.Id.GetValueOrDefault()).FirstOrDefault();
 
@@ -270,55 +270,55 @@ namespace Services.Services.Implementation
             }
 
             
-            var newFuncionarios = atividade.AtividadeFuncionarios.Where(x => !atividadeUpdated.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId));
+            var newUsuarios = atividade.AtividadeUsuarios.Where(x => !atividadeUpdated.AtividadeUsuarios.Any(y => y.AtividadeId == x.AtividadeId && y.UsuarioId == x.UsuarioId));
 
-            if (newFuncionarios.Any())
+            if (newUsuarios.Any())
             {
-                newFuncionarios = newFuncionarios.Select(x => new AtividadeFuncionarioDTO
+                newUsuarios = newUsuarios.Select(x => new AtividadeUsuarioDTO
                 {
                     AtividadeId = x.AtividadeId,
-                    FuncionarioEmail = x.FuncionarioEmail,
-                    FuncionarioId = x.FuncionarioId,
+                    UsuarioEmail = x.UsuarioEmail,
+                    UsuarioId = x.UsuarioId,
                     NivelAcesso = (x.NivelAcesso == NivelAcesso.Todos ? NivelAcesso.Compartilhar : x.NivelAcesso)
                 });
 
-                _repository.AtividadeFuncionarioRepository.CreateMultiple(_mapper.Map<List<AtividadeFuncionario>>(newFuncionarios));
+                _repository.AtividadeUsuarioRepository.CreateMultiple(_mapper.Map<List<AtividadeUsuario>>(newUsuarios));
             }
-            //Adicionar validações para funcionarios removidos
-            var removedFuncionarios = atividadeUpdated.AtividadeFuncionarios.Where(x => !atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId));
+            //Adicionar validações para usuarios removidos
+            var removedUsuarios = atividadeUpdated.AtividadeUsuarios.Where(x => !atividade.AtividadeUsuarios.Any(y => y.AtividadeId == x.AtividadeId && y.UsuarioId == x.UsuarioId));
 
-            removedFuncionarios = removedFuncionarios.Where(x => x.NivelAcesso != NivelAcesso.Todos);
+            removedUsuarios = removedUsuarios.Where(x => x.NivelAcesso != NivelAcesso.Todos);
 
-            if (removedFuncionarios.Any())
+            if (removedUsuarios.Any())
             {
-                _repository.AtividadeFuncionarioRepository.DeleteMultiple(removedFuncionarios.ToList());
+                _repository.AtividadeUsuarioRepository.DeleteMultiple(removedUsuarios.ToList());
             }
 
             //Realizar update noq sobrar
-            var funcionariosUpdated = atividadeUpdated.AtividadeFuncionarios.Where(x => atividade.AtividadeFuncionarios.Any(y => y.AtividadeId == x.AtividadeId && y.FuncionarioId == x.FuncionarioId)).ToList();
+            var usuariosUpdated = atividadeUpdated.AtividadeUsuarios.Where(x => atividade.AtividadeUsuarios.Any(y => y.AtividadeId == x.AtividadeId && y.UsuarioId == x.UsuarioId)).ToList();
 
-            funcionariosUpdated = funcionariosUpdated.Where(x => x.NivelAcesso != NivelAcesso.Todos).ToList();
+            usuariosUpdated = usuariosUpdated.Where(x => x.NivelAcesso != NivelAcesso.Todos).ToList();
 
-            funcionariosUpdated.ForEach(func =>
+            usuariosUpdated.ForEach(func =>
             {
-                func.NivelAcesso = atividade.AtividadeFuncionarios.FirstOrDefault(x => x.AtividadeId == func.AtividadeId && x.FuncionarioId == func.FuncionarioId).NivelAcesso;
+                func.NivelAcesso = atividade.AtividadeUsuarios.FirstOrDefault(x => x.AtividadeId == func.AtividadeId && x.UsuarioId == func.UsuarioId).NivelAcesso;
                 if(func.NivelAcesso == NivelAcesso.Todos)
                 {
                     func.NivelAcesso = NivelAcesso.Compartilhar;
                 }
             });
 
-            _repository.AtividadeFuncionarioRepository.UpdateMultiple(funcionariosUpdated);
+            _repository.AtividadeUsuarioRepository.UpdateMultiple(usuariosUpdated);
 
             _repository.AtividadeRepository.Update(atividadeUpdated);
             _repository.Save();
         }
 
-        public void UpdateAtividadeCheck(AtividadeCheckDTO atividade, Guid funcionarioId)
+        public void UpdateAtividadeCheck(AtividadeCheckDTO atividade, Guid usuarioId)
         {
             var atividadeCheckUpdate = _repository.AtividadeCheckRepository.FindById(atividade.Id).FirstOrDefault();
 
-            HasAccess(funcionarioId, atividadeCheckUpdate.AtividadeId, NivelAcesso.Editar);
+            HasAccess(usuarioId, atividadeCheckUpdate.AtividadeId, NivelAcesso.Editar);
 
             atividadeCheckUpdate.Checked = atividade.Checked;
             atividadeCheckUpdate.Descricao = atividade.Descricao;

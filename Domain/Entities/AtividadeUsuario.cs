@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("atividade_funcionarios")]
-    public class AtividadeFuncionario
+    [Table("atividade_usuarios")]
+    public class AtividadeUsuario
     {
         [Required]
         [Column("id_atividade")]
         public Guid AtividadeId { get; set; }
         [Required]
-        [Column("id_funcionario")]
-        public Guid FuncionarioId { get; set; }
+        [Column("id_usuario")]
+        public Guid UsuarioId { get; set; }
         [Required]
         [Column("nivel_acesso")]
         public NivelAcesso NivelAcesso { get; set; }
 
         public Atividade Atividade { get; set; }
-        public Funcionario Funcionario { get; set; }
+        public Usuario Usuario { get; set; }
     }
 
     public enum NivelAcesso

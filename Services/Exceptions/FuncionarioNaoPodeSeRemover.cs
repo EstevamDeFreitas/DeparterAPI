@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Services.Exceptions
 {
     [Serializable]
-    public class FuncionarioNaoPodeSeRemover : Exception
+    public class UsuarioNaoPodeSeRemover : Exception
     {
-        public FuncionarioNaoPodeSeRemover() : base("Funcionário não pode se remover do departamento") { }
+        public UsuarioNaoPodeSeRemover() : base("Usuário não pode se remover do equipe") { }
     }
 }

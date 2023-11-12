@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    [Table("funcionario_atividade_horas")]
-    public class FuncionarioAtividadeHoras : EntityBase
+    [Table("usuario_atividade_horas")]
+    public class UsuarioAtividadeHoras : EntityBase
     {
         [Required]
-        [Column("id_funcionario")]
-        public Guid FuncionarioId { get; set; }
+        [Column("id_usuario")]
+        public Guid UsuarioId { get; set; }
         [Required]
         [Column("id_atividade")]
         public Guid AtividadeId { get; set; }
@@ -21,7 +21,7 @@ namespace Domain.Entities
         [Column("minutos")]
         public int Minutos { get; set; }
 
-        public Funcionario Funcionario { get; set; }
+        public Usuario Usuario { get; set; }
         public Atividade Atividade { get; set; }
     }
 }
