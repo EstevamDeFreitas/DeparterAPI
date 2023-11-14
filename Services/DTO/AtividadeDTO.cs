@@ -15,13 +15,10 @@ namespace Services.DTO
         public string Titulo { get; set; }
         [Required]
         public string Descricao { get; set; }
-        [Required]
-        public DateTime DataEntrega { get; set; }
-        [Required]
-        public int TempoPrevisto { get; set; }
+        public DateTime? DataEntrega { get; set; }
+        public int? TempoPrevisto { get; set; }
         public Guid? AtividadePaiId { get; set; }
-        [Required]
-        public Guid EquipeId { get; set; }
+        public Guid? EquipeId { get; set; }
 
         public List<Guid> Categorias { get; set; }
 

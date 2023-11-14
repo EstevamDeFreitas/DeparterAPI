@@ -18,19 +18,17 @@ namespace Domain.Entities
         [Required]
         [Column("descricao")]
         public string Descricao { get; set; }
-        [Required]
         [Column("dt_entrega")]
-        public DateTime DataEntrega { get; set; }
-        //Tempo considerado em minutos
-        [Required]
+        public DateTime? DataEntrega { get; set; }
+        //Tempo considerado em horas
         [Column("tempo_previsto")]
-        public int TempoPrevisto { get; set; }
+        public int? TempoPrevisto { get; set; }
 
         [Column("id_atividade_pai")]
         public Guid? AtividadePaiId { get; set; }
 
         [Column("id_equipe")]
-        public Guid EquipeId { get; set; }
+        public Guid? EquipeId { get; set; }
 
         [Required]
         [Column("status_tarefa")]
